@@ -1,0 +1,45 @@
+{
+  "name": "mulmocast-easy",
+  "version": "0.0.1",
+  "description": "MulmoCast with bundled ffmpeg for easy installation",
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    }
+  },
+  "bin": {
+    "mulmo-easy": "lib/cli/bin.js"
+  },
+  "files": [
+    "./lib"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src",
+    "format": "prettier --write 'src/**/*.ts'",
+    "test": "echo 'no tests yet'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/receptron/mulmocast-plus.git"
+  },
+  "author": "receptron",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/receptron/mulmocast-plus/issues"
+  },
+  "homepage": "https://github.com/receptron/mulmocast-plus#readme",
+  "dependencies": {
+    "mulmocast": "^2.1.32",
+    "ffmpeg-static": "^5.2.0",
+    "ffprobe-static": "^3.1.0",
+    "fluent-ffmpeg": "^2.1.3"
+  },
+  "devDependencies": {
+    "@types/fluent-ffmpeg": "^2.1.28"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "mulmocast-preprocessor",
+  "version": "0.0.1",
+  "description": "Preprocessor for MulmoScript",
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    }
+  },
+  "files": [
+    "./lib"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src",
+    "format": "prettier --write 'src/**/*.ts'",
+    "test": "echo 'no tests yet'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/receptron/mulmocast-plus.git"
+  },
+  "author": "receptron",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/receptron/mulmocast-plus/issues"
+  },
+  "homepage": "https://github.com/receptron/mulmocast-plus#readme",
+  "dependencies": {
+    "mulmocast": "^2.1.32"
+  }
+}
