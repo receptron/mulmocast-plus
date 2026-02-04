@@ -12,12 +12,13 @@
     }
   },
   "bin": {
-    "mulmo-easy": "lib/cli/bin.js"
+    "mulmocast-easy": "lib/cli/bin.js"
   },
   "files": [
     "./lib"
   ],
   "scripts": {
+    "cli": "npx tsx src/cli/bin.ts",
     "build": "tsc",
     "lint": "eslint src",
     "format": "prettier --write 'src/**/*.ts'",
