@@ -1,0 +1,85 @@
+# This workflow tests that the bundled ffmpeg works correctly without system ffmpeg installed
+
+name: Node.js CI
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  actions: write
+
+env:
+  OPENAI_API_KEY: dummy
+
+jobs:
+  lint_build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22.x, 24.x]
+    steps:
+    - uses: actions/checkout@v5
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v5
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'yarn'
+    - name: Cache node_modules
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: node-modules-${{ matrix.node-version }}-${{ hashFiles('yarn.lock') }}
+    - run: yarn install --frozen-lockfile
+    - run: yarn run format
+    - run: yarn run lint
+    - run: yarn run build
+
+  ffmpeg_test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22.x, 24.x]
+    steps:
+    - uses: actions/checkout@v5
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v5
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'yarn'
+    - name: Cache node_modules
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: node-modules-${{ matrix.node-version }}-${{ hashFiles('yarn.lock') }}
+    - name: Cache Puppeteer
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/puppeteer
+        key: puppeteer-${{ runner.os }}-${{ matrix.node-version }}
+    - name: Install system dependencies (NO ffmpeg)
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y chromium-browser ca-certificates fonts-liberation libatk-bridge2.0-0 libatk1.0-0 libcups2 libdrm2 libgbm1 libnspr4 libnss3 libxcomposite1 libxdamage1 libxrandr2 xdg-utils
+    - name: Verify ffmpeg is NOT installed
+      run: |
+        if command -v ffmpeg &> /dev/null; then
+          echo "ERROR: ffmpeg should NOT be installed on the system"
+          exit 1
+        fi
+        echo "OK: ffmpeg is not installed on the system"
+    - run: yarn install --frozen-lockfile
+    - run: yarn run build
+    - name: Test movie generation with bundled ffmpeg
+      working-directory: packages/mulmocast-easy
+      run: npx tsx src/cli/bin.ts movie test/test_ffmpeg.json
+    - name: Upload generated media
+      uses: actions/upload-artifact@v4
+      with:
+        name: generatedmedia-${{ matrix.node-version }}
+        path: packages/mulmocast-easy/output/
