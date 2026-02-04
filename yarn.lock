@@ -93,7 +93,7 @@
   resolved "https://registry.yarnpkg.com/@csstools/css-tokenizer/-/css-tokenizer-3.0.4.tgz#333fedabc3fd1a8e5d0100013731cf19e6a8c5d3"
   integrity sha512-Vd/9EVDiu6PPJt9yAh6roZP6El1xHrdvIVGjyBsHR0RYwNHgL7FJPyIIW4fANJNG6FtyZfvlRPpFI4ZM/lubvw==
 
-"@derhuerst/http-basic@^8.2.0":
+"@derhuerst/http-basic@8.2.4":
   version "8.2.4"
   resolved "https://registry.yarnpkg.com/@derhuerst/http-basic/-/http-basic-8.2.4.tgz#d021ebb8f65d54bea681ae6f4a8733ce89e7f59b"
   integrity sha512-F9rL9k9Xjf5blCz8HsJRO4diy111cayL2vkY2XE4r4t3n0yPXVYy3KD3nJ1qbrSn9743UWSXH4IwuCa/HWlGFw==
@@ -694,13 +694,6 @@
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-1.0.8.tgz#958b91c991b1867ced318bedea0e215ee050726e"
   integrity sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==
-
-"@types/fluent-ffmpeg@^2.1.28":
-  version "2.1.28"
-  resolved "https://registry.yarnpkg.com/@types/fluent-ffmpeg/-/fluent-ffmpeg-2.1.28.tgz#d8039bafc06aa8770c75aeb818d8248c39b977c1"
-  integrity sha512-5ovxsDwBcPfJ+eYs1I/ZpcYCnkce7pvH9AHSvrZllAp1ZPpTRDZAFjF3TRFbukxSgIYTTNYePbS0rKUmaxVbXw==
-  dependencies:
-    "@types/node" "*"
 
 "@types/json-schema@^7.0.15":
   version "7.0.15"
@@ -1950,20 +1943,15 @@ fetch-blob@^3.1.2, fetch-blob@^3.1.4:
     node-domexception "^1.0.0"
     web-streams-polyfill "^3.0.3"
 
-ffmpeg-static@^5.2.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/ffmpeg-static/-/ffmpeg-static-5.3.0.tgz#3089fc01d1bb9c58cbe74631986fdacbd86d8b14"
-  integrity sha512-H+K6sW6TiIX6VGend0KQwthe+kaceeH/luE8dIZyOP35ik7ahYojDuqlTV1bOrtEwl01sy2HFNGQfi5IDJvotg==
+ffmpeg-ffprobe-static@^6.1.2-rc.1:
+  version "6.1.2-rc.1"
+  resolved "https://registry.yarnpkg.com/ffmpeg-ffprobe-static/-/ffmpeg-ffprobe-static-6.1.2-rc.1.tgz#d5c03c7fffa6be6a0b3accdd158ad64e36d6c86b"
+  integrity sha512-zHHGmR76ebnto/TU4qGTnQPqBBKVLTalJG6JdzsZujd9CWybojK4lNzW51154bItUEf12WHiHzSBmvkEr+VIXg==
   dependencies:
-    "@derhuerst/http-basic" "^8.2.0"
+    "@derhuerst/http-basic" "8.2.4"
     env-paths "^2.2.0"
     https-proxy-agent "^5.0.0"
     progress "^2.0.3"
-
-ffprobe-static@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/ffprobe-static/-/ffprobe-static-3.1.0.tgz#982cfa1de111a4d6043f6fc208f64a82b53034c9"
-  integrity sha512-Dvpa9uhVMOYivhHKWLGDoa512J751qN1WZAIO+Xw4L/mrUSPxS4DApzSUDbCFE/LUq2+xYnznEahTd63AqBSpA==
 
 figures@^6.1.0:
   version "6.1.0"
@@ -2884,6 +2872,42 @@ mulmocast@^2.1.32:
   version "2.1.32"
   resolved "https://registry.yarnpkg.com/mulmocast/-/mulmocast-2.1.32.tgz#46864c8f27f1ddd478d3d874d0c71855aed552c1"
   integrity sha512-N4f3wq255xWusxzp/gzxScbsW+ZXFI+76NVv4+da+0TaNaln6pt3aKCQggcSFzV2x3Wi99rE3DNWdVBHfQPJSg==
+  dependencies:
+    "@google-cloud/text-to-speech" "^6.4.0"
+    "@google/genai" "^1.38.0"
+    "@graphai/anthropic_agent" "^2.0.12"
+    "@graphai/browserless_agent" "^2.0.1"
+    "@graphai/gemini_agent" "^2.0.5"
+    "@graphai/groq_agent" "^2.0.2"
+    "@graphai/input_agents" "^1.0.2"
+    "@graphai/openai_agent" "^2.0.9"
+    "@graphai/stream_agent_filter" "^2.0.2"
+    "@graphai/vanilla" "^2.0.12"
+    "@graphai/vanilla_node_agents" "^2.0.4"
+    "@inquirer/input" "^5.0.4"
+    "@inquirer/select" "^5.0.4"
+    "@modelcontextprotocol/sdk" "^1.25.3"
+    "@mozilla/readability" "^0.6.0"
+    "@tavily/core" "^0.5.11"
+    archiver "^7.0.1"
+    clipboardy "^5.1.0"
+    dotenv "^17.2.3"
+    fluent-ffmpeg "^2.1.3"
+    graphai "^2.0.16"
+    jsdom "^27.4.0"
+    marked "^17.0.1"
+    mulmocast-vision "^1.0.8"
+    ora "^9.1.0"
+    puppeteer "^24.36.1"
+    replicate "^1.4.0"
+    yaml "^2.8.2"
+    yargs "^18.0.0"
+    zod "^4.3.6"
+
+mulmocast@^2.1.33:
+  version "2.1.33"
+  resolved "https://registry.yarnpkg.com/mulmocast/-/mulmocast-2.1.33.tgz#71b0e55802b7a53f43bd059ca3874117d51b1d25"
+  integrity sha512-Ltb8z/r6OphyH58kFAixPD8JMy9EUtPFiJVhJEMc7l+UrsunLqwpp61xxFalY8jE1P02U/T+zuJKtpEyMLi/mw==
   dependencies:
     "@google-cloud/text-to-speech" "^6.4.0"
     "@google/genai" "^1.38.0"

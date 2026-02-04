@@ -1,22 +1,18 @@
-import ffmpegStatic from "ffmpeg-static";
-import ffprobeStatic from "ffprobe-static";
-import ffmpeg from "fluent-ffmpeg";
-
-// ffmpeg-static exports the path directly as default
-const ffmpegPath = ffmpegStatic as unknown as string;
-// ffprobe-static exports an object with path property
-const ffprobePath = (ffprobeStatic as { path: string }).path;
+import ffmpegFfprobeStatic from "ffmpeg-ffprobe-static";
+import { setFfmpegPath, setFfprobePath } from "mulmocast";
 
 /**
- * Setup ffmpeg paths from bundled static binaries
+ * Setup ffmpeg paths from bundled static binaries.
+ * Must be called before using mulmocast CLI or any ffmpeg operations.
  */
 export const setupFfmpeg = () => {
-  if (ffmpegPath) {
-    ffmpeg.setFfmpegPath(ffmpegPath);
+  if (ffmpegFfprobeStatic.ffmpegPath) {
+    setFfmpegPath(ffmpegFfprobeStatic.ffmpegPath);
   }
-  if (ffprobePath) {
-    ffmpeg.setFfprobePath(ffprobePath);
+  if (ffmpegFfprobeStatic.ffprobePath) {
+    setFfprobePath(ffmpegFfprobeStatic.ffprobePath);
   }
 };
 
-export { ffmpegPath, ffprobePath };
+export const ffmpegPath = ffmpegFfprobeStatic.ffmpegPath;
+export const ffprobePath = ffmpegFfprobeStatic.ffprobePath;

@@ -1,0 +1,72 @@
+{
+  "$mulmocast": {
+    "version": "1.1"
+  },
+  "lang": "en",
+  "title": "FFmpeg Test",
+  "speechParams": {
+    "speakers": {
+      "Presenter": {
+        "voiceId": "shimmer",
+        "displayName": {
+          "en": "Presenter"
+        }
+      }
+    }
+  },
+  "beats": [
+    {
+      "id": "first",
+      "speaker": "Presenter",
+      "text": "",
+      "duration": 2,
+      "image": {
+        "type": "image",
+        "source": {
+          "kind": "url",
+          "url": "https://raw.githubusercontent.com/receptron/mulmocast-cli/refs/heads/main/assets/images/mulmocast_credit.png"
+        }
+      }
+    },
+    {
+      "speaker": "Presenter",
+      "text": "",
+      "duration": 1,
+      "image": {
+        "type": "textSlide",
+        "slide": {
+          "title": "FFmpeg Test",
+          "bullets": ["Testing bundled ffmpeg binary", "No system ffmpeg installed"]
+        }
+      }
+    },
+    {
+      "speaker": "Presenter",
+      "text": "",
+      "duration": 1,
+      "image": {
+        "type": "textSlide",
+        "slide": {
+          "title": "mulmocast-easy",
+          "bullets": ["ffmpeg-ffprobe-static bundled", "Easy installation"]
+        }
+      }
+    },
+    {
+      "speaker": "Presenter",
+      "text": "",
+      "duration": 1,
+      "image": {
+        "type": "markdown",
+        "markdown": [
+          "# Markdown Test",
+          "### Table",
+          "| Item | Status |",
+          "| :--- | :----: |",
+          "| ffmpeg | OK |",
+          "| ffprobe | OK |"
+        ]
+      }
+    }
+  ]
+}

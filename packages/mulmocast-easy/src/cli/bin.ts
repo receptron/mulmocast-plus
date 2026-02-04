@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
 import { setupFfmpeg } from "../setup.js";
+import { cliMain } from "mulmocast";
 
-// Setup ffmpeg before importing mulmocast
+// Setup ffmpeg paths before running CLI
 setupFfmpeg();
 
-// TODO: Re-export mulmocast CLI with ffmpeg pre-configured
-// import("mulmocast/cli");
+// Run the mulmocast CLI
+cliMain();
