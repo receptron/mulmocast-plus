@@ -36,6 +36,6 @@
   "homepage": "https://github.com/receptron/mulmocast-plus#readme",
   "dependencies": {
     "ffmpeg-ffprobe-static": "^6.1.2-rc.1",
-    "mulmocast": "^2.1.34"
+    "mulmocast": "^2.1.35"
   }
 }
