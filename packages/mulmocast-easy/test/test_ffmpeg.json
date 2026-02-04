@@ -55,18 +55,6 @@
     {
       "speaker": "Presenter",
       "text": "",
-      "duration": 2,
-      "image": {
-        "type": "movie",
-        "source": {
-          "kind": "url",
-          "url": "https://github.com/receptron/mulmocast-media/raw/refs/heads/main/test/pingpong.mov"
-        }
-      }
-    },
-    {
-      "speaker": "Presenter",
-      "text": "",
       "duration": 1,
       "image": {
         "type": "markdown",
