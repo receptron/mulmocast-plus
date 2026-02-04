@@ -1,6 +1,6 @@
 {
   "name": "mulmocast-easy",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "MulmoCast with bundled ffmpeg for easy installation",
   "type": "module",
   "main": "lib/index.js",
@@ -35,7 +35,7 @@
   },
   "homepage": "https://github.com/receptron/mulmocast-plus#readme",
   "dependencies": {
-    "mulmocast": "^2.1.33",
-    "ffmpeg-ffprobe-static": "^6.1.2-rc.1"
+    "ffmpeg-ffprobe-static": "^6.1.2-rc.1",
+    "mulmocast": "^2.1.34"
   }
 }
