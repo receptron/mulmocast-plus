@@ -74,6 +74,8 @@ jobs:
         fi
         echo "OK: ffmpeg is not installed on the system"
     - run: yarn install --frozen-lockfile
+    - name: Install Puppeteer browser
+      run: npx puppeteer browsers install chrome
     - run: yarn run build
     - name: Test movie generation with bundled ffmpeg
       working-directory: packages/mulmocast-easy
