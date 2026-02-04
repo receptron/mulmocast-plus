@@ -41,10 +41,11 @@ jobs:
     - run: yarn run build
 
   ffmpeg_test:
-    runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [22.x, 24.x]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [22.x]
+    runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v5
     - name: Use Node.js ${{ matrix.node-version }}
@@ -56,23 +57,47 @@ jobs:
       uses: actions/cache@v4
       with:
         path: node_modules
-        key: node-modules-${{ matrix.node-version }}-${{ hashFiles('yarn.lock') }}
-    - name: Cache Puppeteer
+        key: node-modules-${{ matrix.os }}-${{ matrix.node-version }}-${{ hashFiles('yarn.lock') }}
+    - name: Cache Puppeteer (Linux)
+      if: runner.os == 'Linux'
       uses: actions/cache@v4
       with:
         path: ~/.cache/puppeteer
         key: puppeteer-${{ runner.os }}-${{ matrix.node-version }}
-    - name: Install system dependencies (NO ffmpeg)
+    - name: Cache Puppeteer (macOS)
+      if: runner.os == 'macOS'
+      uses: actions/cache@v4
+      with:
+        path: ~/Library/Caches/puppeteer
+        key: puppeteer-${{ runner.os }}-${{ matrix.node-version }}
+    - name: Cache Puppeteer (Windows)
+      if: runner.os == 'Windows'
+      uses: actions/cache@v4
+      with:
+        path: ~\AppData\Local\puppeteer
+        key: puppeteer-${{ runner.os }}-${{ matrix.node-version }}
+    - name: Install system dependencies (Linux)
+      if: runner.os == 'Linux'
       run: |
         sudo apt-get update
         sudo apt-get install -y chromium-browser ca-certificates fonts-liberation libatk-bridge2.0-0 libatk1.0-0 libcups2 libdrm2 libgbm1 libnspr4 libnss3 libxcomposite1 libxdamage1 libxrandr2 xdg-utils
-    - name: Verify ffmpeg is NOT installed
+    - name: Verify ffmpeg is NOT installed (Linux/macOS)
+      if: runner.os != 'Windows'
       run: |
         if command -v ffmpeg &> /dev/null; then
           echo "ERROR: ffmpeg should NOT be installed on the system"
           exit 1
         fi
         echo "OK: ffmpeg is not installed on the system"
+    - name: Verify ffmpeg is NOT installed (Windows)
+      if: runner.os == 'Windows'
+      shell: pwsh
+      run: |
+        if (Get-Command ffmpeg -ErrorAction SilentlyContinue) {
+          Write-Error "ERROR: ffmpeg should NOT be installed on the system"
+          exit 1
+        }
+        Write-Host "OK: ffmpeg is not installed on the system"
     - run: yarn install --frozen-lockfile
     - name: Install Puppeteer browser
       run: npx puppeteer browsers install chrome
@@ -83,5 +108,5 @@ jobs:
     - name: Upload generated media
       uses: actions/upload-artifact@v4
       with:
-        name: generatedmedia-${{ matrix.node-version }}
+        name: generatedmedia-${{ matrix.os }}-${{ matrix.node-version }}
         path: packages/mulmocast-easy/output/
