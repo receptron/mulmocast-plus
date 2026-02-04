@@ -89,7 +89,7 @@ Create a file named `hello.json`:
 ### 3. Generate video
 
 ```bash
-mulmo-easy movie hello.json
+mulmocast-easy movie hello.json
 ```
 
 Your video will be created in `output/movie/hello.mp4` 🎉
@@ -97,7 +97,7 @@ Your video will be created in `output/movie/hello.mp4` 🎉
 ### 4. Generate PDF
 
 ```bash
-mulmo-easy pdf hello.json
+mulmocast-easy pdf hello.json
 ```
 
 Your PDF will be created in `output/pdf/hello.pdf` 📄
@@ -130,13 +130,13 @@ Then add text to your script:
 
 ```bash
 # Show all commands
-mulmo-easy --help
+mulmocast-easy --help
 
 # Generate images only
-mulmo-easy images hello.json
+mulmocast-easy images hello.json
 
 # Generate audio only
-mulmo-easy audio hello.json
+mulmocast-easy audio hello.json
 ```
 
 ## Learn More
@@ -257,7 +257,7 @@ npm install -g mulmocast-easy
 ### 3. 動画を生成
 
 ```bash
-mulmo-easy movie hello.json
+mulmocast-easy movie hello.json
 ```
 
 動画は `output/movie/hello.mp4` に作成されます 🎉
@@ -265,7 +265,7 @@ mulmo-easy movie hello.json
 ### 4. PDF を生成
 
 ```bash
-mulmo-easy pdf hello.json
+mulmocast-easy pdf hello.json
 ```
 
 PDF は `output/pdf/hello.pdf` に作成されます 📄
@@ -298,13 +298,13 @@ export OPENAI_API_KEY=your-api-key-here
 
 ```bash
 # すべてのコマンドを表示
-mulmo-easy --help
+mulmocast-easy --help
 
 # 画像のみを生成
-mulmo-easy images hello.json
+mulmocast-easy images hello.json
 
 # 音声のみを生成
-mulmo-easy audio hello.json
+mulmocast-easy audio hello.json
 ```
 
 ## もっと詳しく
