@@ -6,6 +6,8 @@ import type { ExtendedScript } from "../../types/index.js";
 interface ProcessOptions {
   profile?: string;
   output?: string;
+  section?: string;
+  tags?: string[];
 }
 
 /**
@@ -18,6 +20,8 @@ export const processCommand = (scriptPath: string, options: ProcessOptions): voi
 
     const result = processScript(script, {
       profile: options.profile,
+      section: options.section,
+      tags: options.tags,
     });
 
     const output = JSON.stringify(result, null, 2);

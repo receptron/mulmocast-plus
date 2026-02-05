@@ -95,5 +95,31 @@ describe("CLI", () => {
 
       assert.ok(!("outputProfiles" in result), "outputProfiles should be stripped");
     });
+
+    it("should filter by section", () => {
+      const output = runCli(`${FIXTURE_PATH} --section chapter1`);
+      const result = JSON.parse(output);
+      assert.equal(result.beats.length, 2);
+    });
+
+    it("should filter by tags", () => {
+      const output = runCli(`${FIXTURE_PATH} --tags intro,conclusion`);
+      const result = JSON.parse(output);
+      assert.equal(result.beats.length, 2);
+    });
+
+    it("should combine profile and section filter", () => {
+      const output = runCli(`${FIXTURE_PATH} --profile summary --section chapter1`);
+      const result = JSON.parse(output);
+      assert.equal(result.beats.length, 2);
+      assert.equal(result.beats[0].text, "Brief background info.");
+    });
+
+    it("should combine profile and tags filter", () => {
+      const output = runCli(`${FIXTURE_PATH} --profile summary --tags intro`);
+      const result = JSON.parse(output);
+      assert.equal(result.beats.length, 1);
+      assert.equal(result.beats[0].text, "Welcome to the summary.");
+    });
   });
 });

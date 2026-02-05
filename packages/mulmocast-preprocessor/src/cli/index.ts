@@ -26,11 +26,24 @@ yargs(hideBin(process.argv))
           alias: "o",
           describe: "Output file path (default: stdout)",
           type: "string",
+        })
+        .option("section", {
+          alias: "s",
+          describe: "Filter by section name",
+          type: "string",
+        })
+        .option("tags", {
+          alias: "t",
+          describe: "Filter by tags (comma-separated)",
+          type: "string",
         }),
     (argv) => {
+      const tags = argv.tags ? argv.tags.split(",").map((t) => t.trim()) : undefined;
       processCommand(argv.script, {
         profile: argv.profile,
         output: argv.output,
+        section: argv.section,
+        tags,
       });
     },
   )
@@ -49,6 +62,9 @@ yargs(hideBin(process.argv))
   )
   .example("$0 script.json --profile summary -o summary.json", "Apply summary profile and save to file")
   .example("$0 script.json -p teaser", "Apply teaser profile and output to stdout")
+  .example("$0 script.json --section chapter1", "Filter by section")
+  .example("$0 script.json --tags concept,demo", "Filter by tags")
+  .example("$0 script.json -p summary -s chapter1", "Combine profile and section filter")
   .example("$0 profiles script.json", "List all available profiles")
   .help()
   .alias("h", "help")

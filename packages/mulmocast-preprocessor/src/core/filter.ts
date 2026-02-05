@@ -6,7 +6,7 @@ const stripBeatExtendedFields = (beat: ExtendedBeat): MulmoBeat => {
   return baseBeat;
 };
 
-const filterBeats = (script: ExtendedScript, predicate: (beat: ExtendedBeat) => boolean): MulmoScript => {
+const filterBeatsToMulmoScript = (script: ExtendedScript, predicate: (beat: ExtendedBeat) => boolean): MulmoScript => {
   const { outputProfiles: __outputProfiles, ...baseScript } = script;
   return {
     ...baseScript,
@@ -14,20 +14,26 @@ const filterBeats = (script: ExtendedScript, predicate: (beat: ExtendedBeat) => 
   } as MulmoScript;
 };
 
-/**
- * Filter beats by section
- */
-export const filterBySection = (script: ExtendedScript, section: string): MulmoScript => filterBeats(script, (beat) => beat.meta?.section === section);
+const filterBeatsPreservingMeta = (script: ExtendedScript, predicate: (beat: ExtendedBeat) => boolean): ExtendedScript => ({
+  ...script,
+  beats: script.beats.filter(predicate),
+});
 
 /**
- * Filter beats by tags (extract beats that have any of the specified tags)
+ * Filter beats by section (preserves meta for chaining)
  */
-export const filterByTags = (script: ExtendedScript, tags: string[]): MulmoScript => {
+export const filterBySection = (script: ExtendedScript, section: string): ExtendedScript =>
+  filterBeatsPreservingMeta(script, (beat) => beat.meta?.section === section);
+
+/**
+ * Filter beats by tags (preserves meta for chaining)
+ */
+export const filterByTags = (script: ExtendedScript, tags: string[]): ExtendedScript => {
   const tagSet = new Set(tags);
-  return filterBeats(script, (beat) => (beat.meta?.tags ?? []).some((tag) => tagSet.has(tag)));
+  return filterBeatsPreservingMeta(script, (beat) => (beat.meta?.tags ?? []).some((tag) => tagSet.has(tag)));
 };
 
 /**
  * Strip variants and meta fields, converting to standard MulmoScript
  */
-export const stripExtendedFields = (script: ExtendedScript): MulmoScript => filterBeats(script, () => true);
+export const stripExtendedFields = (script: ExtendedScript): MulmoScript => filterBeatsToMulmoScript(script, () => true);
