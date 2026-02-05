@@ -39,33 +39,117 @@ beat 3: 「次に本題に入ります」
 
 ## Phase 1: スキーマ拡張
 
-### 新規スキーマ
+### 1.1 Beat Variant (プロファイル別の差し替え)
 
+**型定義:**
 ```typescript
-// Beat単位のバリアント
 beatVariantSchema = {
-  text?: string,        // テキスト差し替え
-  skip?: boolean,       // このプロファイルでスキップ
-  image?: MulmoImage,   // 画像差し替え
-  imagePrompt?: string,
+  text?: string,           // テキスト差し替え
+  skip?: boolean,          // このプロファイルでスキップ
+  image?: MulmoImage,      // 画像差し替え
+  imagePrompt?: string,    // 画像生成プロンプト差し替え
   speechOptions?: SpeechOptions,
 }
+```
 
-// プロファイル名 → バリアント
-beatVariantsSchema = Record<string, BeatVariant>
+**JSONサンプル:**
+```json
+{
+  "id": "intro",
+  "speaker": "Host",
+  "text": "今日はGraphAIについて、基本概念から実践的な使い方まで詳しくお話しします。",
+  "image": {
+    "type": "textSlide",
+    "slide": { "title": "GraphAI入門", "subtitle": "完全ガイド" }
+  },
+  "variants": {
+    "summary": {
+      "text": "GraphAIの概要を説明します。"
+    },
+    "teaser": {
+      "text": "GraphAIを紹介します。",
+      "image": {
+        "type": "textSlide",
+        "slide": { "title": "GraphAI", "subtitle": "AIワークフローを簡単に" }
+      }
+    }
+  }
+}
+```
 
-// Beat単位のメタデータ
+**skipの例:**
+```json
+{
+  "id": "detailed-explanation",
+  "speaker": "Host",
+  "text": "ここで詳細な技術的説明をします。アーキテクチャは...(長い説明)",
+  "variants": {
+    "summary": { "skip": true },
+    "teaser": { "skip": true }
+  }
+}
+```
+
+---
+
+### 1.2 Beat Meta (メタデータ)
+
+**型定義:**
+```typescript
 beatMetaSchema = {
-  tags?: string[],              // タグ (例: ["intro", "concept"])
-  section?: string,             // セクション (例: "chapter1")
-  context?: string,             // 画像beatの補足説明
-  keywords?: string[],          // 検索用キーワード
+  tags?: string[],              // タグ
+  section?: string,             // セクション名
+  context?: string,             // 画像の補足説明 (Q&A用)
+  keywords?: string[],          // 検索キーワード
   expectedQuestions?: string[], // 想定される質問
   references?: Reference[],     // 参照情報
   relatedBeats?: string[],      // 関連beat ID
 }
+```
 
-// スクリプト全体のメタデータ
+**JSONサンプル:**
+```json
+{
+  "id": "what-is-agent",
+  "speaker": "Host",
+  "text": "エージェントとは、特定のタスクを実行する独立したコンポーネントです。",
+  "image": {
+    "type": "image",
+    "source": { "kind": "path", "path": "agent-diagram.png" }
+  },
+  "meta": {
+    "tags": ["concept", "agent", "core"],
+    "section": "chapter1",
+    "context": "この図はエージェントの内部構造を示しています。左側が入力、中央が処理ロジック（LLM呼び出し、データ変換など）、右側が出力です。",
+    "keywords": ["エージェント", "コンポーネント", "入力", "出力", "処理"],
+    "expectedQuestions": [
+      "エージェントとは何ですか？",
+      "エージェントの役割は？",
+      "どんな種類のエージェントがありますか？"
+    ],
+    "references": [
+      {
+        "type": "web",
+        "url": "https://graphai.dev/docs/agents",
+        "title": "エージェント詳細ドキュメント"
+      },
+      {
+        "type": "code",
+        "url": "https://github.com/receptron/graphai/tree/main/agents",
+        "title": "エージェント実装例"
+      }
+    ],
+    "relatedBeats": ["graph-structure", "demo"]
+  }
+}
+```
+
+---
+
+### 1.3 Script Meta (スクリプト全体のメタデータ)
+
+**型定義:**
+```typescript
 scriptMetaSchema = {
   audience?: string,            // 対象読者
   prerequisites?: string[],     // 前提知識
@@ -74,9 +158,64 @@ scriptMetaSchema = {
   faq?: FAQ[],                  // よくある質問
   keywords?: string[],          // 全体キーワード
   references?: Reference[],     // 参照情報
+  author?: string,
+  version?: string,
 }
+```
 
-// 出力プロファイル定義
+**JSONサンプル:**
+```json
+{
+  "$mulmocast": { "version": "1.1" },
+  "title": "GraphAI入門",
+  "lang": "ja",
+
+  "scriptMeta": {
+    "audience": "AIアプリケーション開発者、エンジニア",
+    "prerequisites": [
+      "JavaScript/TypeScriptの基礎知識",
+      "LLM APIの基本的な理解"
+    ],
+    "goals": [
+      "GraphAIの基本概念を理解する",
+      "エージェントとグラフ構造の関係を理解する",
+      "簡単なワークフローを構築できるようになる"
+    ],
+    "background": "近年、LLMを活用したアプリケーション開発が増加しており、複雑なワークフローを効率的に構築するフレームワークの需要が高まっている。",
+    "keywords": ["GraphAI", "エージェント", "ワークフロー", "LLM"],
+    "faq": [
+      {
+        "question": "GraphAIは無料で使えますか？",
+        "answer": "はい、MITライセンスで無料です。",
+        "relatedBeats": ["intro"]
+      },
+      {
+        "question": "どのLLMに対応していますか？",
+        "answer": "OpenAI、Anthropic、Gemini、ローカルLLM等に対応。",
+        "relatedBeats": ["what-is-agent"]
+      }
+    ],
+    "references": [
+      {
+        "type": "web",
+        "url": "https://github.com/receptron/graphai",
+        "title": "GraphAI GitHub"
+      }
+    ],
+    "author": "GraphAI Team",
+    "version": "1.0"
+  },
+
+  "beats": [...]
+}
+```
+
+---
+
+### 1.4 Output Profiles (出力プロファイル定義)
+
+**型定義:**
+```typescript
 outputProfileSchema = {
   name: string,                 // 表示名
   description?: string,         // 説明
@@ -88,7 +227,167 @@ outputProfileSchema = {
 }
 ```
 
-### 既存スキーマの拡張
+**JSONサンプル:**
+```json
+{
+  "$mulmocast": { "version": "1.1" },
+  "title": "GraphAI入門",
+
+  "outputProfiles": {
+    "summary": {
+      "name": "3分要約版",
+      "description": "主要ポイントのみの短縮版"
+    },
+    "teaser": {
+      "name": "30秒ティーザー",
+      "description": "SNS用の短い紹介動画",
+      "overrides": {
+        "audioParams": {
+          "padding": 0.2
+        },
+        "canvasSize": {
+          "width": 1080,
+          "height": 1920
+        }
+      }
+    },
+    "presentation": {
+      "name": "プレゼン用",
+      "description": "スライド表示に最適化",
+      "overrides": {
+        "canvasSize": {
+          "width": 1920,
+          "height": 1080
+        }
+      }
+    }
+  },
+
+  "beats": [...]
+}
+```
+
+---
+
+### 1.5 完全なサンプル
+
+```json
+{
+  "$mulmocast": { "version": "1.1" },
+  "title": "GraphAI入門",
+  "lang": "ja",
+
+  "scriptMeta": {
+    "audience": "AIアプリ開発者",
+    "goals": ["GraphAIの基本を理解する"],
+    "faq": [
+      {
+        "question": "無料ですか？",
+        "answer": "はい、MITライセンスです。"
+      }
+    ]
+  },
+
+  "outputProfiles": {
+    "summary": {
+      "name": "3分要約版",
+      "description": "短縮版"
+    },
+    "teaser": {
+      "name": "30秒ティーザー",
+      "overrides": {
+        "audioParams": { "padding": 0.2 }
+      }
+    }
+  },
+
+  "speechParams": {
+    "speakers": {
+      "Host": {
+        "voiceId": "shimmer",
+        "displayName": { "ja": "ホスト" }
+      }
+    }
+  },
+
+  "beats": [
+    {
+      "id": "intro",
+      "speaker": "Host",
+      "text": "今日はGraphAIについて詳しくお話しします。",
+      "image": {
+        "type": "textSlide",
+        "slide": { "title": "GraphAI入門" }
+      },
+      "variants": {
+        "summary": { "text": "GraphAIの概要を説明します。" },
+        "teaser": { "text": "GraphAIを紹介！" }
+      },
+      "meta": {
+        "tags": ["intro"],
+        "section": "opening"
+      }
+    },
+    {
+      "id": "history",
+      "speaker": "Host",
+      "text": "GraphAIは2023年に開発が始まりました。当初はシンプルなワークフローエンジンでしたが...",
+      "variants": {
+        "summary": { "text": "2023年開発開始、現在はマルチエージェント対応。" },
+        "teaser": { "skip": true }
+      },
+      "meta": {
+        "tags": ["history"],
+        "section": "chapter1",
+        "keywords": ["2023年", "開発"]
+      }
+    },
+    {
+      "id": "what-is-agent",
+      "speaker": "Host",
+      "text": "エージェントとは、特定のタスクを実行するコンポーネントです。",
+      "image": {
+        "type": "image",
+        "source": { "kind": "path", "path": "agent.png" }
+      },
+      "variants": {
+        "teaser": { "skip": true }
+      },
+      "meta": {
+        "tags": ["concept", "agent"],
+        "section": "chapter1",
+        "context": "図はエージェントの入出力構造を示す",
+        "expectedQuestions": ["エージェントとは？"]
+      }
+    },
+    {
+      "id": "conclusion",
+      "speaker": "Host",
+      "text": "以上がGraphAIの概要でした。ぜひお試しください。",
+      "variants": {
+        "summary": { "text": "GraphAIをぜひお試しください。" },
+        "teaser": { "text": "GraphAI、今すぐ試そう！" }
+      },
+      "meta": {
+        "tags": ["conclusion"],
+        "section": "closing"
+      }
+    }
+  ]
+}
+```
+
+### 出力結果の比較
+
+| プロファイル | beats | 説明 |
+|-------------|-------|------|
+| (なし) | 4 | フル版 - 全beatを元テキストで |
+| summary | 4 | 要約版 - テキスト差し替え |
+| teaser | 2 | ティーザー - history, what-is-agent をskip |
+
+---
+
+### 1.6 既存スキーマの拡張
 
 ```typescript
 // mulmoBeatSchema に追加
