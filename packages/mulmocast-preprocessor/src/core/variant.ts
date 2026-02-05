@@ -18,40 +18,18 @@ const applyVariantToBeat = (beat: ExtendedBeat, profileName: string): MulmoBeat 
     return baseBeat;
   }
 
-  const result: MulmoBeat = { ...baseBeat };
-
-  if (variant.text !== undefined) {
-    result.text = variant.text;
-  }
-
-  if (variant.image !== undefined) {
-    result.image = variant.image;
-  }
-
-  if (variant.imagePrompt !== undefined) {
-    result.imagePrompt = variant.imagePrompt;
-  }
-
-  return result;
+  const { skip: __skip, ...overrides } = variant;
+  return { ...baseBeat, ...overrides };
 };
 
 /**
  * スクリプトにプロファイルを適用し、通常のMulmoScriptを返す
  */
 export const applyProfile = (script: ExtendedScript, profileName: string): MulmoScript => {
-  const processedBeats: MulmoBeat[] = [];
-
-  for (const beat of script.beats) {
-    const processed = applyVariantToBeat(beat, profileName);
-    if (processed !== null) {
-      processedBeats.push(processed);
-    }
-  }
-
   const { outputProfiles: __outputProfiles, ...baseScript } = script;
 
   return {
     ...baseScript,
-    beats: processedBeats,
+    beats: script.beats.map((beat) => applyVariantToBeat(beat, profileName)).filter((beat): beat is MulmoBeat => beat !== null),
   } as MulmoScript;
 };
