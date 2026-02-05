@@ -25,6 +25,15 @@ mulmocast-preprocessor script.json --profile summary -o summary.json
 # Output to stdout (for piping)
 mulmocast-preprocessor script.json --profile teaser
 
+# Filter by section
+mulmocast-preprocessor script.json --section chapter1
+
+# Filter by tags
+mulmocast-preprocessor script.json --tags concept,demo
+
+# Combine profile and filters
+mulmocast-preprocessor script.json --profile summary --section chapter1
+
 # List available profiles
 mulmocast-preprocessor profiles script.json
 ```
@@ -35,6 +44,8 @@ mulmocast-preprocessor profiles script.json
 |--------|-------|-------------|
 | `--profile <name>` | `-p` | Profile name to apply (default: "default") |
 | `--output <path>` | `-o` | Output file path (default: stdout) |
+| `--section <name>` | `-s` | Filter by section name |
+| `--tags <tags>` | `-t` | Filter by tags (comma-separated) |
 | `--help` | `-h` | Show help |
 | `--version` | `-v` | Show version |
 
