@@ -3,34 +3,21 @@ import type { ExtendedScript, ProcessOptions } from "../types/index.js";
 import { applyProfile } from "./variant.js";
 import { filterBySection, filterByTags, stripExtendedFields } from "./filter.js";
 
+const toExtendedScript = (script: MulmoScript): ExtendedScript => ({
+  ...script,
+  beats: script.beats.map((beat) => ({ ...beat })),
+});
+
 /**
  * メイン処理関数
  * プロファイル適用とフィルタを一括実行
  */
 export const processScript = (script: ExtendedScript, options: ProcessOptions = {}): MulmoScript => {
-  let result: MulmoScript;
+  const afterProfile = options.profile && options.profile !== "default" ? applyProfile(script, options.profile) : stripExtendedFields(script);
 
-  if (options.profile && options.profile !== "default") {
-    result = applyProfile(script, options.profile);
-  } else {
-    result = stripExtendedFields(script);
-  }
+  const afterSection = options.section ? filterBySection(toExtendedScript(afterProfile), options.section) : afterProfile;
 
-  if (options.section) {
-    const extendedResult: ExtendedScript = {
-      ...result,
-      beats: result.beats.map((beat) => ({ ...beat })),
-    };
-    result = filterBySection(extendedResult, options.section);
-  }
+  const afterTags = options.tags && options.tags.length > 0 ? filterByTags(toExtendedScript(afterSection), options.tags) : afterSection;
 
-  if (options.tags && options.tags.length > 0) {
-    const extendedResult: ExtendedScript = {
-      ...result,
-      beats: result.beats.map((beat) => ({ ...beat })),
-    };
-    result = filterByTags(extendedResult, options.tags);
-  }
-
-  return result;
+  return afterTags;
 };

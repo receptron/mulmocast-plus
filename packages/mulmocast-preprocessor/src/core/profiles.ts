@@ -4,53 +4,44 @@ import type { ExtendedScript, ProfileInfo } from "../types/index.js";
  * スクリプトからプロファイル一覧を取得
  */
 export const listProfiles = (script: ExtendedScript): ProfileInfo[] => {
-  const profiles: ProfileInfo[] = [];
-  const profileNames = new Set<string>();
+  const profileNames = new Set<string>(["default"]);
 
-  profileNames.add("default");
+  script.beats
+    .filter((beat) => beat.variants)
+    .flatMap((beat) => Object.keys(beat.variants!))
+    .forEach((name) => profileNames.add(name));
 
-  for (const beat of script.beats) {
-    if (beat.variants) {
-      for (const profileName of Object.keys(beat.variants)) {
-        profileNames.add(profileName);
-      }
-    }
-  }
-
-  for (const profileName of profileNames) {
+  const buildProfileInfo = (profileName: string): ProfileInfo => {
     const outputProfile = script.outputProfiles?.[profileName];
 
-    let beatCount = 0;
-    let skippedCount = 0;
+    const { beatCount, skippedCount } =
+      profileName === "default"
+        ? { beatCount: script.beats.length, skippedCount: 0 }
+        : script.beats.reduce(
+            (acc, beat) => {
+              const isSkipped = beat.variants?.[profileName]?.skip === true;
+              return {
+                beatCount: acc.beatCount + (isSkipped ? 0 : 1),
+                skippedCount: acc.skippedCount + (isSkipped ? 1 : 0),
+              };
+            },
+            { beatCount: 0, skippedCount: 0 },
+          );
 
-    for (const beat of script.beats) {
-      const variant = beat.variants?.[profileName];
-      if (variant?.skip) {
-        skippedCount++;
-      } else {
-        beatCount++;
-      }
-    }
-
-    if (profileName === "default") {
-      beatCount = script.beats.length;
-      skippedCount = 0;
-    }
-
-    profiles.push({
+    return {
       name: profileName,
       displayName: outputProfile?.name,
       description: outputProfile?.description,
       beatCount,
       skippedCount,
+    };
+  };
+
+  return Array.from(profileNames)
+    .map(buildProfileInfo)
+    .sort((a, b) => {
+      if (a.name === "default") return -1;
+      if (b.name === "default") return 1;
+      return a.name.localeCompare(b.name);
     });
-  }
-
-  profiles.sort((a, b) => {
-    if (a.name === "default") return -1;
-    if (b.name === "default") return 1;
-    return a.name.localeCompare(b.name);
-  });
-
-  return profiles;
 };
