@@ -1,0 +1,71 @@
+{
+  "$mulmocast": { "version": "1.1" },
+  "title": "Sample Script",
+  "lang": "en",
+  "outputProfiles": {
+    "summary": {
+      "name": "Summary Version",
+      "description": "Short summary of the content"
+    },
+    "teaser": {
+      "name": "Teaser",
+      "description": "30 second teaser"
+    }
+  },
+  "speechParams": {
+    "speakers": {
+      "Host": {
+        "voiceId": "shimmer"
+      }
+    }
+  },
+  "beats": [
+    {
+      "speaker": "Host",
+      "text": "Welcome to this detailed presentation about our topic.",
+      "variants": {
+        "summary": { "text": "Welcome to the summary." },
+        "teaser": { "text": "Check this out!" }
+      },
+      "meta": {
+        "tags": ["intro"],
+        "section": "opening"
+      }
+    },
+    {
+      "speaker": "Host",
+      "text": "Let me explain the background in detail. This is a long explanation about history.",
+      "variants": {
+        "summary": { "text": "Brief background info." },
+        "teaser": { "skip": true }
+      },
+      "meta": {
+        "tags": ["background"],
+        "section": "chapter1"
+      }
+    },
+    {
+      "speaker": "Host",
+      "text": "Now for the main content and demonstration.",
+      "variants": {
+        "teaser": { "skip": true }
+      },
+      "meta": {
+        "tags": ["main", "demo"],
+        "section": "chapter1"
+      }
+    },
+    {
+      "speaker": "Host",
+      "text": "Thank you for watching. Please try it yourself!",
+      "variants": {
+        "summary": { "text": "Thanks! Try it now." },
+        "teaser": { "text": "Try it now!" }
+      },
+      "meta": {
+        "tags": ["conclusion"],
+        "section": "closing"
+      }
+    }
+  ]
+}

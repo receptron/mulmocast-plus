@@ -14,8 +14,31 @@ npm install mulmocast-preprocessor
 - **Section filtering**: Extract beats by section
 - **Tag filtering**: Extract beats by tags
 - **Profile listing**: List available profiles with beat counts
+- **CLI tool**: Command-line interface for processing scripts
 
-## Usage
+## CLI Usage
+
+```bash
+# Process script with profile
+mulmocast-preprocessor script.json --profile summary -o summary.json
+
+# Output to stdout (for piping)
+mulmocast-preprocessor script.json --profile teaser
+
+# List available profiles
+mulmocast-preprocessor profiles script.json
+```
+
+### CLI Options
+
+| Option | Alias | Description |
+|--------|-------|-------------|
+| `--profile <name>` | `-p` | Profile name to apply (default: "default") |
+| `--output <path>` | `-o` | Output file path (default: stdout) |
+| `--help` | `-h` | Show help |
+| `--version` | `-v` | Show version |
+
+## Programmatic Usage
 
 ### Basic Example
 
