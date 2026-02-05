@@ -4,6 +4,34 @@
 
 1つのMulmoScriptから複数のバリエーション（フル版、要約版、ティーザー版など）を生成できるプリプロセッサを実装する。
 
+## アーキテクチャ
+
+preprocessorは**mulmoとは別の独立したツール**として実装する。
+
+```
+┌─────────────────┐     ┌──────────────────┐     ┌─────────────┐
+│  source.json    │ --> │  preprocessor    │ --> │ output.json │ --> mulmo
+│  (variants付き) │     │  --profile xxx   │     │ (処理済み)  │
+└─────────────────┘     └──────────────────┘     └─────────────┘
+```
+
+### 基本的なワークフロー
+
+```bash
+# 1. preprocessorでプロファイル適用
+mulmocast-preprocessor source.json --profile summary -o summary.json
+
+# 2. 処理済みJSONをmulmoに渡す
+mulmo movie summary.json
+```
+
+### リポジトリ構成
+
+| リポジトリ | パッケージ | 役割 |
+|-----------|-----------|------|
+| mulmocast-plus | `mulmocast-preprocessor` | JSON前処理（本計画） |
+| mulmocast-cli | `mulmocast` | 動画/音声/PDF生成 |
+
 ## 課題
 
 単純なフィルタリング方式では話が飛ぶ：
@@ -108,10 +136,19 @@ beat 7: 「以上がGraphAIの概要でした」
 
 #### 出力結果の比較
 
-| コマンド | 出力 |
-|---------|------|
-| `mulmo movie script.json` | フル版 10分（元のテキスト全て） |
-| `mulmo movie script.json --profile summary` | 要約版 2分（差し替え・スキップ適用） |
+```bash
+# フル版（preprocessor不要、元のJSONをそのまま使用）
+mulmo movie script.json
+
+# 要約版（preprocessorで前処理）
+mulmocast-preprocessor script.json --profile summary -o script_summary.json
+mulmo movie script_summary.json
+```
+
+| プロファイル | 出力 |
+|-------------|------|
+| (なし/default) | フル版 10分（元のテキスト全て） |
+| summary | 要約版 2分（差し替え・スキップ適用） |
 
 **要約版の流れ:**
 ```
@@ -139,23 +176,24 @@ SNS用の超短縮版も同じスクリプトから生成：
 ```
 
 ```bash
-mulmo movie script.json --profile teaser  # 30秒のSNS用動画
+# 30秒のSNS用動画
+mulmocast-preprocessor script.json --profile teaser -o script_teaser.json
+mulmo movie script_teaser.json
 ```
 
 ---
 
 ## 機能一覧
 
-| 機能 | 説明 | 優先度 |
-|-----|------|--------|
-| **Variant** | プロファイル別にtext/image差し替え、skip | 高 |
-| **Beat Meta** | tags, section, context, keywords等 | 中 |
-| **Script Meta** | audience, goals, faq等 | 中 |
-| **Profile Filter** | `--profile summary` で出力切替 | 高 |
-| **Section/Tag Filter** | `--section`, `--tags` でフィルタ | 中 |
-| **tool profiles** | プロファイル一覧表示 | 中 |
-| **tool summarize** | AI自動要約生成 | 低 |
-| **tool query** | メタデータ活用のQ&A | 低 |
+| 機能 | コマンド例 | 優先度 |
+|-----|-----------|--------|
+| **Variant適用** | `mulmocast-preprocessor script.json --profile summary` | 高 |
+| **Beat Meta** | tags, section, context等のスキーマ拡張 | 中 |
+| **Script Meta** | audience, goals, faq等のスキーマ拡張 | 中 |
+| **profiles** | `mulmocast-preprocessor profiles script.json` | 高 |
+| **Section/Tag Filter** | `--section`, `--tags` オプション | 中 |
+| **summarize** | `mulmocast-preprocessor summarize script.json` | 低 |
+| **query** | `mulmocast-preprocessor query script.json "質問"` | 低 |
 
 ---
 
@@ -193,18 +231,20 @@ mulmo movie script.json --profile teaser  # 30秒のSNS用動画
 
 **CLI使用例:**
 ```bash
-# フル版 (default)
+# フル版 (preprocessor不要、元のJSONをそのまま使用)
 mulmo movie script.json
-mulmo movie script.json --profile default
 
 # 要約版
-mulmo movie script.json --profile summary
+mulmocast-preprocessor script.json --profile summary -o summary.json
+mulmo movie summary.json
 
 # ティーザー版
-mulmo movie script.json --profile teaser
+mulmocast-preprocessor script.json --profile teaser -o teaser.json
+mulmo movie teaser.json
 
 # カスタムプロファイル (ユーザー定義)
-mulmo movie script.json --profile presentation
+mulmocast-preprocessor script.json --profile presentation -o presentation.json
+mulmo movie presentation.json
 ```
 
 **備考:**
@@ -618,64 +658,61 @@ outputProfileSchema = {
 
 ---
 
-## Phase 3: CLIオプション追加
+## Phase 3: CLI実装
 
-### 変更ファイル
-
-| ファイル | 変更 |
-|---------|------|
-| `src/cli/common.ts` | `--profile` オプション定義 |
-| `src/cli/commands/*/builder.ts` | 各コマンドに追加 |
-
-### 使用例
-
-```bash
-# フル版
-mulmo movie script.json
-
-# 要約版
-mulmo movie script.json --profile summary
-
-# ティーザー版
-mulmo movie script.json --profile teaser
-```
-
----
-
-## Phase 4: Action層適用
-
-### 変更ファイル
-
-| ファイル | 変更 |
-|---------|------|
-| `src/actions/audio.ts` | プロファイル適用 |
-| `src/actions/images.ts` | プロファイル適用 |
-| `src/actions/movie.ts` | プロファイル適用 |
-| `src/actions/pdf.ts` | プロファイル適用 |
-
----
-
-## Phase 5: tool profiles コマンド
-
-### 新規ファイル
+### 新規ファイル (mulmocast-preprocessor)
 
 | ファイル | 内容 |
 |---------|------|
-| `src/cli/commands/tool/profiles/` | プロファイル一覧コマンド |
+| `src/cli/index.ts` | CLIエントリーポイント |
+| `src/cli/commands/process.ts` | メイン処理コマンド |
+| `src/cli/commands/profiles.ts` | プロファイル一覧コマンド |
 
 ### 使用例
 
 ```bash
-$ mulmo tool profiles script.json
+# 基本: プロファイル適用してJSON出力
+mulmocast-preprocessor script.json --profile summary -o summary.json
 
-Profiles:
-  summary  : 3分要約版 (6 beats, 2 skipped)
-  teaser   : 30秒ティーザー (3 beats, 3 skipped)
+# 標準出力に出力（パイプ用）
+mulmocast-preprocessor script.json --profile summary
+
+# プロファイル一覧を表示
+mulmocast-preprocessor profiles script.json
 ```
+
+### CLIオプション
+
+| オプション | 説明 |
+|-----------|------|
+| `--profile <name>` | 適用するプロファイル名 |
+| `-o, --output <path>` | 出力ファイルパス |
+| `--stdout` | 標準出力に出力 |
 
 ---
 
-## Phase 6: フィルタオプション
+## Phase 4: profiles サブコマンド
+
+### 使用例
+
+```bash
+$ mulmocast-preprocessor profiles script.json
+
+Available profiles:
+  default  : フル版 (7 beats)
+  summary  : 3分要約版 (5 beats, 2 skipped)
+  teaser   : 30秒ティーザー (3 beats, 4 skipped)
+```
+
+### 出力内容
+
+- 定義されているプロファイル一覧
+- 各プロファイルのbeat数
+- スキップされるbeat数
+
+---
+
+## Phase 5: フィルタオプション
 
 ### 新規ファイル
 
@@ -687,18 +724,18 @@ Profiles:
 
 ```bash
 # セクションでフィルタ
-mulmo movie script.json --section chapter1
+mulmocast-preprocessor script.json --section chapter1 -o chapter1.json
 
 # タグでフィルタ
-mulmo movie script.json --tags concept,demo
+mulmocast-preprocessor script.json --tags concept,demo -o filtered.json
 
-# 組み合わせ
-mulmo movie script.json --profile summary --section chapter1
+# プロファイルとフィルタの組み合わせ
+mulmocast-preprocessor script.json --profile summary --section chapter1 -o output.json
 ```
 
 ---
 
-## Phase 7: tool summarize (AI自動要約)
+## Phase 6: summarize コマンド (AI自動要約)
 
 ### 新規ファイル
 
@@ -706,19 +743,19 @@ mulmo movie script.json --profile summary --section chapter1
 |---------|------|
 | `src/types/ai_tools.ts` | `SummarizeOptions` 型 |
 | `src/tools/summarize_script.ts` | 要約生成ロジック |
-| `src/cli/commands/tool/summarize/` | CLIコマンド |
+| `src/cli/commands/summarize.ts` | CLIコマンド |
 
 ### 使用例
 
 ```bash
-# 要約バリアントを自動生成
-mulmo tool summarize script.json --profile summary
+# 要約バリアントを自動生成（script.jsonを更新）
+mulmocast-preprocessor summarize script.json --profile summary
 
 # 文字数制限
-mulmo tool summarize script.json --profile summary --max-chars 50
+mulmocast-preprocessor summarize script.json --profile summary --max-chars 50
 
-# プレビューのみ
-mulmo tool summarize script.json --profile summary --dry-run
+# プレビューのみ（ファイル更新なし）
+mulmocast-preprocessor summarize script.json --profile summary --dry-run
 ```
 
 ### 処理フロー
@@ -733,7 +770,7 @@ mulmo tool summarize script.json --profile summary --dry-run
 
 ---
 
-## Phase 8: tool query (Q&A)
+## Phase 7: query コマンド (Q&A)
 
 ### 新規ファイル
 
@@ -741,19 +778,19 @@ mulmo tool summarize script.json --profile summary --dry-run
 |---------|------|
 | `src/tools/query_script.ts` | クエリ処理ロジック |
 | `src/utils/beat_matcher.ts` | キーワードマッチング |
-| `src/cli/commands/tool/query/` | CLIコマンド |
+| `src/cli/commands/query.ts` | CLIコマンド |
 
 ### 使用例
 
 ```bash
 # 質問
-mulmo tool query script.json "エージェントとは何？"
+mulmocast-preprocessor query script.json "エージェントとは何？"
 
 # 詳細モード
-mulmo tool query script.json "特徴は？" --verbose
+mulmocast-preprocessor query script.json "特徴は？" --verbose
 
 # JSON出力
-mulmo tool query script.json "結論は？" --json
+mulmocast-preprocessor query script.json "結論は？" --json
 ```
 
 ### 処理フロー
@@ -771,21 +808,19 @@ mulmo tool query script.json "結論は？" --json
 ## 実装順序
 
 ```
-Phase 1 (スキーマ)
+Phase 1 (スキーマ拡張)
     ↓
-Phase 2 (Variant処理)
+Phase 2 (Variant処理ロジック)
     ↓
-Phase 3 (CLIオプション)
+Phase 3 (CLI実装)
     ↓
-Phase 4 (Action層適用)
+Phase 4 (profiles サブコマンド)  ←── ここまでがMVP
     ↓
-Phase 5 (tool profiles)  ←── ここまでがMVP
+Phase 5 (フィルタオプション)
     ↓
-Phase 6 (フィルタ)
+Phase 6 (summarize)
     ↓
-Phase 7 (summarize)
-    ↓
-Phase 8 (query)
+Phase 7 (query)
 ```
 
 ---
