@@ -32,6 +32,151 @@ mulmo movie summary.json
 | mulmocast-plus | `mulmocast-preprocessor` | JSON前処理（本計画） |
 | mulmocast-cli | `mulmocast` | 動画/音声/PDF生成 |
 
+## API設計
+
+CLIはAPIのラッパー。コア機能はライブラリとしてエクスポートし、他システムへの組み込みやmulmocast-cliへの統合を可能にする。
+
+### パッケージ構成
+
+```
+mulmocast-preprocessor/
+├── src/
+│   ├── index.ts          # API エクスポート
+│   ├── cli/              # CLI実装（APIを使用）
+│   │   └── bin.ts
+│   ├── core/             # コアロジック
+│   │   ├── process.ts    # メイン処理
+│   │   ├── variant.ts    # Variant適用
+│   │   └── filter.ts     # フィルタ処理
+│   └── types/            # 型定義
+│       └── index.ts
+└── lib/                  # ビルド出力
+```
+
+### Core API
+
+```typescript
+// index.ts からエクスポート
+import {
+  // メイン処理
+  processScript,
+
+  // 個別機能
+  applyProfile,
+  filterBySection,
+  filterByTags,
+  listProfiles,
+
+  // 型
+  ProcessOptions,
+  ProfileInfo,
+} from "mulmocast-preprocessor";
+```
+
+### API定義
+
+#### `processScript(script, options): MulmoScript`
+
+メイン処理関数。プロファイル適用とフィルタを一括実行。
+
+```typescript
+interface ProcessOptions {
+  profile?: string;      // 適用するプロファイル名
+  section?: string;      // セクションフィルタ
+  tags?: string[];       // タグフィルタ
+}
+
+// 使用例
+const result = processScript(script, {
+  profile: "summary",
+  section: "chapter1",
+});
+```
+
+#### `applyProfile(script, profileName): MulmoScript`
+
+プロファイルを適用してスクリプトを変換。
+
+```typescript
+// 使用例
+const summaryScript = applyProfile(script, "summary");
+// - variants.summary.text があれば text を差し替え
+// - variants.summary.skip === true なら beat を除外
+// - variants.summary.image があれば image を差し替え
+```
+
+#### `filterBySection(script, section): MulmoScript`
+
+指定セクションのbeatsのみ抽出。
+
+```typescript
+// 使用例
+const chapter1 = filterBySection(script, "chapter1");
+```
+
+#### `filterByTags(script, tags): MulmoScript`
+
+指定タグを持つbeatsのみ抽出。
+
+```typescript
+// 使用例
+const conceptBeats = filterByTags(script, ["concept", "demo"]);
+```
+
+#### `listProfiles(script): ProfileInfo[]`
+
+スクリプトに定義されているプロファイル一覧を取得。
+
+```typescript
+interface ProfileInfo {
+  name: string;           // プロファイル名
+  displayName?: string;   // 表示名
+  description?: string;   // 説明
+  beatCount: number;      // 出力beat数
+  skippedCount: number;   // スキップされるbeat数
+}
+
+// 使用例
+const profiles = listProfiles(script);
+// [
+//   { name: "default", beatCount: 7, skippedCount: 0 },
+//   { name: "summary", displayName: "3分要約版", beatCount: 5, skippedCount: 2 },
+//   { name: "teaser", displayName: "30秒ティーザー", beatCount: 3, skippedCount: 4 },
+// ]
+```
+
+### 使用例: 外部システムからの利用
+
+```typescript
+import { processScript, listProfiles } from "mulmocast-preprocessor";
+import { readFileSync, writeFileSync } from "fs";
+
+// スクリプト読み込み
+const script = JSON.parse(readFileSync("source.json", "utf-8"));
+
+// プロファイル一覧確認
+const profiles = listProfiles(script);
+console.log("Available profiles:", profiles.map(p => p.name));
+
+// 要約版を生成
+const summary = processScript(script, { profile: "summary" });
+writeFileSync("summary.json", JSON.stringify(summary, null, 2));
+```
+
+### 使用例: mulmocast-cliへの統合（将来）
+
+```typescript
+// mulmocast-cli側での統合イメージ
+import { processScript } from "mulmocast-preprocessor";
+
+// mulmo movie script.json --profile summary を実現
+const processedScript = options.profile
+  ? processScript(script, { profile: options.profile })
+  : script;
+
+await generateMovie(processedScript);
+```
+
 ## 課題
 
 単純なフィルタリング方式では話が飛ぶ：
@@ -617,24 +762,58 @@ outputProfileSchema = {
 
 ---
 
-## Phase 2: Variant処理
+## Phase 2: コアAPI実装
 
 ### 新規ファイル
 
-| ファイル | 内容 |
-|---------|------|
-| `src/utils/beat_variant.ts` | `applyVariant()`, `resolveBeat()` |
+| ファイル | エクスポート関数 |
+|---------|-----------------|
+| `src/index.ts` | APIエントリーポイント |
+| `src/core/process.ts` | `processScript()` |
+| `src/core/variant.ts` | `applyProfile()` |
+| `src/core/filter.ts` | `filterBySection()`, `filterByTags()` |
+| `src/core/profiles.ts` | `listProfiles()` |
+| `src/types/index.ts` | 型定義 |
 
-### 処理フロー
+### API実装
+
+```typescript
+// src/index.ts
+export { processScript } from "./core/process.js";
+export { applyProfile } from "./core/variant.js";
+export { filterBySection, filterByTags } from "./core/filter.js";
+export { listProfiles } from "./core/profiles.js";
+export type { ProcessOptions, ProfileInfo } from "./types/index.js";
+```
+
+### 処理フロー (`applyProfile`)
 
 ```
-1. --profile オプション取得
+1. profileName を受け取る
 2. 各beatに対して:
-   - variants[profile] が存在するか確認
+   - variants[profileName] が存在するか確認
    - skip: true なら除外
    - text があれば差し替え
    - image があれば差し替え
-3. 処理済みbeats配列を返す
+3. 処理済みMulmoScriptを返す（variants/meta は除去）
+```
+
+### 出力形式
+
+処理後のMulmoScriptからは `variants` と `meta` フィールドを除去し、通常のMulmoScriptとして出力：
+
+```typescript
+// 入力
+{
+  "text": "詳しく説明します",
+  "variants": { "summary": { "text": "概要です" } },
+  "meta": { "tags": ["intro"] }
+}
+
+// 出力 (--profile summary)
+{
+  "text": "概要です"
+}
 ```
 
 ### 例
