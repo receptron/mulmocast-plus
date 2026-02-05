@@ -2,8 +2,8 @@ import type { MulmoScript, MulmoBeat } from "mulmocast";
 import type { ExtendedScript, ExtendedBeat } from "../types/index.js";
 
 /**
- * 単一のbeatにプロファイルを適用する
- * @returns 処理済みbeat、またはskipの場合はnull
+ * Apply profile variant to a single beat
+ * @returns Processed beat, or null if skip is set
  */
 const applyVariantToBeat = (beat: ExtendedBeat, profileName: string): MulmoBeat | null => {
   const variant = beat.variants?.[profileName];
@@ -23,7 +23,7 @@ const applyVariantToBeat = (beat: ExtendedBeat, profileName: string): MulmoBeat 
 };
 
 /**
- * スクリプトにプロファイルを適用し、通常のMulmoScriptを返す
+ * Apply profile to script and return standard MulmoScript
  */
 export const applyProfile = (script: ExtendedScript, profileName: string): MulmoScript => {
   const { outputProfiles: __outputProfiles, ...baseScript } = script;

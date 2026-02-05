@@ -1,7 +1,7 @@
 import type { ExtendedScript, ProfileInfo } from "../types/index.js";
 
 /**
- * スクリプトからプロファイル一覧を取得
+ * Get list of available profiles from script
  */
 export const listProfiles = (script: ExtendedScript): ProfileInfo[] => {
   const profileNames = new Set<string>(["default"]);

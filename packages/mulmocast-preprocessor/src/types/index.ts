@@ -1,25 +1,22 @@
 import { z } from "zod";
-import { mulmoBeatSchema, mulmoScriptSchema, type MulmoBeat } from "mulmocast";
+import { mulmoBeatSchema, mulmoScriptSchema, mulmoImageAssetSchema } from "mulmocast";
+
+export type { MulmoImageAsset } from "mulmocast";
 
 /**
- * MulmoBeat の image フィールドの型を取得
- */
-export type MulmoImage = MulmoBeat["image"];
-
-/**
- * Beat Variant - プロファイル別の差し替え定義
+ * Beat Variant - profile-specific content overrides
  */
 export const beatVariantSchema = z.object({
   text: z.string().optional(),
   skip: z.boolean().optional(),
-  image: z.any().optional(), // MulmoImage type at runtime
+  image: mulmoImageAssetSchema.optional(),
   imagePrompt: z.string().optional(),
 });
 
 export type BeatVariant = z.infer<typeof beatVariantSchema>;
 
 /**
- * Beat Meta - beatのメタデータ
+ * Beat Meta - metadata for filtering and context
  */
 export const beatMetaSchema = z.object({
   tags: z.array(z.string()).optional(),
@@ -32,7 +29,7 @@ export const beatMetaSchema = z.object({
 export type BeatMeta = z.infer<typeof beatMetaSchema>;
 
 /**
- * Extended Beat - variants と meta を持つ拡張beat
+ * Extended Beat - beat with variants and meta fields
  */
 export const extendedBeatSchema = mulmoBeatSchema.extend({
   variants: z.record(z.string(), beatVariantSchema).optional(),
@@ -42,7 +39,7 @@ export const extendedBeatSchema = mulmoBeatSchema.extend({
 export type ExtendedBeat = z.infer<typeof extendedBeatSchema>;
 
 /**
- * Output Profile - 出力プロファイル定義
+ * Output Profile - profile display information
  */
 export const outputProfileSchema = z.object({
   name: z.string(),
@@ -52,7 +49,7 @@ export const outputProfileSchema = z.object({
 export type OutputProfile = z.infer<typeof outputProfileSchema>;
 
 /**
- * Extended Script - variants/meta/outputProfiles を持つ拡張スクリプト
+ * Extended Script - script with variants, meta, and outputProfiles
  */
 export const extendedScriptSchema = mulmoScriptSchema.extend({
   beats: z.array(extendedBeatSchema),
@@ -62,7 +59,7 @@ export const extendedScriptSchema = mulmoScriptSchema.extend({
 export type ExtendedScript = z.infer<typeof extendedScriptSchema>;
 
 /**
- * Process Options - 処理オプション
+ * Process Options - options for processScript
  */
 export interface ProcessOptions {
   profile?: string;
@@ -71,7 +68,7 @@ export interface ProcessOptions {
 }
 
 /**
- * Profile Info - プロファイル情報
+ * Profile Info - profile metadata with beat counts
  */
 export interface ProfileInfo {
   name: string;

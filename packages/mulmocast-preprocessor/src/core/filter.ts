@@ -15,12 +15,12 @@ const filterBeats = (script: ExtendedScript, predicate: (beat: ExtendedBeat) => 
 };
 
 /**
- * セクションでフィルタ
+ * Filter beats by section
  */
 export const filterBySection = (script: ExtendedScript, section: string): MulmoScript => filterBeats(script, (beat) => beat.meta?.section === section);
 
 /**
- * タグでフィルタ（指定されたタグのいずれかを持つbeatを抽出）
+ * Filter beats by tags (extract beats that have any of the specified tags)
  */
 export const filterByTags = (script: ExtendedScript, tags: string[]): MulmoScript => {
   const tagSet = new Set(tags);
@@ -28,6 +28,6 @@ export const filterByTags = (script: ExtendedScript, tags: string[]): MulmoScrip
 };
 
 /**
- * variants と meta を除去して通常のMulmoScriptに変換
+ * Strip variants and meta fields, converting to standard MulmoScript
  */
 export const stripExtendedFields = (script: ExtendedScript): MulmoScript => filterBeats(script, () => true);

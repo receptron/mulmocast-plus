@@ -9,8 +9,8 @@ const toExtendedScript = (script: MulmoScript): ExtendedScript => ({
 });
 
 /**
- * メイン処理関数
- * プロファイル適用とフィルタを一括実行
+ * Main processing function
+ * Applies profile and filters in a single call
  */
 export const processScript = (script: ExtendedScript, options: ProcessOptions = {}): MulmoScript => {
   const afterProfile = options.profile && options.profile !== "default" ? applyProfile(script, options.profile) : stripExtendedFields(script);
