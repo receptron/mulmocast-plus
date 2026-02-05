@@ -39,6 +39,60 @@ beat 3: 「次に本題に入ります」
 
 ## Phase 1: スキーマ拡張
 
+### 1.0 プロファイル名の定義
+
+プリセットとして以下のプロファイル名を定義する。ユーザーは任意のプロファイル名も使用可能。
+
+| プロファイル | 説明 | 用途 |
+|-------------|------|------|
+| `default` | フル版（元のテキスト） | `--profile` 未指定時 |
+| `summary` | 要約版 | 短縮版、ダイジェスト |
+| `teaser` | ティーザー版 | SNS用、プロモーション |
+
+**JSONでの定義:**
+```json
+{
+  "outputProfiles": {
+    "default": {
+      "name": "フル版",
+      "description": "すべてのコンテンツを含む完全版"
+    },
+    "summary": {
+      "name": "3分要約版",
+      "description": "主要ポイントのみの短縮版"
+    },
+    "teaser": {
+      "name": "30秒ティーザー",
+      "description": "SNS用の短い紹介動画"
+    }
+  }
+}
+```
+
+**CLI使用例:**
+```bash
+# フル版 (default)
+mulmo movie script.json
+mulmo movie script.json --profile default
+
+# 要約版
+mulmo movie script.json --profile summary
+
+# ティーザー版
+mulmo movie script.json --profile teaser
+
+# カスタムプロファイル (ユーザー定義)
+mulmo movie script.json --profile presentation
+```
+
+**備考:**
+- `default` は特別な予約語として扱う
+- `--profile` 未指定時は `default` として処理
+- `variants.default` は不要（元のtext/imageがdefault）
+- ユーザーは `workshop`, `presentation`, `podcast` など任意の名前も定義可能
+
+---
+
 ### 1.1 Beat Variant (プロファイル別の差し替え)
 
 **型定義:**
