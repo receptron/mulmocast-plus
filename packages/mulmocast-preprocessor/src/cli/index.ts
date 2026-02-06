@@ -133,7 +133,7 @@ yargs(hideBin(process.argv))
     },
   )
   .command(
-    "query <script> <question>",
+    "query <script> [question]",
     "Ask a question about the script content",
     (builder) =>
       builder
@@ -143,9 +143,14 @@ yargs(hideBin(process.argv))
           demandOption: true,
         })
         .positional("question", {
-          describe: "Question to ask about the script",
+          describe: "Question to ask about the script (omit for interactive mode)",
           type: "string",
-          demandOption: true,
+        })
+        .option("interactive", {
+          alias: "i",
+          describe: "Start interactive query mode",
+          type: "boolean",
+          default: false,
         })
         .option("provider", {
           describe: "LLM provider (openai, anthropic, groq, gemini)",
@@ -191,6 +196,7 @@ yargs(hideBin(process.argv))
         verbose: argv.verbose,
         section: argv.section,
         tags,
+        interactive: argv.interactive,
       });
     },
   )
@@ -206,6 +212,8 @@ yargs(hideBin(process.argv))
   .example("$0 summarize https://example.com/script.json", "Summarize from URL")
   .example('$0 query script.json "What is the main topic?"', "Ask a question about the script")
   .example('$0 query script.json "登場人物は？" -l ja', "Query in Japanese")
+  .example("$0 query script.json -i", "Start interactive query mode")
+  .example("$0 query script.json", "Interactive mode (question omitted)")
   .help()
   .alias("h", "help")
   .version()
