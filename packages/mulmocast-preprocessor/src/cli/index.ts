@@ -4,6 +4,8 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { processCommand } from "./commands/process.js";
 import { profilesCommand } from "./commands/profiles.js";
+import { summarizeCommand } from "./commands/summarize.js";
+import type { LLMProvider, SummarizeFormat } from "../types/summarize.js";
 
 yargs(hideBin(process.argv))
   .command(
@@ -60,12 +62,79 @@ yargs(hideBin(process.argv))
       profilesCommand(argv.script);
     },
   )
+  .command(
+    "summarize <script>",
+    "Generate a summary of the script content",
+    (builder) =>
+      builder
+        .positional("script", {
+          describe: "Path to MulmoScript JSON file",
+          type: "string",
+          demandOption: true,
+        })
+        .option("provider", {
+          describe: "LLM provider (openai, anthropic, groq, gemini)",
+          type: "string",
+          default: "openai",
+        })
+        .option("model", {
+          alias: "m",
+          describe: "Model name",
+          type: "string",
+        })
+        .option("format", {
+          alias: "f",
+          describe: "Output format (text, markdown)",
+          type: "string",
+          default: "text",
+        })
+        .option("target-length", {
+          describe: "Target summary length in characters",
+          type: "number",
+        })
+        .option("system-prompt", {
+          describe: "Custom system prompt",
+          type: "string",
+        })
+        .option("verbose", {
+          describe: "Show detailed progress",
+          type: "boolean",
+          default: false,
+        })
+        .option("section", {
+          alias: "s",
+          describe: "Filter by section name",
+          type: "string",
+        })
+        .option("tags", {
+          alias: "t",
+          describe: "Filter by tags (comma-separated)",
+          type: "string",
+        }),
+    (argv) => {
+      const tags = argv.tags ? argv.tags.split(",").map((t) => t.trim()) : undefined;
+      summarizeCommand(argv.script, {
+        provider: argv.provider as LLMProvider,
+        model: argv.model,
+        format: argv.format as SummarizeFormat,
+        targetLength: argv.targetLength,
+        systemPrompt: argv.systemPrompt,
+        verbose: argv.verbose,
+        section: argv.section,
+        tags,
+      });
+    },
+  )
   .example("$0 script.json --profile summary -o summary.json", "Apply summary profile and save to file")
   .example("$0 script.json -p teaser", "Apply teaser profile and output to stdout")
   .example("$0 script.json --section chapter1", "Filter by section")
   .example("$0 script.json --tags concept,demo", "Filter by tags")
   .example("$0 script.json -p summary -s chapter1", "Combine profile and section filter")
   .example("$0 profiles script.json", "List all available profiles")
+  .example("$0 summarize script.json", "Generate text summary with OpenAI")
+  .example("$0 summarize script.json --format markdown", "Generate markdown summary")
+  .example("$0 summarize script.json --provider anthropic", "Use Anthropic for summary")
+  .example("$0 summarize script.json -s chapter1", "Summarize specific section")
   .help()
   .alias("h", "help")
   .version()
