@@ -85,6 +85,41 @@ describe("buildUserPrompt", () => {
 
     assert.ok(prompt.includes("Target summary length: approximately 200 characters"));
   });
+
+  it("should include metadata (tags, context, keywords, expectedQuestions)", () => {
+    const script: ExtendedScript = {
+      $mulmocast: { version: "1.1" },
+      title: "Metadata Test",
+      lang: "en",
+      speechParams: {
+        speakers: {
+          Host: { voiceId: "shimmer", displayName: { en: "Host" } },
+        },
+      },
+      beats: [
+        {
+          id: "beat1",
+          speaker: "Host",
+          text: "This is about GraphAI framework.",
+          meta: {
+            tags: ["intro", "overview"],
+            section: "main",
+            context: "GraphAI is developed by receptron. MIT License. GitHub: receptron/graphai",
+            keywords: ["GraphAI", "framework", "AI"],
+            expectedQuestions: ["What is GraphAI?", "Who developed it?"],
+          },
+        },
+      ],
+    };
+    const options = createTestOptions();
+    const prompt = buildUserPrompt(script, options);
+
+    // Check all metadata fields are included
+    assert.ok(prompt.includes("Tags: intro, overview"), "Tags should be included");
+    assert.ok(prompt.includes("Context: GraphAI is developed by receptron"), "Context should be included");
+    assert.ok(prompt.includes("Keywords: GraphAI, framework, AI"), "Keywords should be included");
+    assert.ok(prompt.includes("Can answer: What is GraphAI?"), "Expected questions should be included");
+  });
 });
 
 describe("getSystemPrompt", () => {

@@ -158,6 +158,10 @@ const buildBeatContent = (beat: ExtendedScript["beats"][number], index: number):
   // Add metadata if available
   const meta = beat.meta;
   if (meta) {
+    // Tags for categorization
+    if (meta.tags && meta.tags.length > 0) {
+      lines.push(`  Tags: ${meta.tags.join(", ")}`);
+    }
     // Context provides additional information not in the text
     if (meta.context) {
       lines.push(`  Context: ${meta.context}`);
