@@ -1,7 +1,7 @@
 import { describe, it } from "node:test";
 import assert from "node:assert";
 import { buildUserPrompt, getSystemPrompt, DEFAULT_SYSTEM_PROMPT_TEXT, DEFAULT_SYSTEM_PROMPT_MARKDOWN } from "../src/core/summarize/prompts.js";
-import { getProviderConfig, provider2SummarizeAgent } from "../src/core/summarize/provider.js";
+import { getProviderConfig } from "../src/core/llm/index.js";
 import type { ExtendedScript } from "../src/index.js";
 import type { SummarizeOptions } from "../src/types/summarize.js";
 
@@ -113,42 +113,32 @@ describe("getSystemPrompt", () => {
   });
 });
 
-describe("provider2SummarizeAgent", () => {
-  it("should have openai config", () => {
-    const config = provider2SummarizeAgent.openai;
+describe("getProviderConfig", () => {
+  it("should return correct config for openai", () => {
+    const config = getProviderConfig("openai");
     assert.strictEqual(config.agentName, "openAIAgent");
     assert.strictEqual(config.keyName, "OPENAI_API_KEY");
     assert.ok(config.defaultModel);
   });
 
-  it("should have anthropic config", () => {
-    const config = provider2SummarizeAgent.anthropic;
+  it("should return correct config for anthropic", () => {
+    const config = getProviderConfig("anthropic");
     assert.strictEqual(config.agentName, "anthropicAgent");
     assert.strictEqual(config.keyName, "ANTHROPIC_API_KEY");
     assert.ok(config.defaultModel);
   });
 
-  it("should have groq config", () => {
-    const config = provider2SummarizeAgent.groq;
+  it("should return correct config for groq", () => {
+    const config = getProviderConfig("groq");
     assert.strictEqual(config.agentName, "groqAgent");
     assert.strictEqual(config.keyName, "GROQ_API_KEY");
     assert.ok(config.defaultModel);
   });
 
-  it("should have gemini config", () => {
-    const config = provider2SummarizeAgent.gemini;
+  it("should return correct config for gemini", () => {
+    const config = getProviderConfig("gemini");
     assert.strictEqual(config.agentName, "geminiAgent");
     assert.strictEqual(config.keyName, "GEMINI_API_KEY");
     assert.ok(config.defaultModel);
-  });
-});
-
-describe("getProviderConfig", () => {
-  it("should return correct config for provider", () => {
-    const openaiConfig = getProviderConfig("openai");
-    assert.strictEqual(openaiConfig.agentName, "openAIAgent");
-
-    const anthropicConfig = getProviderConfig("anthropic");
-    assert.strictEqual(anthropicConfig.agentName, "anthropicAgent");
   });
 });
