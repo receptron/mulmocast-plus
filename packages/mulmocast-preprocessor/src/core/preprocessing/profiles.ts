@@ -1,4 +1,4 @@
-import type { ExtendedScript, ProfileInfo } from "../types/index.js";
+import type { ExtendedScript, ProfileInfo } from "../../types/index.js";
 
 /**
  * Get list of available profiles from script

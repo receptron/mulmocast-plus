@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
 import { GraphAILogger } from "graphai";
-import { listProfiles } from "../../core/profiles.js";
+import { listProfiles } from "../../core/preprocessing/profiles.js";
 import type { ExtendedScript } from "../../types/index.js";
 
 /**

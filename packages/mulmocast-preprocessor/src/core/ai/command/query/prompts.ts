@@ -1,6 +1,6 @@
-import type { QueryOptions } from "../../types/query.js";
-import type { ExtendedScript } from "../../types/index.js";
-import { getLanguageName } from "../llm/index.js";
+import type { QueryOptions } from "../../../../types/query.js";
+import type { ExtendedScript } from "../../../../types/index.js";
+import { getLanguageName } from "../../llm.js";
 
 /**
  * Default system prompt for query

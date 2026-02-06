@@ -1,5 +1,5 @@
 import { GraphAILogger } from "graphai";
-import { summarizeScript } from "../../core/summarize/index.js";
+import { summarizeScript } from "../../core/ai/command/summarize/index.js";
 import { loadScript } from "../utils.js";
 import type { LLMProvider, SummarizeFormat } from "../../types/summarize.js";
 
