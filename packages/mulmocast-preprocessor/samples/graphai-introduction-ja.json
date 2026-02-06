@@ -127,5 +127,52 @@
     "teaser": {
       "description": "ティーザー版"
     }
+  },
+  "scriptMeta": {
+    "audience": "AIシステム開発者、バックエンドエンジニア、LLMアプリケーション開発に興味のある方",
+    "prerequisites": ["JavaScript/TypeScriptの基本知識", "非同期処理の理解", "LLM APIの基本的な知識"],
+    "goals": [
+      "GraphAIの基本概念（ノード、エージェント、グラフ）を理解する",
+      "データフローベースのAIオーケストレーションの利点を学ぶ",
+      "実際のユースケースでGraphAIを活用できるようになる"
+    ],
+    "background": "GraphAIは、複数のAIエージェントやAPIを効率的に連携させるためのフレームワークです。従来の命令型プログラミングとは異なり、データの流れをグラフとして宣言的に定義することで、依存関係の自動解決と並列実行を実現します。",
+    "faq": [
+      {
+        "question": "GraphAIとLangChainの違いは？",
+        "answer": "GraphAIはDAGベースの宣言的アプローチでデータフローを定義し、自動並列化を行います。LangChainは逐次的なチェーン実行が中心で、より高レベルな抽象化を提供します。GraphAIは純粋関数としてのエージェント設計を重視し、テスト容易性と再利用性を高めています。"
+      },
+      {
+        "question": "GraphAIはどんなユースケースに向いている？",
+        "answer": "複数LLMの並列呼び出し、大量データのバッチ処理、複雑なワークフローの構築、A/Bテストなどに適しています。特にAPI呼び出しの並列化やレート制限の制御が必要な場面で威力を発揮します。"
+      },
+      {
+        "question": "商用利用は可能？",
+        "answer": "はい、GraphAIはMITライセンスで提供されており、商用利用も可能です。本番環境での使用実績もあります。"
+      }
+    ],
+    "keywords": ["GraphAI", "AIオーケストレーション", "データフロー", "DAG", "エージェント", "並列処理", "TypeScript"],
+    "references": [
+      {
+        "type": "code",
+        "url": "https://github.com/receptron/graphai",
+        "title": "GraphAI GitHub Repository",
+        "description": "GraphAIの公式リポジトリ。ソースコード、ドキュメント、サンプルが含まれています。"
+      },
+      {
+        "type": "web",
+        "url": "https://www.npmjs.com/package/graphai",
+        "title": "GraphAI npm package",
+        "description": "npmパッケージページ。インストール方法と基本的な使い方が記載されています。"
+      },
+      {
+        "type": "document",
+        "url": "https://github.com/receptron/graphai/blob/main/docs/agentDocs/README.md",
+        "title": "GraphAI Agents Documentation",
+        "description": "標準エージェントの一覧と使い方のドキュメント。"
+      }
+    ],
+    "author": "receptron",
+    "version": "1.0.0"
   }
 }

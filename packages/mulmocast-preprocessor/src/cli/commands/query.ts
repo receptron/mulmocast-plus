@@ -1,9 +1,19 @@
 import { createInterface } from "node:readline";
 import { GraphAILogger } from "graphai";
 import { queryScript } from "../../core/ai/command/query/index.js";
-import { createInteractiveSession, sendInteractiveQuery, clearHistory } from "../../core/ai/command/query/interactive.js";
+import {
+  createInteractiveSession,
+  sendInteractiveQuery,
+  sendInteractiveQueryWithFetch,
+  clearHistory,
+  getReferences,
+  fetchReference,
+  parseSuggestedFetch,
+  removeSuggestFetchMarkers,
+} from "../../core/ai/command/query/interactive.js";
 import { loadScript } from "../utils.js";
 import type { LLMProvider } from "../../types/summarize.js";
+import type { Reference } from "../../types/index.js";
 
 interface QueryCommandOptions {
   provider?: LLMProvider;
@@ -53,6 +63,13 @@ export const queryCommand = async (scriptPath: string, question: string | undefi
 };
 
 /**
+ * Format references for display
+ */
+const formatReferences = (references: Reference[]): string => {
+  return references.map((ref, i) => `  ${i + 1}. [${ref.type || "web"}] ${ref.title || ref.url}`).join("\n");
+};
+
+/**
  * Run interactive query mode
  */
 const runInteractiveMode = async (scriptPath: string, script: Awaited<ReturnType<typeof loadScript>>, options: QueryCommandOptions): Promise<void> => {
@@ -71,14 +88,21 @@ const runInteractiveMode = async (scriptPath: string, script: Awaited<ReturnType
     process.exit(1);
   }
 
+  const references = getReferences(script);
+
   const rl = createInterface({
     input: process.stdin,
     output: process.stdout,
   });
 
   GraphAILogger.info(`Interactive query mode for "${session.scriptTitle}" (${session.beatCount} beats)`);
-  GraphAILogger.info("Commands: /clear (clear history), /history (show history), /exit or Ctrl+C (quit)");
+  GraphAILogger.info("Commands: /clear (clear history), /history (show history), /refs (show references), /fetch <url> (fetch URL), /exit (quit)");
+  if (references.length > 0) {
+    GraphAILogger.info(`Available references: ${references.length}`);
+  }
   GraphAILogger.info("");
+
+  let lastSuggestedUrl: string | null = null;
 
   const prompt = (): void => {
     rl.question("You: ", async (input) => {
@@ -98,6 +122,7 @@ const runInteractiveMode = async (scriptPath: string, script: Awaited<ReturnType
 
       if (trimmedInput === "/clear") {
         clearHistory(session);
+        lastSuggestedUrl = null;
         GraphAILogger.info("Conversation history cleared.\n");
         prompt();
         return;
@@ -118,10 +143,76 @@ const runInteractiveMode = async (scriptPath: string, script: Awaited<ReturnType
         return;
       }
 
+      if (trimmedInput === "/refs" || trimmedInput === "/references") {
+        if (references.length === 0) {
+          GraphAILogger.info("No references available.\n");
+        } else {
+          GraphAILogger.info("Available references:");
+          GraphAILogger.info(formatReferences(references));
+          GraphAILogger.info("");
+        }
+        prompt();
+        return;
+      }
+
+      // Handle /fetch command
+      if (trimmedInput.startsWith("/fetch")) {
+        const urlArg = trimmedInput.replace(/^\/fetch\s*/, "").trim();
+        const urlToFetch = urlArg || lastSuggestedUrl;
+
+        if (!urlToFetch) {
+          GraphAILogger.info("Usage: /fetch <url> or /fetch (to fetch last suggested URL)\n");
+          prompt();
+          return;
+        }
+
+        GraphAILogger.info(`Fetching: ${urlToFetch}...`);
+        try {
+          const fetchedContent = await fetchReference(urlToFetch, validatedOptions.verbose);
+          if (fetchedContent.error) {
+            GraphAILogger.error(`Fetch error: ${fetchedContent.error}\n`);
+          } else {
+            GraphAILogger.info(`Fetched ${fetchedContent.content.length} chars from ${fetchedContent.title || urlToFetch}`);
+            GraphAILogger.info("Content loaded. Ask a question to use this reference.\n");
+
+            // Store for next query
+            session.fetchedContent = fetchedContent;
+          }
+        } catch (error) {
+          if (error instanceof Error) {
+            GraphAILogger.error(`Fetch error: ${error.message}\n`);
+          } else {
+            GraphAILogger.error("Unknown fetch error\n");
+          }
+        }
+        prompt();
+        return;
+      }
+
       // Send query
       try {
-        const answer = await sendInteractiveQuery(filteredScript, trimmedInput, session, validatedOptions);
-        GraphAILogger.info(`\nAssistant: ${answer}\n`);
+        let answer: string;
+
+        // If we have fetched content, use it
+        if (session.fetchedContent) {
+          answer = await sendInteractiveQueryWithFetch(filteredScript, trimmedInput, session.fetchedContent, session, validatedOptions);
+          // Clear fetched content after use
+          session.fetchedContent = undefined;
+        } else {
+          answer = await sendInteractiveQuery(filteredScript, trimmedInput, session, validatedOptions);
+        }
+
+        // Check for suggested fetch URL
+        const suggestedUrl = parseSuggestedFetch(answer);
+        if (suggestedUrl) {
+          lastSuggestedUrl = suggestedUrl;
+          const cleanAnswer = removeSuggestFetchMarkers(answer);
+          GraphAILogger.info(`\nAssistant: ${cleanAnswer}`);
+          GraphAILogger.info(`\n(Suggested reference: ${suggestedUrl})`);
+          GraphAILogger.info("Type /fetch to load this reference for more details.\n");
+        } else {
+          GraphAILogger.info(`\nAssistant: ${answer}\n`);
+        }
       } catch (error) {
         if (error instanceof Error) {
           GraphAILogger.error(`Error: ${error.message}\n`);

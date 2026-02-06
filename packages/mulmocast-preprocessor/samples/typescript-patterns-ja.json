@@ -139,5 +139,62 @@
     "beginner": {
       "description": "初心者向け"
     }
+  },
+  "scriptMeta": {
+    "audience": "JavaScriptからTypeScriptへの移行を考えている開発者、型安全なコードを書きたいフロントエンド/バックエンドエンジニア",
+    "prerequisites": ["JavaScriptの基本知識", "関数、オブジェクト、配列の理解", "npmの基本的な使い方"],
+    "goals": [
+      "TypeScriptの型システムの基本を理解する",
+      "実践的なパターン（Discriminated Union、ジェネリクス等）を習得する",
+      "strictモードとユーティリティ型を活用した型安全なコードを書けるようになる"
+    ],
+    "background": "TypeScriptはMicrosoftが開発したJavaScriptのスーパーセットで、静的型付けによりバグを事前に防ぎ、IDEの補完機能を強化します。現在、多くの企業やOSSプロジェクトで採用されており、フロントエンドからバックエンドまで幅広く使用されています。",
+    "faq": [
+      {
+        "question": "既存のJSプロジェクトをTSに移行するには？",
+        "answer": "段階的な移行がおすすめです。まずtsconfig.jsonでallowJs: trueを設定し、.jsファイルをそのまま使用可能にします。次に重要なファイルから.tsに変換し、strict: falseから始めて徐々にオプションを有効化していきます。"
+      },
+      {
+        "question": "interfaceとtypeどちらを使うべき？",
+        "answer": "チームで統一することが最も重要です。一般的なガイドライン: オブジェクトの形状定義にはinterface（拡張可能）、ユニオン型やマップ型にはtype（柔軟性が高い）。TypeScript公式はどちらでも良いとしています。"
+      },
+      {
+        "question": "anyを避けるべき理由は？",
+        "answer": "anyは型チェックを完全に無効化するため、TypeScriptを使う意味がなくなります。代わりにunknownを使い、使用前に型ガードで絞り込むことで、型安全性を維持できます。"
+      },
+      {
+        "question": "Zodと他のバリデーションライブラリの違いは？",
+        "answer": "ZodはTypeScript-firstで設計されており、z.infer<>で型推論ができます。Yupは主にJavaScript向け、io-tsは関数型プログラミングスタイル、Valibotは軽量なバンドルサイズが特徴です。"
+      }
+    ],
+    "keywords": ["TypeScript", "型安全", "静的型付け", "ジェネリクス", "Zod", "strictモード", "ユーティリティ型"],
+    "references": [
+      {
+        "type": "document",
+        "url": "https://www.typescriptlang.org/docs/handbook/intro.html",
+        "title": "TypeScript Handbook",
+        "description": "TypeScript公式ハンドブック。基本から応用まで網羅的に解説されています。"
+      },
+      {
+        "type": "code",
+        "url": "https://github.com/type-challenges/type-challenges",
+        "title": "Type Challenges",
+        "description": "TypeScriptの型パズル集。実践的な型の書き方を学べます。"
+      },
+      {
+        "type": "web",
+        "url": "https://zod.dev/",
+        "title": "Zod Documentation",
+        "description": "Zodの公式ドキュメント。TypeScript-firstなスキーマバリデーションライブラリ。"
+      },
+      {
+        "type": "document",
+        "url": "https://www.typescriptlang.org/tsconfig",
+        "title": "TSConfig Reference",
+        "description": "tsconfig.jsonの全オプションのリファレンス。strictモードの詳細も記載。"
+      }
+    ],
+    "author": "TypeScript Educator",
+    "version": "1.0.0"
   }
 }

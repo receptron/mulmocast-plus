@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { llmProviderSchema } from "./summarize.js";
+import type { FetchedContent } from "../core/ai/utils/fetcher.js";
 
 /**
  * Query Options - configuration for querying script content
@@ -51,4 +52,5 @@ export interface InteractiveQuerySession {
   scriptTitle: string;
   beatCount: number;
   history: ConversationMessage[];
+  fetchedContent?: FetchedContent;
 }

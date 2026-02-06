@@ -56,7 +56,20 @@ export const DEFAULT_INTERACTIVE_SYSTEM_PROMPT = `You are answering questions ba
 - If the answer cannot be found in the content, say so clearly
 - Be concise and direct in your answers
 - Do not make up information that is not in the content
-- You may reference previous conversation when answering follow-up questions`;
+- You may reference previous conversation when answering follow-up questions
+- If references are available and the user asks for more details, mention which reference could provide more information
+- When you suggest fetching a reference for more details, include [SUGGEST_FETCH: <url>] in your response`;
+
+/**
+ * Default system prompt for interactive query with fetched content
+ */
+export const DEFAULT_INTERACTIVE_SYSTEM_PROMPT_WITH_FETCH = `You are answering questions based on the content provided, including fetched reference content.
+- Answer based on both the main content and any fetched reference content
+- If the answer cannot be found, say so clearly
+- Be concise and direct in your answers
+- Do not make up information
+- You may reference previous conversation when answering follow-up questions
+- Prioritize information from fetched content when it's more detailed and relevant`;
 
 /**
  * Get system prompt for interactive mode

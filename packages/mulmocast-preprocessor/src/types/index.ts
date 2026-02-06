@@ -49,11 +49,61 @@ export const outputProfileSchema = z.object({
 export type OutputProfile = z.infer<typeof outputProfileSchema>;
 
 /**
+ * Reference - external resource reference
+ */
+export const referenceSchema = z.object({
+  type: z.enum(["web", "code", "document", "video"]).optional(),
+  url: z.string(),
+  title: z.string().optional(),
+  description: z.string().optional(),
+});
+
+export type Reference = z.infer<typeof referenceSchema>;
+
+/**
+ * FAQ - frequently asked question
+ */
+export const faqSchema = z.object({
+  question: z.string(),
+  answer: z.string(),
+  relatedBeats: z.array(z.string()).optional(),
+});
+
+export type FAQ = z.infer<typeof faqSchema>;
+
+/**
+ * Script Meta - script-level metadata for AI features
+ */
+export const scriptMetaSchema = z.object({
+  // Target audience and prerequisites
+  audience: z.string().optional(),
+  prerequisites: z.array(z.string()).optional(),
+
+  // Learning goals and background
+  goals: z.array(z.string()).optional(),
+  background: z.string().optional(),
+
+  // FAQ for quick Q&A matching
+  faq: z.array(faqSchema).optional(),
+
+  // Search and discovery
+  keywords: z.array(z.string()).optional(),
+  references: z.array(referenceSchema).optional(),
+
+  // Authoring info
+  author: z.string().optional(),
+  version: z.string().optional(),
+});
+
+export type ScriptMeta = z.infer<typeof scriptMetaSchema>;
+
+/**
  * Extended Script - script with variants, meta, and outputProfiles
  */
 export const extendedScriptSchema = mulmoScriptSchema.extend({
   beats: z.array(extendedBeatSchema),
   outputProfiles: z.record(z.string(), outputProfileSchema).optional(),
+  scriptMeta: scriptMetaSchema.optional(),
 });
 
 export type ExtendedScript = z.infer<typeof extendedScriptSchema>;
