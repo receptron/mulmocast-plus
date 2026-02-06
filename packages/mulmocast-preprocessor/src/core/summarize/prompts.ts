@@ -66,11 +66,39 @@ export const buildUserPrompt = (script: ExtendedScript, options: SummarizeOption
 };
 
 /**
- * Get system prompt based on format
+ * Get language name from code
+ */
+const getLanguageName = (langCode: string): string => {
+  const langMap: Record<string, string> = {
+    ja: "Japanese",
+    en: "English",
+    zh: "Chinese",
+    ko: "Korean",
+    fr: "French",
+    de: "German",
+    es: "Spanish",
+    it: "Italian",
+    pt: "Portuguese",
+    ru: "Russian",
+  };
+  return langMap[langCode] || langCode;
+};
+
+/**
+ * Get system prompt based on format and language
  */
 export const getSystemPrompt = (options: SummarizeOptions): string => {
   if (options.systemPrompt) {
     return options.systemPrompt;
   }
-  return options.format === "markdown" ? DEFAULT_SYSTEM_PROMPT_MARKDOWN : DEFAULT_SYSTEM_PROMPT_TEXT;
+
+  const basePrompt = options.format === "markdown" ? DEFAULT_SYSTEM_PROMPT_MARKDOWN : DEFAULT_SYSTEM_PROMPT_TEXT;
+
+  // Add language instruction if specified
+  if (options.lang) {
+    const langName = getLanguageName(options.lang);
+    return `${basePrompt}\n- IMPORTANT: Write the output in ${langName}`;
+  }
+
+  return basePrompt;
 };

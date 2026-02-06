@@ -25,6 +25,9 @@ export const summarizeOptionsSchema = z.object({
   // Output format
   format: summarizeFormatSchema.default("text"),
 
+  // Output language (e.g., "ja", "en", "fr")
+  lang: z.string().optional(),
+
   // Target length (optional)
   targetLengthChars: z.number().positive().optional(),
 
