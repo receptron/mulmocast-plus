@@ -144,6 +144,79 @@ export const getLanguageName = (langCode: string): string => {
 };
 
 /**
+ * Build script content for user prompt (common part)
+ */
+export const buildScriptContent = (script: ExtendedScript): string => {
+  const parts: string[] = [];
+
+  // Add script metadata
+  parts.push(`# Script: ${script.title}`);
+  parts.push(`Language: ${script.lang}`);
+  parts.push("");
+
+  // Collect all text from beats grouped by section
+  const sections = new Map<string, string[]>();
+
+  script.beats.forEach((beat, index) => {
+    const text = beat.text || "";
+    if (!text.trim()) return;
+
+    const section = beat.meta?.section || "main";
+    if (!sections.has(section)) {
+      sections.set(section, []);
+    }
+    sections.get(section)!.push(`[${index}] ${text}`);
+  });
+
+  // Output by section
+  sections.forEach((texts, section) => {
+    parts.push(`## Section: ${section}`);
+    texts.forEach((t) => parts.push(t));
+    parts.push("");
+  });
+
+  return parts.join("\n");
+};
+
+/**
+ * Command execution result
+ */
+export interface CommandResult {
+  text: string;
+  scriptTitle: string;
+  beatCount: number;
+}
+
+/**
+ * Execute a command (summarize, query, etc.) with common logic
+ */
+export const executeCommand = async <T extends BaseLLMOptions>(
+  script: ExtendedScript,
+  options: T,
+  getSystemPrompt: (opts: T) => string,
+  buildUserPrompt: (script: ExtendedScript) => string,
+  verboseMessage: string,
+): Promise<CommandResult | null> => {
+  const filteredScript = filterScript(script, options);
+  const scriptTitle = script.title || "Untitled";
+
+  if (filteredScript.beats.length === 0) {
+    return null;
+  }
+
+  const systemPrompt = getSystemPrompt(options);
+  const userPrompt = buildUserPrompt(filteredScript);
+
+  const text = await executeLLM(systemPrompt, userPrompt, options, verboseMessage);
+
+  return {
+    text,
+    scriptTitle,
+    beatCount: filteredScript.beats.length,
+  };
+};
+
+/**
  * Execute LLM call with GraphAI
  */
 export const executeLLM = async (systemPrompt: string, userPrompt: string, options: BaseLLMOptions, verboseMessage?: string): Promise<string> => {
