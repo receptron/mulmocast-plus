@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync } from "fs";
 import { GraphAILogger } from "graphai";
-import { processScript } from "../../core/process.js";
+import { processScript } from "../../core/preprocessing/process.js";
 import type { ExtendedScript } from "../../types/index.js";
 
 interface ProcessOptions {

@@ -1,7 +1,7 @@
-import type { ExtendedScript } from "../../types/index.js";
-import type { QueryOptions, QueryResult } from "../../types/query.js";
-import { queryOptionsSchema } from "../../types/query.js";
-import { executeLLM, filterScript } from "../llm/index.js";
+import type { ExtendedScript } from "../../../../types/index.js";
+import type { QueryOptions, QueryResult } from "../../../../types/query.js";
+import { queryOptionsSchema } from "../../../../types/query.js";
+import { executeLLM, filterScript } from "../../llm.js";
 import { buildUserPrompt, getSystemPrompt } from "./prompts.js";
 
 /**
@@ -45,5 +45,5 @@ export const queryScript = async (script: ExtendedScript, question: string, opti
 };
 
 // Re-export types
-export type { QueryOptions, QueryResult } from "../../types/query.js";
-export { queryOptionsSchema } from "../../types/query.js";
+export type { QueryOptions, QueryResult } from "../../../../types/query.js";
+export { queryOptionsSchema } from "../../../../types/query.js";

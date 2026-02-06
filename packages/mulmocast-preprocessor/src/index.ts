@@ -1,14 +1,12 @@
-// Core API
-export { processScript } from "./core/process.js";
-export { applyProfile } from "./core/variant.js";
-export { filterBySection, filterByTags, stripExtendedFields } from "./core/filter.js";
-export { listProfiles } from "./core/profiles.js";
+// Preprocessing API
+export { processScript } from "./core/preprocessing/process.js";
+export { applyProfile } from "./core/preprocessing/variant.js";
+export { filterBySection, filterByTags, stripExtendedFields } from "./core/preprocessing/filter.js";
+export { listProfiles } from "./core/preprocessing/profiles.js";
 
-// Summarize API
-export { summarizeScript } from "./core/summarize/index.js";
-
-// Query API
-export { queryScript } from "./core/query/index.js";
+// AI API
+export { summarizeScript } from "./core/ai/command/summarize/index.js";
+export { queryScript } from "./core/ai/command/query/index.js";
 
 // Types
 export type { BeatVariant, BeatMeta, ExtendedBeat, ExtendedScript, OutputProfile, ProcessOptions, ProfileInfo } from "./types/index.js";
