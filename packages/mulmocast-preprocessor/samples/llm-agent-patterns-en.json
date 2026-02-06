@@ -136,5 +136,58 @@
     "summary": {
       "description": "Condensed version"
     }
+  },
+  "scriptMeta": {
+    "audience": "AI engineers, software architects, developers building LLM-powered applications",
+    "prerequisites": ["Basic understanding of LLMs and APIs", "Familiarity with async programming", "Basic knowledge of system design"],
+    "goals": [
+      "Understand the key architectural patterns for LLM agents",
+      "Learn when to apply ReAct, Plan-and-Execute, and other patterns",
+      "Implement safe and effective agent systems in production"
+    ],
+    "background": "LLM agents represent a paradigm shift from simple chatbots to autonomous AI systems capable of planning, tool use, and learning from experience. This content covers the foundational patterns that power modern agent frameworks like AutoGPT, LangChain agents, and Claude Computer Use.",
+    "faq": [
+      {
+        "question": "Which pattern should I start with?",
+        "answer": "Start with ReAct for most use cases. It's simple, interpretable, and recovers well from errors. Move to Plan-and-Execute only when you have complex multi-step tasks where upfront planning provides clear benefits."
+      },
+      {
+        "question": "How do I handle agent failures in production?",
+        "answer": "Implement multiple layers: 1) Retry with exponential backoff for transient failures, 2) Fallback to simpler strategies, 3) Human escalation for critical paths, 4) Comprehensive logging for debugging. Use frameworks like LangSmith for observability."
+      },
+      {
+        "question": "What's the best way to implement memory?",
+        "answer": "Start with conversation history (short-term). Add vector database retrieval (RAG) when you need to access larger knowledge bases. Consider episodic memory only for agents that need to learn from their own experiences over time."
+      }
+    ],
+    "keywords": ["LLM agents", "ReAct", "Plan and Execute", "tool use", "memory", "multi-agent", "AI safety"],
+    "references": [
+      {
+        "type": "document",
+        "url": "https://arxiv.org/abs/2210.03629",
+        "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+        "description": "The original ReAct paper by Yao et al. (2022) that introduced the reasoning + acting pattern."
+      },
+      {
+        "type": "document",
+        "url": "https://arxiv.org/abs/2303.11366",
+        "title": "Reflexion: Language Agents with Verbal Reinforcement Learning",
+        "description": "Paper introducing episodic memory and self-reflection for agent improvement."
+      },
+      {
+        "type": "code",
+        "url": "https://github.com/langchain-ai/langchain",
+        "title": "LangChain Repository",
+        "description": "Popular framework implementing various agent patterns with extensive documentation."
+      },
+      {
+        "type": "web",
+        "url": "https://www.anthropic.com/news/tool-use-ga",
+        "title": "Anthropic Tool Use Documentation",
+        "description": "Official documentation for implementing tool use with Claude models."
+      }
+    ],
+    "author": "AI Architecture Team",
+    "version": "1.0.0"
   }
 }

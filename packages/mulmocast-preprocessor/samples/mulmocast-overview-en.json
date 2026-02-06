@@ -139,5 +139,62 @@
     "teaser": {
       "description": "Short promotional version"
     }
+  },
+  "scriptMeta": {
+    "audience": "Content creators, developers, marketers who want to automate presentation and video creation",
+    "prerequisites": ["Basic JSON knowledge", "Familiarity with command-line tools", "Understanding of API keys and environment variables"],
+    "goals": [
+      "Understand MulmoCast's capabilities and MulmoScript format",
+      "Learn to create presentations with AI-generated speech and images",
+      "Integrate MulmoCast into automated content pipelines"
+    ],
+    "background": "MulmoCast is an open-source tool that transforms JSON scripts into professional presentations with AI-generated speech and images. It supports multiple TTS providers (OpenAI, ElevenLabs, Google, VOICEVOX) and image generators (DALL-E, Stable Diffusion), enabling automated content creation at scale.",
+    "faq": [
+      {
+        "question": "What TTS providers does MulmoCast support?",
+        "answer": "MulmoCast supports OpenAI TTS (alloy, echo, fable, nova, onyx, shimmer voices), ElevenLabs (including custom voice cloning), Google Text-to-Speech, and VOICEVOX for high-quality Japanese synthesis. You can mix providers within a single script."
+      },
+      {
+        "question": "Can I use MulmoCast without AI image generation?",
+        "answer": "Yes! You can provide images directly via URL or local file path. AI image generation (via imagePrompt) is optional. You can also use --speech-only flag to skip image generation entirely."
+      },
+      {
+        "question": "How does the preprocessor enhance MulmoScript?",
+        "answer": "The preprocessor adds metadata capabilities (tags, sections, context, keywords) for content organization, variant support for creating multiple versions (summary, teaser), and AI features like summarization and Q&A that use the metadata to provide intelligent responses."
+      },
+      {
+        "question": "Is MulmoCast suitable for production use?",
+        "answer": "Yes, MulmoCast is MIT licensed and designed for production use. It includes incremental generation to save API costs, caching for images and speech, and supports parallel processing for efficiency. Many organizations use it for automated content pipelines."
+      }
+    ],
+    "keywords": ["MulmoCast", "MulmoScript", "AI presentation", "TTS", "text-to-speech", "image generation", "automation"],
+    "references": [
+      {
+        "type": "code",
+        "url": "https://github.com/receptron/mulmocast",
+        "title": "MulmoCast GitHub Repository",
+        "description": "Official MulmoCast repository with source code, documentation, and examples."
+      },
+      {
+        "type": "web",
+        "url": "https://www.npmjs.com/package/mulmocast",
+        "title": "MulmoCast npm package",
+        "description": "npm package page with installation instructions and basic usage."
+      },
+      {
+        "type": "code",
+        "url": "https://github.com/receptron/mulmocast-cli",
+        "title": "MulmoCast CLI Repository",
+        "description": "Command-line interface for MulmoCast with additional features and integrations."
+      },
+      {
+        "type": "document",
+        "url": "https://github.com/receptron/graphai",
+        "title": "GraphAI Framework",
+        "description": "The underlying AI orchestration framework that powers MulmoCast's workflow capabilities."
+      }
+    ],
+    "author": "receptron",
+    "version": "1.0.0"
   }
 }

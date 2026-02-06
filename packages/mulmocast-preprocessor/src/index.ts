@@ -7,14 +7,48 @@ export { listProfiles } from "./core/preprocessing/profiles.js";
 // AI API
 export { summarizeScript } from "./core/ai/command/summarize/index.js";
 export { queryScript } from "./core/ai/command/query/index.js";
-export { createInteractiveSession, sendInteractiveQuery, clearHistory, getHistory } from "./core/ai/command/query/interactive.js";
+export {
+  createInteractiveSession,
+  sendInteractiveQuery,
+  sendInteractiveQueryWithFetch,
+  clearHistory,
+  getHistory,
+  getReferences,
+  findReference,
+  fetchReference,
+  parseSuggestedFetch,
+} from "./core/ai/command/query/interactive.js";
+
+// Utilities
+export { fetchUrlContent } from "./core/ai/utils/fetcher.js";
+export type { FetchedContent } from "./core/ai/utils/fetcher.js";
 
 // Types
-export type { BeatVariant, BeatMeta, ExtendedBeat, ExtendedScript, OutputProfile, ProcessOptions, ProfileInfo } from "./types/index.js";
+export type {
+  BeatVariant,
+  BeatMeta,
+  ExtendedBeat,
+  ExtendedScript,
+  OutputProfile,
+  ProcessOptions,
+  ProfileInfo,
+  Reference,
+  FAQ,
+  ScriptMeta,
+} from "./types/index.js";
 export type { SummarizeOptions, SummarizeResult, LLMProvider, SummarizeFormat, ProviderConfig } from "./types/summarize.js";
 export type { QueryOptions, QueryResult, ConversationMessage, InteractiveQuerySession } from "./types/query.js";
 
 // Schemas (for validation)
-export { beatVariantSchema, beatMetaSchema, extendedBeatSchema, extendedScriptSchema, outputProfileSchema } from "./types/index.js";
+export {
+  beatVariantSchema,
+  beatMetaSchema,
+  extendedBeatSchema,
+  extendedScriptSchema,
+  outputProfileSchema,
+  referenceSchema,
+  faqSchema,
+  scriptMetaSchema,
+} from "./types/index.js";
 export { summarizeOptionsSchema, llmProviderSchema, summarizeFormatSchema } from "./types/summarize.js";
 export { queryOptionsSchema } from "./types/query.js";
