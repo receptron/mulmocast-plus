@@ -1,41 +1,155 @@
 # MulmoScript Preprocessor Specification
 
+## Quick Start: What You Can Do
+
+Before diving into details, here's what the preprocessor enables:
+
+### Generate Multiple Versions from One Script
+
+```bash
+# Your single source script contains everything
+$ cat presentation.json
+{
+  "title": "GraphAI Introduction",
+  "beats": [
+    {
+      "text": "Today we'll cover GraphAI in detail...",
+      "variants": {
+        "summary": { "text": "Quick GraphAI overview." },
+        "teaser": { "skip": true }
+      }
+    }
+  ]
+}
+
+# Generate full 10-minute version
+$ mulmocast-preprocessor presentation.json -o full.json
+$ mulmo movie full.json  # → 10-minute video
+
+# Generate 3-minute summary
+$ mulmocast-preprocessor presentation.json --profile summary -o summary.json
+$ mulmo movie summary.json  # → 3-minute video
+
+# Generate 30-second teaser
+$ mulmocast-preprocessor presentation.json --profile teaser -o teaser.json
+$ mulmo movie teaser.json  # → 30-second video
+```
+
+### AI-Powered Summarization (Coming Soon)
+
+```bash
+# Automatically generate summary variants using AI
+$ mulmocast-preprocessor summarize presentation.json --profile summary
+
+Analyzing 15 beats...
+Generated summary variants:
+  Beat 1: "Today we'll cover GraphAI in detail..." → "Quick GraphAI intro."
+  Beat 2: "Let me explain the history..." → [skip]
+  Beat 3: "The core concept is..." → "GraphAI uses agent-based workflows."
+  ...
+
+Save changes? [y/n]: y
+Updated presentation.json with summary variants.
+```
+
+### Interactive Q&A with Your Script (Coming Soon)
+
+```bash
+# Ask questions about your presentation content
+$ mulmocast-preprocessor query presentation.json "What is an agent?"
+
+Found relevant content in beats: #3, #7, #12
+
+An agent in GraphAI is a reusable component that performs a specific task.
+It receives inputs, processes them (often using LLMs), and produces outputs.
+Agents can be chained together in a graph structure.
+
+Sources:
+  - Beat #3 (section: concepts, tags: agent, core)
+  - Beat #7 (section: examples)
+
+# Follow-up questions in chat mode
+$ mulmocast-preprocessor query presentation.json --chat
+
+You: How do agents communicate?
+Assistant: Agents communicate through the graph structure. Each agent's output
+can be connected to another agent's input using named connections...
+
+You: Show me an example
+Assistant: Here's an example from your presentation (Beat #12):
+  "const graph = { nodes: { fetch: { agent: 'fetchAgent' }, ... } }"
+```
+
+---
+
 ## Overview
 
-The MulmoScript Preprocessor is a tool that enables content creators to generate multiple output variations from a single source script. This document describes the architecture, data model, and usage patterns for the preprocessor.
+The MulmoScript Preprocessor is a tool that enables content creators to:
+
+1. **Generate multiple output variations** from a single source script
+2. **Embed rich metadata** for filtering and AI-powered features
+3. **Query and summarize** script content using natural language
 
 ## Background
 
 ### Problem Statement
 
-When creating video or audio content from scripts, content creators often need multiple versions of the same content:
+When creating video or audio content from MulmoScript, content creators face several challenges:
 
-- **Full version**: Complete content with detailed explanations
-- **Summary version**: Condensed version highlighting key points
-- **Teaser version**: Short promotional clips for social media
+**Challenge 1: Multiple Versions**
 
-Traditional approaches require maintaining separate script files for each version, leading to:
+Content often needs multiple versions for different purposes:
 
-- **Duplication**: Same content copied across multiple files
-- **Synchronization issues**: Updates must be applied to all versions manually
-- **Inconsistency**: Versions can drift apart over time
+- **Full version**: Complete 10-minute presentation with detailed explanations
+- **Summary version**: 3-minute condensed version for quick consumption
+- **Teaser version**: 30-second promotional clip for social media
+
+Traditional approach: Maintain separate files → duplication, sync issues, inconsistency.
+
+**Challenge 2: Content Understanding**
+
+As scripts grow longer, creators need ways to:
+
+- **Summarize**: Quickly generate condensed versions without manual rewriting
+- **Query**: Ask questions about the content ("What did I say about X?")
+- **Navigate**: Find specific sections or topics within large scripts
+
+Traditional approach: Manual search and reading → time-consuming, error-prone.
 
 ### Solution
 
-The MulmoScript Preprocessor introduces a **variant-based approach** where a single source script contains all version-specific content. The preprocessor extracts the appropriate content based on the selected profile.
+The MulmoScript Preprocessor addresses these challenges through:
+
+1. **Variant System**: Define all version-specific content in a single file
+2. **Metadata System**: Embed tags, sections, keywords, and context for each beat
+3. **AI Integration**: Use metadata to power summarization and Q&A features
 
 ```
-┌─────────────────┐     ┌──────────────────┐     ┌─────────────────┐
-│  source.json    │ --> │  preprocessor    │ --> │  output.json    │
-│  (with variants)│     │  --profile xxx   │     │  (standard)     │
-└─────────────────┘     └──────────────────┘     └─────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│                    Extended MulmoScript                         │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐             │
+│  │   beats     │  │  variants   │  │    meta     │             │
+│  │  (content)  │  │ (per-profile│  │ (tags, keys │             │
+│  │             │  │  overrides) │  │  context)   │             │
+│  └─────────────┘  └─────────────┘  └─────────────┘             │
+└─────────────────────────────────────────────────────────────────┘
+        │                   │                   │
+        ▼                   ▼                   ▼
+   ┌─────────┐        ┌──────────┐        ┌──────────┐
+   │ Process │        │Summarize │        │  Query   │
+   │--profile│        │  (AI)    │        │  (AI)    │
+   └─────────┘        └──────────┘        └──────────┘
+        │                   │                   │
+        ▼                   ▼                   ▼
+   Standard            Auto-generated      Natural language
+   MulmoScript         variants            answers
 ```
 
 ## Data Model
 
 ### Extended MulmoScript Schema
 
-The preprocessor extends the standard MulmoScript schema with additional fields for variant management and metadata.
+The preprocessor extends the standard MulmoScript schema with additional fields.
 
 #### Beat Variants
 
@@ -52,14 +166,14 @@ interface BeatVariant {
 
 #### Beat Metadata
 
-Beats can include metadata for filtering and context:
+Beats can include metadata for filtering and AI features:
 
 ```typescript
 interface BeatMeta {
   tags?: string[];              // Categorization tags
   section?: string;             // Section identifier
-  context?: string;             // Additional context for AI tools
-  keywords?: string[];          // Search keywords
+  context?: string;             // Additional context (for images, diagrams)
+  keywords?: string[];          // Search keywords for Q&A
   expectedQuestions?: string[]; // Anticipated viewer questions
 }
 ```
@@ -104,19 +218,40 @@ interface OutputProfile {
       },
       "meta": {
         "tags": ["intro"],
-        "section": "opening"
+        "section": "opening",
+        "keywords": ["GraphAI", "introduction"],
+        "expectedQuestions": ["What is GraphAI?", "What will this video cover?"]
       }
     },
     {
       "speaker": "Host",
       "text": "First, let me explain the historical context and motivation behind GraphAI...",
+      "image": { "type": "image", "source": { "kind": "path", "path": "timeline.png" } },
       "variants": {
         "summary": { "text": "GraphAI was created to simplify AI workflows." },
         "teaser": { "skip": true }
       },
       "meta": {
         "tags": ["background", "history"],
-        "section": "chapter1"
+        "section": "chapter1",
+        "context": "Timeline diagram showing GraphAI development from 2023 to present",
+        "keywords": ["history", "motivation", "2023"]
+      }
+    },
+    {
+      "speaker": "Host",
+      "text": "An agent is a reusable component that performs a specific task. It receives inputs, processes them, and produces outputs.",
+      "image": { "type": "image", "source": { "kind": "path", "path": "agent-diagram.png" } },
+      "meta": {
+        "tags": ["concept", "agent", "core"],
+        "section": "chapter2",
+        "context": "Diagram showing agent with input arrows on left, processing box in center, output arrows on right",
+        "keywords": ["agent", "component", "input", "output", "task"],
+        "expectedQuestions": [
+          "What is an agent?",
+          "How do agents work?",
+          "What can agents do?"
+        ]
       }
     }
   ]
@@ -166,16 +301,19 @@ For each beat, add profile-specific overrides:
 }
 ```
 
-### Step 4: Add Metadata for Filtering
+### Step 4: Add Metadata for Filtering and AI
 
-Include metadata to enable section and tag-based filtering:
+Include metadata to enable filtering and AI-powered features:
 
 ```json
 {
-  "text": "...",
+  "text": "An agent is a reusable component...",
   "meta": {
-    "section": "intro",
-    "tags": ["welcome", "overview"]
+    "section": "concepts",
+    "tags": ["agent", "core"],
+    "keywords": ["agent", "component", "reusable"],
+    "context": "This diagram shows the agent architecture",
+    "expectedQuestions": ["What is an agent?"]
   }
 }
 ```
@@ -288,8 +426,6 @@ The preprocessor outputs standard MulmoScript without extended fields:
 }
 ```
 
-This ensures compatibility with existing MulmoScript consumers that do not understand extended fields.
-
 ## Best Practices
 
 ### Authoring Guidelines
@@ -305,25 +441,162 @@ This ensures compatibility with existing MulmoScript consumers that do not under
 2. **Avoid orphaned references** - If skipping a beat, ensure subsequent beats don't reference it
 3. **Consider transitions** - Shortened versions may need adjusted transitions
 
-### Performance Considerations
+### Metadata Guidelines for AI Features
 
-- Extended scripts are processed entirely in memory
-- Large scripts (1000+ beats) may benefit from section-based processing
-- Output files are standard JSON with no external dependencies
+1. **Add context for images** - Describe what diagrams and images show
+2. **Include relevant keywords** - Enable accurate Q&A matching
+3. **Anticipate questions** - Add `expectedQuestions` to improve Q&A accuracy
+4. **Use descriptive sections** - Help AI understand document structure
 
-## Compatibility
+---
 
-| Component | Requirement |
-|-----------|-------------|
-| Node.js | 22.x or later |
-| MulmoScript | 1.1 or later |
-| mulmocast | 2.1.35 or later |
+## AI Features: Implementation Details
 
-The preprocessor maintains backward compatibility:
+This section describes how the `summarize` and `query` commands will use the metadata to provide AI-powered features.
 
-- Scripts without `variants` are processed as-is
-- Scripts without `meta` can still use profile-based variants
-- The `default` profile always returns original content
+### Summarize Command
+
+The `summarize` command automatically generates variant text for a specified profile using an LLM.
+
+#### How It Works
+
+1. **Collect Content**: For each beat, gather:
+   - `text`: The original spoken text
+   - `meta.context`: Additional context (especially for images/diagrams)
+   - `meta.section`: Section name for understanding document structure
+
+2. **Build Prompt**: Send to LLM with instructions:
+   ```
+   You are summarizing a presentation. For each beat, provide either:
+   - A shortened version of the text (for important content)
+   - "SKIP" (for content that can be omitted in summary)
+
+   Beat 1 (section: intro):
+   Original: "Today we'll explore GraphAI in depth, covering concepts..."
+   Context: Opening slide with title
+
+   Beat 2 (section: background):
+   Original: "First, let me explain the historical context..."
+   Context: Timeline diagram showing development history
+   ...
+   ```
+
+3. **Apply Results**: Update the script with generated variants:
+   ```json
+   {
+     "variants": {
+       "summary": { "text": "Generated summary text..." }
+     }
+   }
+   ```
+   or
+   ```json
+   {
+     "variants": {
+       "summary": { "skip": true }
+     }
+   }
+   ```
+
+#### Data Usage
+
+| Field | Usage in Summarize |
+|-------|-------------------|
+| `text` | Primary content to summarize |
+| `meta.context` | Helps LLM understand visual content that text may reference |
+| `meta.section` | Groups beats for coherent section-level summarization |
+| `meta.tags` | Identifies important topics (e.g., `core` tag = don't skip) |
+
+### Query Command
+
+The `query` command enables natural language Q&A about the script content.
+
+#### How It Works
+
+1. **Parse Question**: Extract keywords and intent from user's question
+
+2. **Find Relevant Beats**: Score each beat based on:
+   - `meta.keywords` match (highest weight)
+   - `meta.expectedQuestions` similarity (high weight)
+   - `meta.tags` match (medium weight)
+   - `text` content match (lower weight)
+
+3. **Build Context**: For matched beats, gather:
+   - `text`: The spoken content
+   - `meta.context`: Additional context for images/diagrams
+   - `meta.section`: For citation purposes
+
+4. **Generate Answer**: Send to LLM:
+   ```
+   Answer the user's question based on the following content from a presentation.
+
+   User Question: "What is an agent?"
+
+   Relevant Content:
+   [Beat #3, section: concepts, tags: agent, core]
+   Text: "An agent is a reusable component that performs a specific task..."
+   Context: Diagram showing agent with input/output arrows
+
+   [Beat #7, section: examples]
+   Text: "Here's an example of a simple agent..."
+
+   Provide a clear, accurate answer citing the source beats.
+   ```
+
+5. **Return Response**: Include answer and source citations
+
+#### Data Usage
+
+| Field | Usage in Query |
+|-------|---------------|
+| `text` | Primary searchable content |
+| `meta.keywords` | Explicit search terms for matching |
+| `meta.expectedQuestions` | Pre-defined Q&A pairs for accurate matching |
+| `meta.context` | Provides image/diagram descriptions to LLM |
+| `meta.tags` | Topic categorization for relevance scoring |
+| `meta.section` | Source citation in answers |
+
+#### Chat Mode
+
+In chat mode, the system maintains conversation history to enable follow-up questions:
+
+```
+User: What is an agent?
+→ Search beats, generate answer about agents
+
+User: How do they communicate?
+→ Context: previous topic was "agents"
+→ Search for beats about agent communication
+→ Generate answer with maintained context
+```
+
+### Metadata Best Practices for AI
+
+To get the best results from AI features:
+
+1. **Keywords**: Add specific, searchable terms
+   ```json
+   "keywords": ["agent", "component", "input", "output"]
+   ```
+
+2. **Expected Questions**: Anticipate what viewers might ask
+   ```json
+   "expectedQuestions": [
+     "What is an agent?",
+     "How do I create an agent?",
+     "What types of agents exist?"
+   ]
+   ```
+
+3. **Context**: Describe visual content that the text references
+   ```json
+   "context": "Architecture diagram showing three agents connected in a pipeline"
+   ```
+
+4. **Tags**: Use consistent, meaningful tags
+   ```json
+   "tags": ["concept", "agent", "core"]  // not: ["c1", "important", "misc"]
+   ```
 
 ## Related Resources
 
