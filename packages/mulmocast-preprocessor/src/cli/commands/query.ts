@@ -1,14 +1,12 @@
 import { GraphAILogger } from "graphai";
-import { summarizeScript } from "../../core/summarize/index.js";
+import { queryScript } from "../../core/query/index.js";
 import { loadScript } from "../utils.js";
-import type { LLMProvider, SummarizeFormat } from "../../types/summarize.js";
+import type { LLMProvider } from "../../types/summarize.js";
 
-interface SummarizeCommandOptions {
+interface QueryCommandOptions {
   provider?: LLMProvider;
   model?: string;
-  format?: SummarizeFormat;
   lang?: string;
-  targetLength?: number;
   systemPrompt?: string;
   verbose?: boolean;
   section?: string;
@@ -16,26 +14,24 @@ interface SummarizeCommandOptions {
 }
 
 /**
- * Summarize command handler - outputs summary to stdout
+ * Query command handler - outputs answer to stdout
  */
-export const summarizeCommand = async (scriptPath: string, options: SummarizeCommandOptions): Promise<void> => {
+export const queryCommand = async (scriptPath: string, question: string, options: QueryCommandOptions): Promise<void> => {
   try {
     const script = await loadScript(scriptPath);
 
-    const result = await summarizeScript(script, {
+    const result = await queryScript(script, question, {
       provider: options.provider ?? "openai",
       model: options.model,
-      format: options.format ?? "text",
       lang: options.lang,
-      targetLengthChars: options.targetLength,
       systemPrompt: options.systemPrompt,
       verbose: options.verbose ?? false,
       section: options.section,
       tags: options.tags,
     });
 
-    // Output summary to stdout
-    process.stdout.write(result.summary + "\n");
+    // Output answer to stdout
+    process.stdout.write(result.answer + "\n");
   } catch (error) {
     if (error instanceof Error) {
       GraphAILogger.error(`Error: ${error.message}`);
