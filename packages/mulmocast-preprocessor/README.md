@@ -14,6 +14,8 @@ npm install mulmocast-preprocessor
 - **Section filtering**: Extract beats by section
 - **Tag filtering**: Extract beats by tags
 - **Profile listing**: List available profiles with beat counts
+- **AI Summarization**: Generate summaries using LLM (OpenAI, Anthropic, Groq, Gemini)
+- **AI Query**: Ask questions about script content with interactive mode
 - **CLI tool**: Command-line interface for processing scripts
 
 ## CLI Usage
@@ -36,9 +38,23 @@ mulmocast-preprocessor script.json --profile summary --section chapter1
 
 # List available profiles
 mulmocast-preprocessor profiles script.json
+
+# Summarize script content
+mulmocast-preprocessor summarize script.json
+mulmocast-preprocessor summarize script.json --format markdown
+mulmocast-preprocessor summarize script.json -l ja  # Output in Japanese
+mulmocast-preprocessor summarize https://example.com/script.json  # From URL
+
+# Query script content
+mulmocast-preprocessor query script.json "What is the main topic?"
+mulmocast-preprocessor query script.json "登場人物は？" -l ja
+
+# Interactive query mode
+mulmocast-preprocessor query script.json -i
+mulmocast-preprocessor query script.json  # Omit question for interactive mode
 ```
 
-### CLI Options
+### CLI Options (process command)
 
 | Option | Alias | Description |
 |--------|-------|-------------|
@@ -48,6 +64,41 @@ mulmocast-preprocessor profiles script.json
 | `--tags <tags>` | `-t` | Filter by tags (comma-separated) |
 | `--help` | `-h` | Show help |
 | `--version` | `-v` | Show version |
+
+### CLI Options (summarize command)
+
+| Option | Alias | Description |
+|--------|-------|-------------|
+| `--provider` | | LLM provider: openai, anthropic, groq, gemini (default: openai) |
+| `--model` | `-m` | Model name |
+| `--format` | `-f` | Output format: text, markdown (default: text) |
+| `--lang` | `-l` | Output language (e.g., ja, en, zh) |
+| `--target-length` | | Target summary length in characters |
+| `--system-prompt` | | Custom system prompt |
+| `--verbose` | | Show detailed progress |
+| `--section` | `-s` | Filter by section name |
+| `--tags` | `-t` | Filter by tags (comma-separated) |
+
+### CLI Options (query command)
+
+| Option | Alias | Description |
+|--------|-------|-------------|
+| `--interactive` | `-i` | Start interactive query mode |
+| `--provider` | | LLM provider: openai, anthropic, groq, gemini (default: openai) |
+| `--model` | `-m` | Model name |
+| `--lang` | `-l` | Output language (e.g., ja, en, zh) |
+| `--system-prompt` | | Custom system prompt |
+| `--verbose` | | Show detailed progress |
+| `--section` | `-s` | Filter by section name |
+| `--tags` | `-t` | Filter by tags (comma-separated) |
+
+### Interactive Query Commands
+
+| Command | Description |
+|---------|-------------|
+| `/clear` | Clear conversation history |
+| `/history` | Show conversation history |
+| `/exit` | Exit interactive mode |
 
 ## Programmatic Usage
 
@@ -131,6 +182,54 @@ Filter beats by section.
 ### `filterByTags(script, tags)`
 
 Filter beats by tags (extracts beats that have any of the specified tags).
+
+### `summarizeScript(script, options)`
+
+Generate a summary of the script content using LLM.
+
+**Parameters:**
+- `script: ExtendedScript` - Input script
+- `options: SummarizeOptions` - Summarization options
+  - `provider?: LLMProvider` - LLM provider (default: "openai")
+  - `model?: string` - Model name
+  - `format?: "text" | "markdown"` - Output format
+  - `lang?: string` - Output language code
+  - `targetLengthChars?: number` - Target length
+  - `systemPrompt?: string` - Custom system prompt
+
+**Returns:** `Promise<SummarizeResult>` - Summary result with text and metadata
+
+### `queryScript(script, question, options)`
+
+Ask a question about the script content.
+
+**Parameters:**
+- `script: ExtendedScript` - Input script
+- `question: string` - Question to ask
+- `options: QueryOptions` - Query options (same as summarize)
+
+**Returns:** `Promise<QueryResult>` - Answer with question and metadata
+
+### `createInteractiveSession(script, options)`
+
+Create an interactive query session for follow-up questions.
+
+**Parameters:**
+- `script: ExtendedScript` - Input script
+- `options: QueryOptions` - Query options
+
+**Returns:** Session object with `sendInteractiveQuery()` method
+
+## Environment Variables
+
+For AI features (summarize, query), set the API key for your LLM provider:
+
+| Provider | Environment Variable |
+|----------|---------------------|
+| OpenAI | `OPENAI_API_KEY` |
+| Anthropic | `ANTHROPIC_API_KEY` |
+| Groq | `GROQ_API_KEY` |
+| Gemini | `GEMINI_API_KEY` |
 
 ## Extended Schema
 
