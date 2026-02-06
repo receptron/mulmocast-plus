@@ -1,6 +1,6 @@
 import type { QueryOptions } from "../../../../types/query.js";
 import type { ExtendedScript } from "../../../../types/index.js";
-import { getLanguageName } from "../../llm.js";
+import { getLanguageName, buildScriptContent } from "../../llm.js";
 
 /**
  * Default system prompt for query
@@ -36,33 +36,9 @@ export const getSystemPrompt = (options: QueryOptions): string => {
 export const buildUserPrompt = (script: ExtendedScript, question: string): string => {
   const parts: string[] = [];
 
-  // Add script metadata
-  parts.push(`# Script: ${script.title}`);
-  parts.push(`Language: ${script.lang}`);
-  parts.push("");
+  // Add common script content (title, language, sections with beats)
+  parts.push(buildScriptContent(script));
 
-  // Collect all text from beats
-  const sections = new Map<string, string[]>();
-
-  script.beats.forEach((beat, index) => {
-    const text = beat.text || "";
-    if (!text.trim()) return;
-
-    const section = beat.meta?.section || "main";
-    if (!sections.has(section)) {
-      sections.set(section, []);
-    }
-    sections.get(section)!.push(`[${index}] ${text}`);
-  });
-
-  // Output by section
-  sections.forEach((texts, section) => {
-    parts.push(`## Section: ${section}`);
-    texts.forEach((t) => parts.push(t));
-    parts.push("");
-  });
-
-  parts.push("");
   parts.push("---");
   parts.push("");
   parts.push(`Question: ${question}`);
