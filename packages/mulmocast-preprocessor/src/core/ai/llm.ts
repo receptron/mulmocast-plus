@@ -9,7 +9,7 @@ import { geminiAgent } from "@graphai/gemini_agent";
 
 import type { ExtendedScript } from "../../types/index.js";
 import type { LLMProvider } from "../../types/summarize.js";
-import { filterBySection, filterByTags } from "../filter.js";
+import { filterBySection, filterByTags } from "../preprocessing/filter.js";
 
 dotenv.config({ quiet: true });
 

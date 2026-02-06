@@ -1,7 +1,7 @@
-import type { ExtendedScript } from "../../types/index.js";
-import type { SummarizeOptions, SummarizeResult } from "../../types/summarize.js";
-import { summarizeOptionsSchema } from "../../types/summarize.js";
-import { executeLLM, filterScript } from "../llm/index.js";
+import type { ExtendedScript } from "../../../../types/index.js";
+import type { SummarizeOptions, SummarizeResult } from "../../../../types/summarize.js";
+import { summarizeOptionsSchema } from "../../../../types/summarize.js";
+import { executeLLM, filterScript } from "../../llm.js";
 import { buildUserPrompt, getSystemPrompt } from "./prompts.js";
 
 /**
@@ -45,5 +45,5 @@ export const summarizeScript = async (script: ExtendedScript, options: Partial<S
 };
 
 // Re-export types
-export type { SummarizeOptions, SummarizeResult, LLMProvider, SummarizeFormat } from "../../types/summarize.js";
-export { summarizeOptionsSchema, llmProviderSchema, summarizeFormatSchema } from "../../types/summarize.js";
+export type { SummarizeOptions, SummarizeResult, LLMProvider, SummarizeFormat } from "../../../../types/summarize.js";
+export { summarizeOptionsSchema, llmProviderSchema, summarizeFormatSchema } from "../../../../types/summarize.js";

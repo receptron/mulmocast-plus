@@ -1,6 +1,6 @@
-import type { SummarizeOptions } from "../../types/summarize.js";
-import type { ExtendedScript } from "../../types/index.js";
-import { getLanguageName } from "../llm/index.js";
+import type { SummarizeOptions } from "../../../../types/summarize.js";
+import type { ExtendedScript } from "../../../../types/index.js";
+import { getLanguageName } from "../../llm.js";
 
 /**
  * Default system prompt for text summary

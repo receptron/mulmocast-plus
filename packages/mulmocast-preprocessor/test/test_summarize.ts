@@ -1,7 +1,7 @@
 import { describe, it } from "node:test";
 import assert from "node:assert";
-import { buildUserPrompt, getSystemPrompt, DEFAULT_SYSTEM_PROMPT_TEXT, DEFAULT_SYSTEM_PROMPT_MARKDOWN } from "../src/core/summarize/prompts.js";
-import { getProviderConfig } from "../src/core/llm/index.js";
+import { buildUserPrompt, getSystemPrompt, DEFAULT_SYSTEM_PROMPT_TEXT, DEFAULT_SYSTEM_PROMPT_MARKDOWN } from "../src/core/ai/command/summarize/prompts.js";
+import { getProviderConfig } from "../src/core/ai/llm.js";
 import type { ExtendedScript } from "../src/index.js";
 import type { SummarizeOptions } from "../src/types/summarize.js";
 

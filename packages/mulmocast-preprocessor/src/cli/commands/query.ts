@@ -1,5 +1,5 @@
 import { GraphAILogger } from "graphai";
-import { queryScript } from "../../core/query/index.js";
+import { queryScript } from "../../core/ai/command/query/index.js";
 import { loadScript } from "../utils.js";
 import type { LLMProvider } from "../../types/summarize.js";
 
