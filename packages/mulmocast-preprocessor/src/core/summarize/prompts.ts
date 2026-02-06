@@ -4,19 +4,22 @@ import type { ExtendedScript } from "../../types/index.js";
 /**
  * Default system prompt for text summary
  */
-export const DEFAULT_SYSTEM_PROMPT_TEXT = `You are summarizing a presentation/podcast script.
-- Read all the content and create a concise summary
-- Capture the main topic, key points, and conclusion
-- Write in a clear, informative style
+export const DEFAULT_SYSTEM_PROMPT_TEXT = `You are creating a summary based on the content provided.
+- Extract and explain the actual information and knowledge from the content
+- Do NOT describe what the presentation/script is about (avoid phrases like "this presentation explains..." or "the script describes...")
+- Write as if you are directly explaining the topic to the reader
+- Be concise and informative
 - Output plain text only`;
 
 /**
  * Default system prompt for markdown summary
  */
-export const DEFAULT_SYSTEM_PROMPT_MARKDOWN = `You are summarizing a presentation/podcast script.
-- Read all the content and create a structured summary
-- Include: title, overview, key points, and conclusion
+export const DEFAULT_SYSTEM_PROMPT_MARKDOWN = `You are creating a summary based on the content provided.
+- Extract and explain the actual information and knowledge from the content
+- Do NOT describe what the presentation/script is about (avoid phrases like "this presentation explains..." or "the script describes...")
+- Write as if you are directly explaining the topic to the reader
 - Use markdown formatting (headers, bullet points, etc.)
+- Include a title, key points, and conclusion
 - Output well-formatted markdown`;
 
 /**
@@ -57,7 +60,7 @@ export const buildUserPrompt = (script: ExtendedScript, options: SummarizeOption
   }
 
   parts.push("");
-  parts.push("Please summarize this script:");
+  parts.push("Based on the above content, explain the topic directly to the reader:");
 
   return parts.join("\n");
 };
