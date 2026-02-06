@@ -68,7 +68,7 @@ yargs(hideBin(process.argv))
     (builder) =>
       builder
         .positional("script", {
-          describe: "Path to MulmoScript JSON file",
+          describe: "Path or URL to MulmoScript JSON file",
           type: "string",
           demandOption: true,
         })
@@ -87,6 +87,11 @@ yargs(hideBin(process.argv))
           describe: "Output format (text, markdown)",
           type: "string",
           default: "text",
+        })
+        .option("lang", {
+          alias: "l",
+          describe: "Output language (e.g., ja, en, zh)",
+          type: "string",
         })
         .option("target-length", {
           describe: "Target summary length in characters",
@@ -117,6 +122,7 @@ yargs(hideBin(process.argv))
         provider: argv.provider as LLMProvider,
         model: argv.model,
         format: argv.format as SummarizeFormat,
+        lang: argv.lang,
         targetLength: argv.targetLength,
         systemPrompt: argv.systemPrompt,
         verbose: argv.verbose,
@@ -133,8 +139,8 @@ yargs(hideBin(process.argv))
   .example("$0 profiles script.json", "List all available profiles")
   .example("$0 summarize script.json", "Generate text summary with OpenAI")
   .example("$0 summarize script.json --format markdown", "Generate markdown summary")
-  .example("$0 summarize script.json --provider anthropic", "Use Anthropic for summary")
-  .example("$0 summarize script.json -s chapter1", "Summarize specific section")
+  .example("$0 summarize script.json -l ja", "Output summary in Japanese")
+  .example("$0 summarize https://example.com/script.json", "Summarize from URL")
   .help()
   .alias("h", "help")
   .version()
