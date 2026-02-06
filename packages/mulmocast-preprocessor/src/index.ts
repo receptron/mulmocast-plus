@@ -17,6 +17,7 @@ export {
   findReference,
   fetchReference,
   parseSuggestedFetch,
+  removeSuggestFetchMarkers,
 } from "./core/ai/command/query/interactive.js";
 
 // Utilities

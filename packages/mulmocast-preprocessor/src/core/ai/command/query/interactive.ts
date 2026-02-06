@@ -65,12 +65,24 @@ export const getHistory = (session: InteractiveQuerySession): ConversationMessag
 };
 
 /**
+ * Regex pattern for SUGGEST_FETCH marker (bounded quantifier to prevent ReDoS)
+ */
+export const SUGGEST_FETCH_PATTERN = /\[SUGGEST_FETCH:\s*([^\]]{1,2000})\]/;
+export const SUGGEST_FETCH_PATTERN_GLOBAL = /\[SUGGEST_FETCH:\s*[^\]]{1,2000}\]/g;
+
+/**
  * Parse suggested fetch URL from AI response
  */
 export const parseSuggestedFetch = (response: string): string | null => {
-  // Use bounded quantifier to prevent ReDoS
-  const match = response.match(/\[SUGGEST_FETCH:\s*([^\]]{1,2000})\]/);
+  const match = response.match(SUGGEST_FETCH_PATTERN);
   return match ? match[1].trim() : null;
+};
+
+/**
+ * Remove SUGGEST_FETCH markers from response
+ */
+export const removeSuggestFetchMarkers = (response: string): string => {
+  return response.replace(SUGGEST_FETCH_PATTERN_GLOBAL, "").trim();
 };
 
 /**

@@ -9,6 +9,7 @@ import {
   getReferences,
   fetchReference,
   parseSuggestedFetch,
+  removeSuggestFetchMarkers,
 } from "../../core/ai/command/query/interactive.js";
 import { loadScript } from "../utils.js";
 import type { LLMProvider } from "../../types/summarize.js";
@@ -205,8 +206,7 @@ const runInteractiveMode = async (scriptPath: string, script: Awaited<ReturnType
         const suggestedUrl = parseSuggestedFetch(answer);
         if (suggestedUrl) {
           lastSuggestedUrl = suggestedUrl;
-          // Remove the suggestion marker from displayed answer (bounded quantifier to prevent ReDoS)
-          const cleanAnswer = answer.replace(/\[SUGGEST_FETCH:\s*[^\]]{1,2000}\]/g, "").trim();
+          const cleanAnswer = removeSuggestFetchMarkers(answer);
           GraphAILogger.info(`\nAssistant: ${cleanAnswer}`);
           GraphAILogger.info(`\n(Suggested reference: ${suggestedUrl})`);
           GraphAILogger.info("Type /fetch to load this reference for more details.\n");
