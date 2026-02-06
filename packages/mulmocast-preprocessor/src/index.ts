@@ -7,11 +7,12 @@ export { listProfiles } from "./core/preprocessing/profiles.js";
 // AI API
 export { summarizeScript } from "./core/ai/command/summarize/index.js";
 export { queryScript } from "./core/ai/command/query/index.js";
+export { createInteractiveSession, sendInteractiveQuery, clearHistory, getHistory } from "./core/ai/command/query/interactive.js";
 
 // Types
 export type { BeatVariant, BeatMeta, ExtendedBeat, ExtendedScript, OutputProfile, ProcessOptions, ProfileInfo } from "./types/index.js";
 export type { SummarizeOptions, SummarizeResult, LLMProvider, SummarizeFormat, ProviderConfig } from "./types/summarize.js";
-export type { QueryOptions, QueryResult } from "./types/query.js";
+export type { QueryOptions, QueryResult, ConversationMessage, InteractiveQuerySession } from "./types/query.js";
 
 // Schemas (for validation)
 export { beatVariantSchema, beatMetaSchema, extendedBeatSchema, extendedScriptSchema, outputProfileSchema } from "./types/index.js";

@@ -35,3 +35,20 @@ export interface QueryResult {
   scriptTitle: string;
   beatCount: number;
 }
+
+/**
+ * Conversation message for interactive query
+ */
+export interface ConversationMessage {
+  role: "user" | "assistant";
+  content: string;
+}
+
+/**
+ * Interactive query session state
+ */
+export interface InteractiveQuerySession {
+  scriptTitle: string;
+  beatCount: number;
+  history: ConversationMessage[];
+}
