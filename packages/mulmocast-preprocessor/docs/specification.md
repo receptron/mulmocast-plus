@@ -90,6 +90,94 @@ The MulmoScript Preprocessor is a tool that enables content creators to:
 2. **Embed rich metadata** for filtering and AI-powered features
 3. **Query and summarize** script content using natural language
 
+## Open Data Format
+
+The Extended MulmoScript format is an **open specification** designed for interoperability. While `mulmocast-preprocessor` provides a reference implementation, the format can be used by:
+
+### Any Tool or System
+
+The schema is fully documented and can be implemented by any tool:
+
+```typescript
+// The schema is defined using Zod and exported from the package
+import { extendedScriptSchema, extendedBeatSchema, beatMetaSchema } from "mulmocast-preprocessor";
+
+// Validate your own Extended MulmoScript
+const result = extendedScriptSchema.safeParse(yourScript);
+```
+
+### General-Purpose AI (Claude Code, etc.)
+
+The metadata-rich format is designed to work directly with general-purpose AI assistants:
+
+```bash
+# Example: Ask Claude Code to work with your Extended MulmoScript
+$ claude
+
+You: Read presentation.json and answer: What is an agent?
+
+Claude: Based on the script, I found relevant content in beat #3 (section: chapter2):
+"An agent is a reusable component that performs a specific task..."
+The meta.context describes a diagram showing input/output arrows.
+```
+
+The AI can leverage:
+- `meta.keywords` for semantic search
+- `meta.expectedQuestions` for Q&A matching
+- `meta.context` for understanding visual content
+- `meta.section` and `meta.tags` for navigation
+
+### Custom Implementations
+
+The `summarize` and `query` commands in this package are **reference implementations**. You can:
+
+1. **Implement your own summarization** using any LLM:
+   ```typescript
+   // Read Extended MulmoScript
+   const script = JSON.parse(fs.readFileSync("script.json"));
+
+   // Extract content for summarization
+   const content = script.beats.map(beat => ({
+     text: beat.text,
+     context: beat.meta?.context,
+     section: beat.meta?.section,
+     tags: beat.meta?.tags,
+   }));
+
+   // Use your preferred LLM to generate summaries
+   const summaries = await yourLLM.summarize(content);
+
+   // Apply to variants
+   script.beats.forEach((beat, i) => {
+     beat.variants = beat.variants || {};
+     beat.variants.summary = summaries[i];
+   });
+   ```
+
+2. **Build custom Q&A systems**:
+   - Index `meta.keywords` and `meta.expectedQuestions` in a vector database
+   - Use RAG (Retrieval-Augmented Generation) for accurate answers
+   - Build chatbots that understand your content
+
+3. **Integrate with existing tools**:
+   - Content management systems
+   - Documentation platforms
+   - Learning management systems
+
+### Schema as Contract
+
+The type definitions serve as the authoritative schema:
+
+| Type | Purpose |
+|------|---------|
+| `ExtendedScript` | Root document with beats, variants, and profiles |
+| `ExtendedBeat` | Beat with optional `variants` and `meta` |
+| `BeatVariant` | Profile-specific overrides (`text`, `skip`, `image`) |
+| `BeatMeta` | Metadata for filtering and AI features |
+| `OutputProfile` | Profile display information |
+
+All fields are optional and additive—existing MulmoScript files remain valid.
+
 ## Background
 
 ### Problem Statement
@@ -450,9 +538,9 @@ The preprocessor outputs standard MulmoScript without extended fields:
 
 ---
 
-## AI Features: Implementation Details
+## AI Features: Reference Implementation
 
-This section describes how the `summarize` and `query` commands will use the metadata to provide AI-powered features.
+This section describes how the `summarize` and `query` commands use the metadata to provide AI-powered features. These are **reference implementations**—you can implement equivalent functionality using any LLM or AI system by following the same patterns.
 
 ### Summarize Command
 
@@ -597,6 +685,19 @@ To get the best results from AI features:
    ```json
    "tags": ["concept", "agent", "core"]  // not: ["c1", "important", "misc"]
    ```
+
+### Alternative Implementations
+
+You are not limited to using `mulmocast-preprocessor` for AI features. Examples:
+
+| Approach | Description |
+|----------|-------------|
+| **Direct LLM** | Pass Extended MulmoScript JSON directly to Claude, GPT, etc. |
+| **RAG System** | Index metadata in a vector database for semantic search |
+| **Custom CLI** | Build your own tool using the schema definitions |
+| **Web Service** | Create an API that processes Extended MulmoScript |
+
+The metadata schema is designed to be self-descriptive and AI-friendly.
 
 ## Related Resources
 
