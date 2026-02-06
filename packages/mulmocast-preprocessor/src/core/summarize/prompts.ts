@@ -1,5 +1,6 @@
 import type { SummarizeOptions } from "../../types/summarize.js";
 import type { ExtendedScript } from "../../types/index.js";
+import { getLanguageName } from "../llm/index.js";
 
 /**
  * Default system prompt for text summary
@@ -63,25 +64,6 @@ export const buildUserPrompt = (script: ExtendedScript, options: SummarizeOption
   parts.push("Based on the above content, explain the topic directly to the reader:");
 
   return parts.join("\n");
-};
-
-/**
- * Get language name from code
- */
-const getLanguageName = (langCode: string): string => {
-  const langMap: Record<string, string> = {
-    ja: "Japanese",
-    en: "English",
-    zh: "Chinese",
-    ko: "Korean",
-    fr: "French",
-    de: "German",
-    es: "Spanish",
-    it: "Italian",
-    pt: "Portuguese",
-    ru: "Russian",
-  };
-  return langMap[langCode] || langCode;
 };
 
 /**

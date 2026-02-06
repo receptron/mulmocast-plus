@@ -1,5 +1,6 @@
 import type { QueryOptions } from "../../types/query.js";
 import type { ExtendedScript } from "../../types/index.js";
+import { getLanguageName } from "../llm/index.js";
 
 /**
  * Default system prompt for query
@@ -9,25 +10,6 @@ export const DEFAULT_SYSTEM_PROMPT = `You are answering questions based on the c
 - If the answer cannot be found in the content, say so clearly
 - Be concise and direct in your answers
 - Do not make up information that is not in the content`;
-
-/**
- * Get language name from code
- */
-const getLanguageName = (langCode: string): string => {
-  const langMap: Record<string, string> = {
-    ja: "Japanese",
-    en: "English",
-    zh: "Chinese",
-    ko: "Korean",
-    fr: "French",
-    de: "German",
-    es: "Spanish",
-    it: "Italian",
-    pt: "Portuguese",
-    ru: "Russian",
-  };
-  return langMap[langCode] || langCode;
-};
 
 /**
  * Get system prompt based on options
@@ -51,7 +33,7 @@ export const getSystemPrompt = (options: QueryOptions): string => {
 /**
  * Build user prompt from script and question
  */
-export const buildUserPrompt = (script: ExtendedScript, question: string, __options: QueryOptions): string => {
+export const buildUserPrompt = (script: ExtendedScript, question: string): string => {
   const parts: string[] = [];
 
   // Add script metadata
