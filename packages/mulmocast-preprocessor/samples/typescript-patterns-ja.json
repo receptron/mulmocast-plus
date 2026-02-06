@@ -1,0 +1,143 @@
+{
+  "$mulmocast": { "version": "1.1" },
+  "title": "TypeScript実践パターン - 型安全なコードを書くために",
+  "lang": "ja",
+  "speechParams": {
+    "speakers": {
+      "Engineer": {
+        "voiceId": "echo",
+        "displayName": { "ja": "エンジニア", "en": "Engineer" }
+      }
+    }
+  },
+  "beats": [
+    {
+      "id": "intro-1",
+      "speaker": "Engineer",
+      "text": "TypeScriptは、JavaScriptに静的型付けを追加した言語です。型によってバグを事前に防ぎ、IDEの補完を強化します。",
+      "meta": {
+        "section": "introduction",
+        "tags": ["overview", "basics"],
+        "context": "TypeScriptはMicrosoftが2012年に開発。現在のLTS: TypeScript 5.x。JavaScriptのスーパーセットで、すべてのJSコードは有効なTS。コンパイル時に型チェック、実行時はJavaScript。tscコマンドでコンパイル。",
+        "keywords": ["TypeScript", "静的型付け", "JavaScript"],
+        "expectedQuestions": ["TypeScriptとは？", "JavaScriptとの違いは？", "誰が作った？"]
+      }
+    },
+    {
+      "id": "type-1",
+      "speaker": "Engineer",
+      "text": "基本の型にはstring、number、boolean、配列、オブジェクトがあります。anyは避けて、unknownを使いましょう。",
+      "meta": {
+        "section": "types",
+        "tags": ["types", "basics"],
+        "context": "プリミティブ型: string, number, boolean, null, undefined, symbol, bigint。any vs unknown: anyは型チェック無効、unknownは使用前に型ガードが必要。strictモードでは暗黙的anyがエラーに。配列: T[] または Array<T>。タプル: [string, number]。",
+        "keywords": ["any", "unknown", "プリミティブ型", "配列"],
+        "expectedQuestions": ["基本の型は？", "anyとunknownの違いは？", "strictモードとは？"]
+      }
+    },
+    {
+      "id": "type-2",
+      "speaker": "Engineer",
+      "text": "interfaceとtypeの両方でオブジェクトの型を定義できます。拡張性が必要ならinterface、ユニオン型にはtypeを使います。",
+      "meta": {
+        "section": "types",
+        "tags": ["types", "interface", "type"],
+        "context": "interface: 宣言マージ可能、extendsで継承。type: ユニオン|、インターセクション&、マップ型が使える。実務での使い分け: APIレスポンスやPropsはinterface、ユーティリティ型やユニオンはtype。TypeScript公式はどちらでも良いとしているが、チームで統一が重要。",
+        "keywords": ["interface", "type", "宣言マージ", "ユニオン型"],
+        "expectedQuestions": ["interfaceとtypeの違いは？", "どちらを使うべき？", "宣言マージとは？"]
+      }
+    },
+    {
+      "id": "pattern-1",
+      "speaker": "Engineer",
+      "text": "Discriminated Unionパターンは、共通のプロパティで型を区別します。これによりswitch文で型が絞り込まれます。",
+      "meta": {
+        "section": "patterns",
+        "tags": ["pattern", "union"],
+        "context": "実装例: type Result = { status: 'success'; data: T } | { status: 'error'; error: Error }。共通プロパティ(discriminant)でswitch/ifすると、各ブランチで型が自動的に絞り込まれる。Redux actions、APIレスポンス、状態管理で頻出。exhaustive checkにはnever型を使う。",
+        "keywords": ["Discriminated Union", "型の絞り込み", "exhaustive check"],
+        "expectedQuestions": ["Discriminated Unionとは？", "型の絞り込みとは？", "exhaustive checkとは？"]
+      }
+    },
+    {
+      "id": "pattern-2",
+      "speaker": "Engineer",
+      "text": "ジェネリクスを使うと、型を引数のように扱えます。配列やPromiseの型定義に欠かせません。",
+      "meta": {
+        "section": "patterns",
+        "tags": ["pattern", "generics"],
+        "context": "基本構文: function identity<T>(arg: T): T。制約: <T extends SomeType>。デフォルト型: <T = string>。よく使う場面: Array<T>, Promise<T>, Map<K, V>, React.FC<Props>。型推論により多くの場合<>を省略可能。複数の型パラメータも可: <T, U>。",
+        "keywords": ["ジェネリクス", "型パラメータ", "制約"],
+        "expectedQuestions": ["ジェネリクスとは？", "どう使う？", "制約の付け方は？"]
+      }
+    },
+    {
+      "id": "utility-1",
+      "speaker": "Engineer",
+      "text": "TypeScriptには便利なユーティリティ型があります。Partial、Required、Pick、Omitなどをマスターしましょう。",
+      "meta": {
+        "section": "utilities",
+        "tags": ["utilities", "builtin"],
+        "context": "主要ユーティリティ型: Partial<T>(全プロパティをオプショナルに), Required<T>(全プロパティを必須に), Pick<T, K>(特定プロパティを抽出), Omit<T, K>(特定プロパティを除外), Record<K, V>(キーと値の型を指定), ReturnType<T>(関数の戻り値型), Parameters<T>(関数のパラメータ型)。",
+        "keywords": ["Partial", "Pick", "Omit", "Record", "ユーティリティ型"],
+        "expectedQuestions": ["Partialとは？", "Pickとは？", "Omitとは？", "Recordとは？"]
+      }
+    },
+    {
+      "id": "utility-2",
+      "speaker": "Engineer",
+      "text": "Zodなどのスキーマライブラリと組み合わせると、ランタイムバリデーションと型推論を両立できます。",
+      "meta": {
+        "section": "utilities",
+        "tags": ["utilities", "validation"],
+        "context": "Zod: TypeScript-firstなスキーマバリデーション。z.infer<typeof schema>で型を推論。他の選択肢: Yup, io-ts, Valibot。APIレスポンスの検証、フォームバリデーション、環境変数の検証に有用。parse()は例外を投げ、safeParse()はResultオブジェクトを返す。",
+        "keywords": ["Zod", "スキーマバリデーション", "z.infer"],
+        "expectedQuestions": ["Zodとは？", "どう使う？", "他のライブラリは？"]
+      }
+    },
+    {
+      "id": "strict-1",
+      "speaker": "Engineer",
+      "text": "tsconfig.jsonのstrictモードは必ず有効にしましょう。strictNullChecksは特に重要です。",
+      "meta": {
+        "section": "configuration",
+        "tags": ["config", "strict"],
+        "context": "strictモードで有効になるオプション: strictNullChecks, noImplicitAny, strictFunctionTypes, strictBindCallApply, strictPropertyInitialization, noImplicitThis, useUnknownInCatchVariables, alwaysStrict。新規プロジェクトは最初からstrict: trueを推奨。レガシープロジェクトは段階的に有効化。",
+        "keywords": ["strict", "strictNullChecks", "noImplicitAny", "tsconfig"],
+        "expectedQuestions": ["strictモードとは？", "strictNullChecksとは？", "なぜ有効にすべき？"]
+      }
+    },
+    {
+      "id": "error-1",
+      "speaker": "Engineer",
+      "text": "型ガードを使うと、条件分岐内で型を安全に絞り込めます。typeof、instanceof、inを活用しましょう。",
+      "meta": {
+        "section": "patterns",
+        "tags": ["pattern", "type-guard"],
+        "context": "組み込み型ガード: typeof(プリミティブ), instanceof(クラス), in(プロパティ存在), Array.isArray()。カスタム型ガード: function isString(x: unknown): x is string { return typeof x === 'string'; }。assertsキーワードでアサーション関数も定義可能。",
+        "keywords": ["型ガード", "typeof", "instanceof", "is"],
+        "expectedQuestions": ["型ガードとは？", "カスタム型ガードの作り方は？", "assertsとは？"]
+      }
+    },
+    {
+      "id": "conclusion-1",
+      "speaker": "Engineer",
+      "text": "型安全なコードは、バグを減らし、リファクタリングを容易にします。strictモードとユーティリティ型を活用しましょう。",
+      "meta": {
+        "section": "conclusion",
+        "tags": ["summary", "best-practices"],
+        "context": "TypeScriptベストプラクティスまとめ: 1) strict: true必須、2) anyを避けunknownを使う、3) 型ガードで安全に絞り込む、4) ユーティリティ型を活用、5) Zodで実行時検証、6) エラー型もちゃんと定義。学習リソース: TypeScript公式ハンドブック、type-challenges。",
+        "keywords": ["ベストプラクティス", "型安全", "リファクタリング"],
+        "expectedQuestions": ["TypeScriptのベストプラクティスは？", "学習リソースは？"]
+      }
+    }
+  ],
+  "outputProfiles": {
+    "summary": {
+      "description": "要約版"
+    },
+    "beginner": {
+      "description": "初心者向け"
+    }
+  }
+}

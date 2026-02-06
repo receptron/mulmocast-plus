@@ -144,6 +144,38 @@ export const getLanguageName = (langCode: string): string => {
 };
 
 /**
+ * Build beat content including metadata
+ */
+const buildBeatContent = (beat: ExtendedScript["beats"][number], index: number): string => {
+  const lines: string[] = [];
+
+  // Main text
+  const text = beat.text || "";
+  if (!text.trim()) return "";
+
+  lines.push(`[${index}] ${text}`);
+
+  // Add metadata if available
+  const meta = beat.meta;
+  if (meta) {
+    // Context provides additional information not in the text
+    if (meta.context) {
+      lines.push(`  Context: ${meta.context}`);
+    }
+    // Keywords highlight important terms
+    if (meta.keywords && meta.keywords.length > 0) {
+      lines.push(`  Keywords: ${meta.keywords.join(", ")}`);
+    }
+    // Expected questions this beat can answer
+    if (meta.expectedQuestions && meta.expectedQuestions.length > 0) {
+      lines.push(`  Can answer: ${meta.expectedQuestions.join("; ")}`);
+    }
+  }
+
+  return lines.join("\n");
+};
+
+/**
  * Build script content for user prompt (common part)
  */
 export const buildScriptContent = (script: ExtendedScript): string => {
@@ -154,24 +186,24 @@ export const buildScriptContent = (script: ExtendedScript): string => {
   parts.push(`Language: ${script.lang}`);
   parts.push("");
 
-  // Collect all text from beats grouped by section
+  // Collect all content from beats grouped by section
   const sections = new Map<string, string[]>();
 
   script.beats.forEach((beat, index) => {
-    const text = beat.text || "";
-    if (!text.trim()) return;
+    const content = buildBeatContent(beat, index);
+    if (!content) return;
 
     const section = beat.meta?.section || "main";
     if (!sections.has(section)) {
       sections.set(section, []);
     }
-    sections.get(section)!.push(`[${index}] ${text}`);
+    sections.get(section)!.push(content);
   });
 
   // Output by section
-  sections.forEach((texts, section) => {
+  sections.forEach((contents, section) => {
     parts.push(`## Section: ${section}`);
-    texts.forEach((t) => parts.push(t));
+    contents.forEach((c) => parts.push(c));
     parts.push("");
   });
 

@@ -1,0 +1,143 @@
+{
+  "$mulmocast": { "version": "1.1" },
+  "title": "MulmoCast - AI-Powered Presentation Generation",
+  "lang": "en",
+  "speechParams": {
+    "speakers": {
+      "Host": {
+        "voiceId": "shimmer",
+        "displayName": { "en": "Host" }
+      }
+    }
+  },
+  "beats": [
+    {
+      "id": "intro-1",
+      "speaker": "Host",
+      "text": "MulmoCast is an open-source tool for creating presentations with AI-generated speech and images from simple JSON scripts.",
+      "meta": {
+        "section": "introduction",
+        "tags": ["overview", "definition"],
+        "context": "MulmoCast developed by receptron. MIT License. Converts MulmoScript JSON to video/audio presentations. Supports multiple TTS providers (OpenAI, ElevenLabs, Google, VOICEVOX) and image generators (DALL-E, Stable Diffusion). npm package: mulmocast. CLI and programmatic API available.",
+        "keywords": ["MulmoCast", "MulmoScript", "presentation", "AI-generated"],
+        "expectedQuestions": ["What is MulmoCast?", "What does it do?", "What is MulmoScript?"]
+      }
+    },
+    {
+      "id": "intro-2",
+      "speaker": "Host",
+      "text": "You write your content in JSON format called MulmoScript, and MulmoCast generates everything else automatically.",
+      "meta": {
+        "section": "introduction",
+        "tags": ["workflow", "json"],
+        "context": "MulmoScript JSON structure: $mulmocast (version), title, lang, speechParams (speakers config), beats (content array). Each beat has: speaker, text, optional image/imagePrompt. Processing pipeline: JSON -> Speech synthesis -> Image generation -> Video composition. Supports incremental generation to save API costs.",
+        "keywords": ["MulmoScript", "JSON", "beats", "pipeline"],
+        "expectedQuestions": ["How do I write MulmoScript?", "What is the JSON structure?", "What are beats?"]
+      }
+    },
+    {
+      "id": "feature-1",
+      "speaker": "Host",
+      "text": "Multiple speakers can have different voices. Define speakers once, then reference them in each beat.",
+      "meta": {
+        "section": "features",
+        "tags": ["feature", "speakers"],
+        "context": "speechParams.speakers configuration: voiceId (provider-specific), displayName (localized), optional provider override. Supports dialogue format with multiple characters. OpenAI voices: alloy, echo, fable, nova, onyx, shimmer. ElevenLabs supports custom voice cloning. VOICEVOX for high-quality Japanese.",
+        "keywords": ["speakers", "voices", "TTS", "voiceId"],
+        "expectedQuestions": ["How to set up multiple speakers?", "What voices are available?", "Can I use custom voices?"]
+      }
+    },
+    {
+      "id": "feature-2",
+      "speaker": "Host",
+      "text": "Images can be provided directly or generated from prompts. You can also use imagePrompt to describe what you want.",
+      "meta": {
+        "section": "features",
+        "tags": ["feature", "images"],
+        "context": "Image options per beat: 1) image.url - direct URL, 2) image.path - local file, 3) imagePrompt - AI generates image. Image generation models: DALL-E 3 (OpenAI), Stable Diffusion (via various APIs). Default image style can be set globally. Images are cached to avoid regeneration. Aspect ratio configurable.",
+        "keywords": ["images", "imagePrompt", "DALL-E", "Stable Diffusion"],
+        "expectedQuestions": ["How do I add images?", "Can AI generate images?", "What image models are supported?"]
+      }
+    },
+    {
+      "id": "extended-1",
+      "speaker": "Host",
+      "text": "MulmoScript can be extended with metadata. Tags help categorize content, sections organize the structure.",
+      "meta": {
+        "section": "extended",
+        "tags": ["feature", "metadata"],
+        "context": "Extended beat properties (mulmocast-preprocessor): meta.tags (array of labels), meta.section (content grouping), meta.context (additional info for AI), meta.keywords (important terms), meta.expectedQuestions (FAQ hints). These enable filtering, AI summarization, and Q&A features. Not processed by standard mulmocast, stripped before output.",
+        "keywords": ["metadata", "tags", "sections", "extended"],
+        "expectedQuestions": ["What metadata can I add?", "How do tags work?", "What is meta.context for?"]
+      }
+    },
+    {
+      "id": "extended-2",
+      "speaker": "Host",
+      "text": "Variants let you create multiple versions from one script. A summary version might have shorter text.",
+      "meta": {
+        "section": "extended",
+        "tags": ["feature", "variants"],
+        "context": "variants property on beats: { variantName: { text?: string, skip?: boolean, image?: object } }. Use cases: summary (shorter text), teaser (skip detailed beats), localized (different text per locale). mulmocast-preprocessor applies variants with --profile flag. outputProfiles in script defines available variants with descriptions.",
+        "keywords": ["variants", "profiles", "summary", "skip"],
+        "expectedQuestions": ["What are variants?", "How to create a summary version?", "How to skip beats?"]
+      }
+    },
+    {
+      "id": "cli-1",
+      "speaker": "Host",
+      "text": "The CLI makes it easy to generate presentations. Run mulmocast with your script and it handles everything.",
+      "meta": {
+        "section": "cli",
+        "tags": ["cli", "usage"],
+        "context": "Basic CLI: mulmocast script.json. Key flags: --output/-o (output dir), --speech-only (skip images), --no-video (skip composition), --force (regenerate all). Environment variables for API keys: OPENAI_API_KEY, ELEVENLABS_API_KEY, etc. Config file .mulmocastrc.json for defaults. Parallel processing for speed.",
+        "keywords": ["CLI", "mulmocast", "flags", "environment"],
+        "expectedQuestions": ["How to run MulmoCast?", "What CLI options are there?", "How to set API keys?"]
+      }
+    },
+    {
+      "id": "cli-2",
+      "speaker": "Host",
+      "text": "The preprocessor adds AI features. Summarize scripts or ask questions about the content.",
+      "meta": {
+        "section": "cli",
+        "tags": ["cli", "preprocessor"],
+        "context": "mulmocast-preprocessor commands: default (apply profile), profiles (list), summarize (AI summary), query (AI Q&A). Summarize: --format text/markdown, --lang for output language, uses GPT/Claude. Query: single question or --interactive for conversation. Reads metadata (context, keywords, expectedQuestions) to improve AI responses.",
+        "keywords": ["preprocessor", "summarize", "query", "AI"],
+        "expectedQuestions": ["What can the preprocessor do?", "How does summarize work?", "How does query work?"]
+      }
+    },
+    {
+      "id": "integration-1",
+      "speaker": "Host",
+      "text": "MulmoCast integrates with GraphAI for complex workflows. Chain multiple AI operations together.",
+      "meta": {
+        "section": "integration",
+        "tags": ["integration", "graphai"],
+        "context": "GraphAI integration: MulmoCast agents can be used as GraphAI nodes. Example workflow: generate script outline -> expand each section -> generate speech -> generate images -> compose video. Enables conditional logic, parallel processing, retry handling. graphai.yaml can define entire production pipeline.",
+        "keywords": ["GraphAI", "workflow", "pipeline", "agents"],
+        "expectedQuestions": ["How does GraphAI integration work?", "Can I create complex pipelines?"]
+      }
+    },
+    {
+      "id": "conclusion-1",
+      "speaker": "Host",
+      "text": "MulmoCast makes it easy to create professional presentations from simple scripts. Try it with your own content.",
+      "meta": {
+        "section": "conclusion",
+        "tags": ["summary", "cta"],
+        "context": "Getting started: npm install -g mulmocast. Create script.json with title and beats. Run mulmocast script.json. Output in ./output directory. Documentation: GitHub receptron/mulmocast. Community: Discord channel. Commercial support available from receptron.",
+        "keywords": ["getting started", "installation", "documentation"],
+        "expectedQuestions": ["How do I get started?", "Where is the documentation?", "Is there support?"]
+      }
+    }
+  ],
+  "outputProfiles": {
+    "summary": {
+      "description": "Brief overview"
+    },
+    "teaser": {
+      "description": "Short promotional version"
+    }
+  }
+}

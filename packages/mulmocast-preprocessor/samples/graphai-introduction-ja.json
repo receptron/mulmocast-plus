@@ -1,0 +1,131 @@
+{
+  "$mulmocast": { "version": "1.1" },
+  "title": "GraphAI入門 - データフローベースのAIオーケストレーション",
+  "lang": "ja",
+  "speechParams": {
+    "speakers": {
+      "Instructor": {
+        "voiceId": "nova",
+        "displayName": { "ja": "インストラクター", "en": "Instructor" }
+      }
+    }
+  },
+  "beats": [
+    {
+      "id": "intro-1",
+      "speaker": "Instructor",
+      "text": "GraphAIは、複数のAIエージェントやAPIを協調させるためのオープンソースフレームワークです。",
+      "meta": {
+        "section": "introduction",
+        "tags": ["overview", "definition"],
+        "context": "GraphAIはreceptron社が開発。MITライセンス。TypeScript/JavaScript向け。npmパッケージとして提供。GitHub: receptron/graphai",
+        "keywords": ["GraphAI", "オーケストレーション", "オープンソース"],
+        "expectedQuestions": ["GraphAIとは何ですか？", "誰が開発していますか？", "ライセンスは？"]
+      }
+    },
+    {
+      "id": "intro-2",
+      "speaker": "Instructor",
+      "text": "従来のプログラミングでは、処理を順番に書いていく必要がありました。GraphAIでは、データの流れをグラフとして定義します。",
+      "meta": {
+        "section": "introduction",
+        "tags": ["concept", "comparison"],
+        "context": "命令型プログラミングとの対比。DAG（有向非巡回グラフ）ベースの宣言的アプローチ。依存関係を自動解決し、可能な限り並列実行する。",
+        "keywords": ["データフロー", "グラフ", "宣言的"],
+        "expectedQuestions": ["従来のプログラミングとの違いは？", "なぜグラフ形式？"]
+      }
+    },
+    {
+      "id": "arch-1",
+      "speaker": "Instructor",
+      "text": "GraphAIの中心的な概念は「ノード」と「エージェント」です。ノードはグラフ上の処理単位で、エージェントは実際の処理ロジックを担当します。",
+      "meta": {
+        "section": "architecture",
+        "tags": ["concept", "core"],
+        "context": "ノードには2種類ある: staticノード（初期値を持つ）とcomputedノード（エージェントで計算）。エージェントは純粋関数として実装され、副作用を持たない。",
+        "keywords": ["ノード", "エージェント", "staticノード", "computedノード"],
+        "expectedQuestions": ["ノードとは？", "エージェントとは？", "ノードの種類は？"]
+      }
+    },
+    {
+      "id": "arch-2",
+      "speaker": "Instructor",
+      "text": "ノード間の依存関係は、inputsプロパティで定義します。依存するノードの結果を待ってから、次のノードが実行されます。",
+      "meta": {
+        "section": "architecture",
+        "tags": ["concept", "dependency"],
+        "context": "依存関係の記法: ':nodeName'でノード参照、':nodeName.property'でプロパティアクセス。GraphAIが自動的に実行順序を決定し、依存関係のないノードは並列実行される。",
+        "keywords": ["inputs", "依存関係", "並列実行"],
+        "expectedQuestions": ["依存関係の書き方は？", "並列実行はどう制御する？"]
+      }
+    },
+    {
+      "id": "agents-1",
+      "speaker": "Instructor",
+      "text": "GraphAIには標準エージェントが多数用意されています。LLMを呼び出すopenAIAgentや、配列を処理するmapAgentなどがあります。",
+      "meta": {
+        "section": "agents",
+        "tags": ["agents", "builtin"],
+        "context": "主要エージェント: openAIAgent, anthropicAgent, geminiAgent（LLM）、mapAgent, nestedAgent（フロー制御）、copyAgent, mergeNodeAgent（データ操作）。@graphai/vanillaパッケージに基本エージェント、@graphai/openai_agentなどにLLMエージェントが含まれる。",
+        "keywords": ["openAIAgent", "mapAgent", "標準エージェント"],
+        "expectedQuestions": ["どんなエージェントがある？", "LLMエージェントは？", "パッケージ構成は？"]
+      }
+    },
+    {
+      "id": "agents-2",
+      "speaker": "Instructor",
+      "text": "カスタムエージェントも簡単に作成できます。AgentFunction型に従った関数を定義するだけです。",
+      "meta": {
+        "section": "agents",
+        "tags": ["agents", "custom"],
+        "context": "AgentFunction<T>の型定義: (context: AgentContext) => Promise<T>。contextにはparams, inputs, debugInfo, filterParamsなどが含まれる。エージェントはagentFilterで拡張可能（ログ、キャッシュ、リトライなど）。",
+        "keywords": ["カスタムエージェント", "AgentFunction", "agentFilter"],
+        "expectedQuestions": ["カスタムエージェントの作り方は？", "AgentFunctionの型は？"]
+      }
+    },
+    {
+      "id": "example-1",
+      "speaker": "Instructor",
+      "text": "実際の例を見てみましょう。2つのLLMを並列に呼び出し、その結果を比較するグラフを作ります。",
+      "meta": {
+        "section": "example",
+        "tags": ["example", "parallel"],
+        "context": "並列LLM呼び出しのユースケース: A/Bテスト、多数決による品質向上、異なるモデルの比較。実装: openaiNode, anthropicNodeを並列定義し、compareNodeで結果をマージ。",
+        "keywords": ["並列呼び出し", "LLM比較"],
+        "expectedQuestions": ["並列処理の例は？", "複数LLMをどう使う？"]
+      }
+    },
+    {
+      "id": "example-2",
+      "speaker": "Instructor",
+      "text": "mapAgentを使うと、配列の各要素に対して同じ処理を適用できます。並行数も制御可能です。",
+      "meta": {
+        "section": "example",
+        "tags": ["example", "iteration"],
+        "context": "mapAgentの主要パラメータ: rows（入力配列）、compositeResult（結果をまとめるか）、concurrency（並行数、デフォルト8）。大量のAPI呼び出しもレート制限を守りながら効率的に処理可能。",
+        "keywords": ["mapAgent", "イテレーション", "concurrency"],
+        "expectedQuestions": ["配列処理はどうする？", "並行数の制御は？", "mapAgentの使い方は？"]
+      }
+    },
+    {
+      "id": "conclusion-1",
+      "speaker": "Instructor",
+      "text": "GraphAIを使うことで、複雑なAIワークフローを宣言的に、そして効率的に構築できます。",
+      "meta": {
+        "section": "conclusion",
+        "tags": ["summary", "benefits"],
+        "context": "GraphAIの利点: 1) 宣言的で可読性が高い、2) 自動並列化で効率的、3) エージェントの再利用性、4) TypeScript完全サポート、5) デバッグしやすい。本番環境での使用実績あり。",
+        "keywords": ["宣言的", "効率的", "再利用"],
+        "expectedQuestions": ["GraphAIの利点は？", "本番で使える？"]
+      }
+    }
+  ],
+  "outputProfiles": {
+    "summary": {
+      "description": "概要版"
+    },
+    "teaser": {
+      "description": "ティーザー版"
+    }
+  }
+}

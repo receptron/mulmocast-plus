@@ -1,0 +1,140 @@
+{
+  "$mulmocast": { "version": "1.1" },
+  "title": "LLM Agent Architecture Patterns",
+  "lang": "en",
+  "speechParams": {
+    "speakers": {
+      "Presenter": {
+        "voiceId": "alloy",
+        "displayName": { "en": "Presenter" }
+      }
+    }
+  },
+  "beats": [
+    {
+      "id": "intro-1",
+      "speaker": "Presenter",
+      "text": "LLM agents are AI systems that can autonomously perform tasks by combining language models with tools and memory.",
+      "meta": {
+        "section": "introduction",
+        "tags": ["overview", "definition"],
+        "context": "Key components: LLM (reasoning engine), Tools (external capabilities), Memory (context persistence), Planning (task decomposition). Examples: AutoGPT, LangChain agents, Claude Computer Use, OpenAI Assistants API.",
+        "keywords": ["LLM agents", "autonomous AI", "tools", "memory"],
+        "expectedQuestions": ["What is an LLM agent?", "What components make up an agent?", "Examples of LLM agents?"]
+      }
+    },
+    {
+      "id": "intro-2",
+      "speaker": "Presenter",
+      "text": "Unlike simple chatbots, agents can break down complex tasks, use external tools, and maintain state across interactions.",
+      "meta": {
+        "section": "introduction",
+        "tags": ["comparison", "capabilities"],
+        "context": "Chatbot vs Agent comparison: Chatbot responds to single prompts, stateless. Agent maintains goals, executes multi-step plans, calls APIs, handles failures. The key difference is agency - the ability to take actions in the world.",
+        "keywords": ["chatbot", "agency", "multi-step", "state"],
+        "expectedQuestions": ["How are agents different from chatbots?", "What can agents do that chatbots can't?"]
+      }
+    },
+    {
+      "id": "pattern-1",
+      "speaker": "Presenter",
+      "text": "The ReAct pattern combines reasoning and acting. The agent thinks about what to do, takes an action, observes the result, and repeats.",
+      "meta": {
+        "section": "patterns",
+        "tags": ["pattern", "ReAct"],
+        "context": "ReAct (Reasoning + Acting) paper by Yao et al. 2022. Loop: Thought -> Action -> Observation -> Thought... Advantages: interpretable reasoning trace, can recover from errors. Implemented in LangChain, LlamaIndex. Typical prompt format includes examples of thought-action-observation chains.",
+        "keywords": ["ReAct", "reasoning", "action", "observation"],
+        "expectedQuestions": ["What is the ReAct pattern?", "How does ReAct work?", "Who invented ReAct?"]
+      }
+    },
+    {
+      "id": "pattern-2",
+      "speaker": "Presenter",
+      "text": "Plan and Execute separates planning from execution. First, create a complete plan, then execute each step.",
+      "meta": {
+        "section": "patterns",
+        "tags": ["pattern", "planning"],
+        "context": "Two-phase approach: 1) Planner LLM creates step-by-step plan upfront 2) Executor handles each step. Advantages: better for complex tasks, can validate plan before execution. Disadvantages: less adaptive to unexpected results. Often combined with replanning when steps fail.",
+        "keywords": ["Plan and Execute", "planning", "execution"],
+        "expectedQuestions": ["What is Plan and Execute?", "When to use planning vs ReAct?", "Can plans be updated?"]
+      }
+    },
+    {
+      "id": "pattern-3",
+      "speaker": "Presenter",
+      "text": "Tool Use enables agents to call external APIs, run code, search the web, or interact with databases.",
+      "meta": {
+        "section": "patterns",
+        "tags": ["pattern", "tools"],
+        "context": "Tool calling mechanism: LLM outputs structured tool call (function name + arguments), system executes tool, result fed back to LLM. OpenAI function calling, Anthropic tool use, Google function calling all use similar JSON schema approach. Common tools: web search, code interpreter, file operations, API calls.",
+        "keywords": ["tool use", "function calling", "API", "code execution"],
+        "expectedQuestions": ["How do agents use tools?", "What tools are commonly used?", "How is tool calling implemented?"]
+      }
+    },
+    {
+      "id": "memory-1",
+      "speaker": "Presenter",
+      "text": "Short-term memory is the conversation context. Long-term memory stores information across sessions using vector databases.",
+      "meta": {
+        "section": "memory",
+        "tags": ["memory", "architecture"],
+        "context": "Memory types: 1) Working memory (current context window), 2) Short-term (conversation history, often summarized), 3) Long-term (vector DB like Pinecone, Weaviate, pgvector). RAG (Retrieval Augmented Generation) combines LLM with retrieval from long-term memory. Chunking strategies matter for effective retrieval.",
+        "keywords": ["short-term memory", "long-term memory", "vector database", "RAG"],
+        "expectedQuestions": ["How does agent memory work?", "What is RAG?", "Which vector databases are used?"]
+      }
+    },
+    {
+      "id": "memory-2",
+      "speaker": "Presenter",
+      "text": "Episodic memory stores past experiences. The agent can recall similar situations and learn from previous successes or failures.",
+      "meta": {
+        "section": "memory",
+        "tags": ["memory", "learning"],
+        "context": "Inspired by human episodic memory. Store: task description, actions taken, outcome, lessons learned. Retrieve: similar past episodes via embedding similarity. Used in Reflexion paper (Shinn et al. 2023) for self-improvement. Enables few-shot learning from agent's own experience.",
+        "keywords": ["episodic memory", "learning", "Reflexion"],
+        "expectedQuestions": ["What is episodic memory?", "How do agents learn from experience?", "What is Reflexion?"]
+      }
+    },
+    {
+      "id": "multi-1",
+      "speaker": "Presenter",
+      "text": "Multi-agent systems have specialized agents collaborating. One agent might research while another writes code.",
+      "meta": {
+        "section": "multi-agent",
+        "tags": ["multi-agent", "collaboration"],
+        "context": "Architectures: 1) Hierarchical (manager delegates to workers), 2) Peer-to-peer (agents communicate directly), 3) Blackboard (shared workspace). Examples: AutoGen, CrewAI, ChatDev. Benefits: specialization, parallel work, diverse perspectives. Challenges: coordination overhead, error propagation.",
+        "keywords": ["multi-agent", "collaboration", "AutoGen", "CrewAI"],
+        "expectedQuestions": ["What are multi-agent systems?", "How do agents collaborate?", "Examples of multi-agent frameworks?"]
+      }
+    },
+    {
+      "id": "safety-1",
+      "speaker": "Presenter",
+      "text": "Safety is critical for agents. Implement guardrails, human-in-the-loop approvals, and sandboxed execution environments.",
+      "meta": {
+        "section": "safety",
+        "tags": ["safety", "best-practices"],
+        "context": "Key safety measures: 1) Input/output filtering, 2) Action whitelisting, 3) Resource limits (time, API calls, cost), 4) Human approval for sensitive actions, 5) Sandboxed code execution (Docker, E2B, Modal), 6) Audit logging. Never give agents unrestricted system access. Principle of least privilege.",
+        "keywords": ["safety", "guardrails", "sandbox", "human-in-the-loop"],
+        "expectedQuestions": ["How to make agents safe?", "What are guardrails?", "Should agents have human oversight?"]
+      }
+    },
+    {
+      "id": "conclusion-1",
+      "speaker": "Presenter",
+      "text": "Choose the right pattern for your use case. Start simple with ReAct, add planning for complex tasks, and always prioritize safety.",
+      "meta": {
+        "section": "conclusion",
+        "tags": ["summary", "recommendations"],
+        "context": "Decision guide: Simple tasks -> ReAct. Complex multi-step -> Plan and Execute. Dynamic environment -> ReAct with replanning. Production systems -> add observability (LangSmith, Phoenix), cost tracking, error handling. Start with proven frameworks before building custom.",
+        "keywords": ["best practices", "pattern selection", "production"],
+        "expectedQuestions": ["Which pattern should I use?", "How to deploy agents in production?", "Recommended frameworks?"]
+      }
+    }
+  ],
+  "outputProfiles": {
+    "summary": {
+      "description": "Condensed version"
+    }
+  }
+}
