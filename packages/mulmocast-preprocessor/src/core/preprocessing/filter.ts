@@ -1,4 +1,4 @@
-import type { MulmoScript, MulmoBeat } from "mulmocast";
+import type { MulmoScript, MulmoBeat } from "@mulmocast/types";
 import type { ExtendedScript, ExtendedBeat } from "@mulmocast/extended-types";
 
 const stripBeatExtendedFields = (beat: ExtendedBeat): MulmoBeat => {

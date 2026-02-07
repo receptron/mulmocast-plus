@@ -1,4 +1,4 @@
-import type { MulmoScript } from "mulmocast";
+import type { MulmoScript } from "@mulmocast/types";
 import type { ExtendedScript } from "@mulmocast/extended-types";
 import type { ProcessOptions } from "../../types/index.js";
 import { applyProfile } from "./variant.js";
