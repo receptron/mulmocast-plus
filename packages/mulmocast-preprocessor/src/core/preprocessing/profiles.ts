@@ -1,4 +1,5 @@
-import type { ExtendedScript, ProfileInfo } from "../../types/index.js";
+import type { ExtendedScript } from "@mulmocast/extended-types";
+import type { ProfileInfo } from "../../types/index.js";
 
 /**
  * Get list of available profiles from script

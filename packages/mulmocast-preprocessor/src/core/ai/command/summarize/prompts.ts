@@ -1,5 +1,5 @@
 import type { SummarizeOptions } from "../../../../types/summarize.js";
-import type { ExtendedScript } from "../../../../types/index.js";
+import type { ExtendedScript } from "@mulmocast/extended-types";
 import { getLanguageName, buildScriptContent } from "../../llm.js";
 
 /**

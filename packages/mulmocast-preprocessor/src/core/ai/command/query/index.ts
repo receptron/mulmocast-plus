@@ -1,4 +1,4 @@
-import type { ExtendedScript } from "../../../../types/index.js";
+import type { ExtendedScript } from "@mulmocast/extended-types";
 import type { QueryOptions, QueryResult } from "../../../../types/query.js";
 import { queryOptionsSchema } from "../../../../types/query.js";
 import { executeLLM, filterScript } from "../../llm.js";

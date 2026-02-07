@@ -7,7 +7,7 @@ import { anthropicAgent } from "@graphai/anthropic_agent";
 import { groqAgent } from "@graphai/groq_agent";
 import { geminiAgent } from "@graphai/gemini_agent";
 
-import type { ExtendedScript } from "../../types/index.js";
+import type { ExtendedScript } from "@mulmocast/extended-types";
 import type { LLMProvider } from "../../types/summarize.js";
 import { filterBySection, filterByTags } from "../preprocessing/filter.js";
 
