@@ -13,7 +13,7 @@ import {
 } from "../../core/ai/command/query/interactive.js";
 import { loadScript } from "../utils.js";
 import type { LLMProvider } from "../../types/summarize.js";
-import type { Reference } from "../../types/index.js";
+import type { Reference } from "@mulmocast/extended-types";
 
 interface QueryCommandOptions {
   provider?: LLMProvider;

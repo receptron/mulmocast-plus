@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { mulmoBeatSchema, mulmoScriptSchema, mulmoImageAssetSchema } from "mulmocast";
+import { mulmoBeatSchema, mulmoScriptSchema, mulmoImageAssetSchema } from "@mulmocast/types";
 
-export type { MulmoImageAsset } from "mulmocast";
+export type { MulmoImageAsset } from "@mulmocast/types";
 
 /**
  * Beat Variant - profile-specific content overrides

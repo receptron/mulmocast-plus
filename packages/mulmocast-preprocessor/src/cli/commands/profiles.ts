@@ -1,7 +1,7 @@
 import { readFileSync } from "fs";
 import { GraphAILogger } from "graphai";
 import { listProfiles } from "../../core/preprocessing/profiles.js";
-import type { ExtendedScript } from "../../types/index.js";
+import type { ExtendedScript } from "@mulmocast/extended-types";
 
 /**
  * List available profiles in script

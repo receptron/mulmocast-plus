@@ -1,5 +1,5 @@
-import type { MulmoScript, MulmoBeat } from "mulmocast";
-import type { ExtendedScript, ExtendedBeat } from "../../types/index.js";
+import type { MulmoScript, MulmoBeat } from "@mulmocast/types";
+import type { ExtendedScript, ExtendedBeat } from "@mulmocast/extended-types";
 
 /**
  * Apply profile variant to a single beat

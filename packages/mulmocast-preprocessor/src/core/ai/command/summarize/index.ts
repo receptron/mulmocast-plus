@@ -1,4 +1,4 @@
-import type { ExtendedScript } from "../../../../types/index.js";
+import type { ExtendedScript } from "@mulmocast/extended-types";
 import type { SummarizeOptions, SummarizeResult } from "../../../../types/summarize.js";
 import { summarizeOptionsSchema } from "../../../../types/summarize.js";
 import { executeLLM, filterScript } from "../../llm.js";

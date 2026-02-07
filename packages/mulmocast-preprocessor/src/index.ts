@@ -24,23 +24,18 @@ export {
 export { fetchUrlContent } from "./core/ai/utils/fetcher.js";
 export type { FetchedContent } from "./core/ai/utils/fetcher.js";
 
-// Types
+// Types (from @mulmocast/extended-types)
 export type {
   BeatVariant,
   BeatMeta,
   ExtendedBeat,
   ExtendedScript,
   OutputProfile,
-  ProcessOptions,
-  ProfileInfo,
   Reference,
   FAQ,
   ScriptMeta,
-} from "./types/index.js";
-export type { SummarizeOptions, SummarizeResult, LLMProvider, SummarizeFormat, ProviderConfig } from "./types/summarize.js";
-export type { QueryOptions, QueryResult, ConversationMessage, InteractiveQuerySession } from "./types/query.js";
-
-// Schemas (for validation)
+  MulmoImageAsset,
+} from "@mulmocast/extended-types";
 export {
   beatVariantSchema,
   beatMetaSchema,
@@ -50,6 +45,13 @@ export {
   referenceSchema,
   faqSchema,
   scriptMetaSchema,
-} from "./types/index.js";
+} from "@mulmocast/extended-types";
+
+// Types (local)
+export type { ProcessOptions, ProfileInfo } from "./types/index.js";
+export type { SummarizeOptions, SummarizeResult, LLMProvider, SummarizeFormat, ProviderConfig } from "./types/summarize.js";
+export type { QueryOptions, QueryResult, ConversationMessage, InteractiveQuerySession } from "./types/query.js";
+
+// Schemas (local)
 export { summarizeOptionsSchema, llmProviderSchema, summarizeFormatSchema } from "./types/summarize.js";
 export { queryOptionsSchema } from "./types/query.js";

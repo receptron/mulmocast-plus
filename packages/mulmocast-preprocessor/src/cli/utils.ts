@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import type { ExtendedScript } from "../types/index.js";
+import type { ExtendedScript } from "@mulmocast/extended-types";
 
 /**
  * Check if input is a URL
