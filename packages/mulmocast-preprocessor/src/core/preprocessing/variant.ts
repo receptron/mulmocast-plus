@@ -26,7 +26,7 @@ const applyVariantToBeat = (beat: ExtendedBeat, profileName: string): MulmoBeat 
  * Apply profile to script and return standard MulmoScript
  */
 export const applyProfile = (script: ExtendedScript, profileName: string): MulmoScript => {
-  const { outputProfiles: __outputProfiles, ...baseScript } = script;
+  const { outputProfiles: __outputProfiles, scriptMeta: __scriptMeta, ...baseScript } = script;
 
   return {
     ...baseScript,

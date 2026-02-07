@@ -1,7 +1,8 @@
 import { describe, it } from "node:test";
 import assert from "node:assert";
-import { applyProfile, listProfiles, processScript, filterBySection, filterByTags } from "../src/index.js";
+import { applyProfile, listProfiles, processScript, filterBySection, filterByTags, stripExtendedFields } from "../src/index.js";
 import type { ExtendedScript } from "../src/index.js";
+import { mulmoScriptSchema } from "@mulmocast/types";
 
 const createTestScript = (): ExtendedScript => ({
   $mulmocast: { version: "1.1" },
@@ -25,6 +26,13 @@ const createTestScript = (): ExtendedScript => ({
       description: "SNS用",
     },
   },
+  scriptMeta: {
+    audience: "テスト対象者",
+    background: "テスト用の背景情報",
+    keywords: ["GraphAI", "テスト"],
+    faq: [{ question: "テスト？", answer: "はい" }],
+    references: [{ type: "web" as const, url: "https://example.com", title: "Example" }],
+  },
   beats: [
     {
       id: "intro",
@@ -37,6 +45,9 @@ const createTestScript = (): ExtendedScript => ({
       meta: {
         tags: ["intro"],
         section: "opening",
+        context: "GraphAIはreceptron社が開発したフレームワーク",
+        keywords: ["GraphAI", "オーケストレーション"],
+        expectedQuestions: ["GraphAIとは？"],
       },
     },
     {
@@ -173,5 +184,51 @@ describe("filterByTags", () => {
 
     assert.strictEqual(result.beats.length, 1);
     assert.strictEqual(result.beats[0].id, "detail");
+  });
+});
+
+describe("MulmoScript schema validation after strip", () => {
+  it("stripExtendedFields output should pass mulmoScriptSchema", () => {
+    const script = createTestScript();
+    const result = stripExtendedFields(script);
+
+    // Must not throw - output should be valid MulmoScript
+    const parsed = mulmoScriptSchema.parse(result);
+    assert.ok(parsed);
+    assert.strictEqual(parsed.beats.length, 3);
+  });
+
+  it("stripExtendedFields should remove scriptMeta", () => {
+    const script = createTestScript();
+    const result = stripExtendedFields(script);
+
+    assert.strictEqual((result as Record<string, unknown>).scriptMeta, undefined);
+    assert.strictEqual((result as Record<string, unknown>).outputProfiles, undefined);
+  });
+
+  it("applyProfile output should pass mulmoScriptSchema", () => {
+    const script = createTestScript();
+    const result = applyProfile(script, "summary");
+
+    const parsed = mulmoScriptSchema.parse(result);
+    assert.ok(parsed);
+    assert.strictEqual(parsed.beats.length, 2);
+  });
+
+  it("processScript output should pass mulmoScriptSchema", () => {
+    const script = createTestScript();
+    const result = processScript(script, { profile: "summary", section: "opening" });
+
+    const parsed = mulmoScriptSchema.parse(result);
+    assert.ok(parsed);
+  });
+
+  it("processScript default output should pass mulmoScriptSchema", () => {
+    const script = createTestScript();
+    const result = processScript(script, {});
+
+    const parsed = mulmoScriptSchema.parse(result);
+    assert.ok(parsed);
+    assert.strictEqual(parsed.beats.length, 3);
   });
 });
