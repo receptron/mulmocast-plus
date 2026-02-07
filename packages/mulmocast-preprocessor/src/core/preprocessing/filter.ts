@@ -7,7 +7,7 @@ const stripBeatExtendedFields = (beat: ExtendedBeat): MulmoBeat => {
 };
 
 const filterBeatsToMulmoScript = (script: ExtendedScript, predicate: (beat: ExtendedBeat) => boolean): MulmoScript => {
-  const { outputProfiles: __outputProfiles, ...baseScript } = script;
+  const { outputProfiles: __outputProfiles, scriptMeta: __scriptMeta, ...baseScript } = script;
   return {
     ...baseScript,
     beats: script.beats.filter(predicate).map(stripBeatExtendedFields),
