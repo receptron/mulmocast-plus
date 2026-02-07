@@ -1,0 +1,37 @@
+{
+  "name": "@mulmocast/extended-types",
+  "version": "0.1.0",
+  "description": "Type definitions and Zod schemas for MulmoScript ExtendedScript format",
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    }
+  },
+  "files": [
+    "./lib"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src",
+    "format": "prettier --write 'src/**/*.ts'",
+    "test": "node --import tsx --test test/*.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/receptron/mulmocast-plus.git"
+  },
+  "author": "receptron",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/receptron/mulmocast-plus/issues"
+  },
+  "homepage": "https://github.com/receptron/mulmocast-plus#readme",
+  "dependencies": {
+    "mulmocast": "^2.1.35",
+    "zod": "^4.3.6"
+  }
+}
