@@ -1,6 +1,6 @@
 {
   "name": "@mulmocast/extended-types",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Type definitions and Zod schemas for MulmoScript ExtendedScript format",
   "type": "module",
   "main": "lib/index.js",

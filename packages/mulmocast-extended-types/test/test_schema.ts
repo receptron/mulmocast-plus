@@ -42,6 +42,7 @@ test("beatMetaSchema: valid meta with all fields", () => {
     tags: ["intro", "overview"],
     section: "opening",
     context: "Background context",
+    notes: "Raw extracted text from source document",
     keywords: ["api", "graphai"],
     expectedQuestions: ["What is GraphAI?"],
   });

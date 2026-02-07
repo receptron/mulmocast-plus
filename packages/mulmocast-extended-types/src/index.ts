@@ -22,6 +22,7 @@ export const beatMetaSchema = z.object({
   tags: z.array(z.string()).optional(),
   section: z.string().optional(),
   context: z.string().optional(),
+  notes: z.string().optional(),
   keywords: z.array(z.string()).optional(),
   expectedQuestions: z.array(z.string()).optional(),
 });
