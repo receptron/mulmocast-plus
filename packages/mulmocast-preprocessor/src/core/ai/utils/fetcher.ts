@@ -11,30 +11,71 @@ export interface FetchedContent {
 }
 
 /**
+ * Remove all occurrences of a tag block (e.g. <script>...</script>) using indexOf
+ */
+const removeTagBlock = (html: string, openTag: string, closeTag: string): string => {
+  let result = html;
+  let lower = result.toLowerCase();
+  let start = lower.indexOf(openTag);
+  while (start !== -1) {
+    const end = lower.indexOf(closeTag, start);
+    if (end === -1) break;
+    result = result.substring(0, start) + result.substring(end + closeTag.length);
+    lower = result.toLowerCase();
+    start = lower.indexOf(openTag);
+  }
+  return result;
+};
+
+const BLOCK_ELEMENTS = new Set(["p", "div", "h1", "h2", "h3", "h4", "h5", "h6", "li", "tr", "br"]);
+
+/**
+ * Remove all HTML tags using indexOf, replacing block closings with newlines
+ */
+const removeTags = (html: string): string => {
+  const parts: string[] = [];
+  let i = 0;
+  while (i < html.length) {
+    const tagStart = html.indexOf("<", i);
+    if (tagStart === -1) {
+      parts.push(html.substring(i));
+      break;
+    }
+    parts.push(html.substring(i, tagStart));
+    const tagEnd = html.indexOf(">", tagStart);
+    if (tagEnd === -1) {
+      parts.push(html.substring(tagStart));
+      break;
+    }
+    const tagContent = html.substring(tagStart + 1, tagEnd);
+    const closeMatch = tagContent.match(/^\/(\w+)/);
+    if (closeMatch && BLOCK_ELEMENTS.has(closeMatch[1].toLowerCase())) {
+      parts.push("\n");
+    }
+    i = tagEnd + 1;
+  }
+  return parts.join("");
+};
+
+/**
  * Strip HTML tags and extract text content
  */
-const stripHtml = (html: string): string => {
-  // Remove script and style elements
-  let text = html.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, "");
-  text = text.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, "");
+export const stripHtml = (html: string): string => {
+  // Remove script, style elements and comments using indexOf (avoids regex ReDoS)
+  let text = removeTagBlock(html, "<script", "</script>");
+  text = removeTagBlock(text, "<style", "</style>");
+  text = removeTagBlock(text, "<!--", "-->");
 
-  // Remove HTML comments
-  text = text.replace(/<!--[\s\S]*?-->/g, "");
+  // Remove all HTML tags
+  text = removeTags(text);
 
-  // Replace common block elements with newlines
-  text = text.replace(/<\/(p|div|h[1-6]|li|tr|br)[^>]*>/gi, "\n");
-
-  // Remove all remaining HTML tags
-  // eslint-disable-next-line sonarjs/slow-regex -- standard HTML tag removal pattern, safe for typical HTML
-  text = text.replace(/<[^>]*>/g, " ");
-
-  // Decode common HTML entities
+  // Decode common HTML entities (&amp; must be last to prevent double-decoding)
   text = text.replace(/&nbsp;/g, " ");
-  text = text.replace(/&amp;/g, "&");
   text = text.replace(/&lt;/g, "<");
   text = text.replace(/&gt;/g, ">");
   text = text.replace(/&quot;/g, '"');
   text = text.replace(/&#39;/g, "'");
+  text = text.replace(/&amp;/g, "&");
 
   // Normalize whitespace
   text = text.replace(/\s+/g, " ");
@@ -44,11 +85,18 @@ const stripHtml = (html: string): string => {
 };
 
 /**
- * Extract title from HTML
+ * Extract title from HTML using indexOf (avoids regex ReDoS)
  */
-const extractTitle = (html: string): string | null => {
-  const match = html.match(/<title[^>]*>([^<]+)<\/title>/i);
-  return match ? match[1].trim() : null;
+export const extractTitle = (html: string): string | null => {
+  const lower = html.toLowerCase();
+  const titleStart = lower.indexOf("<title");
+  if (titleStart === -1) return null;
+  const contentStart = html.indexOf(">", titleStart);
+  if (contentStart === -1) return null;
+  const titleEnd = lower.indexOf("</title>", contentStart);
+  if (titleEnd === -1) return null;
+  const title = html.substring(contentStart + 1, titleEnd).trim();
+  return title || null;
 };
 
 /**

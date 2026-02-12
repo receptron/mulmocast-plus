@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert";
-import { execSync } from "child_process";
+import { execFileSync } from "child_process";
 import { readFileSync, unlinkSync, existsSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
@@ -10,7 +10,8 @@ const CLI_PATH = join(__dirname, "../lib/cli/index.js");
 const FIXTURE_PATH = join(__dirname, "fixtures/sample.json");
 
 const runCli = (args: string): string => {
-  return execSync(`node ${CLI_PATH} ${args}`, { encoding: "utf-8" });
+  const argList = args.split(/\s+/).filter(Boolean);
+  return execFileSync("node", [CLI_PATH, ...argList], { encoding: "utf-8" });
 };
 
 describe("CLI", () => {
