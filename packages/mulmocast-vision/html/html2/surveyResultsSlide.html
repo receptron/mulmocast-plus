@@ -1,0 +1,32 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header -->
+  <div class="mb-16">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-6"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">Survey Results</h1>
+    <div class="w-32 h-0.5 bg-gray-300"></div>
+  </div>
+
+  <!-- Survey Results Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto">
+    {% for i in range(0, questions|length) %}
+    <section class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-3xl p-8 text-white shadow-2xl hover:scale-105 transition-all duration-300">
+      <div class="flex items-center mb-6">
+        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mr-6">
+          <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.382l6.553 3.276A1 1 0 0018 15V3z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold leading-tight">Question {{i + 1}}</h2>
+      </div>
+      <div class="bg-white bg-opacity-10 rounded-2xl p-4 mb-4">
+        <h3 class="text-xl font-semibold mb-2">{{questions[i]}}</h3>
+      </div>
+      <p class="text-lg leading-relaxed">{{summaries[i]}}</p>
+    </section>
+    {% endfor %}
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<div class="bg-white text-gray-900 flex flex-col px-20 py-20">
+  <header class="mb-10">
+    <h1 class="text-5xl font-bold tracking-tight">{{title}}</h1>
+  </header>
+
+  <main class="flex-1">
+    <ol class="list-decimal ml-6 space-y-6 text-3xl leading-relaxed text-gray-800 break-words whitespace-normal">
+      {% for item in items %}
+      <li>{{ items }}</li>
+      {% endfor %}
+    </ol>
+  </main>
+</div>

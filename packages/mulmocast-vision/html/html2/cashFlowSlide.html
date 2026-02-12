@@ -1,0 +1,68 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header -->
+  <div class="mb-16">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-6"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">Cash Flow</h1>
+    <div class="w-32 h-0.5 bg-gray-300"></div>
+  </div>
+
+  <!-- Cash Flow Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+    <!-- Inflows -->
+    <section
+      class="bg-gradient-to-br from-emerald-500 to-green-600 rounded-3xl p-10 text-white shadow-2xl transform hover:scale-105 transition-all duration-300"
+    >
+      <div class="flex items-center mb-8">
+        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mr-4">
+          <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 4.414 6.707 7.707a1 1 0 01-1.414 0z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <h2 class="text-3xl font-bold">Inflows</h2>
+      </div>
+      <ul class="space-y-4 text-lg">
+        {% for i in inflows %}
+        <li class="flex items-start"><span class="w-2 h-2 bg-white rounded-full mt-3 mr-3 flex-shrink-0"></span><span>{{i}}</span></li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <!-- Outflows -->
+    <section class="bg-gradient-to-br from-red-500 to-rose-600 rounded-3xl p-10 text-white shadow-2xl transform hover:scale-105 transition-all duration-300">
+      <div class="flex items-center mb-8">
+        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mr-4">
+          <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L10 15.586l3.293-3.293a1 1 0 011.414 0z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <h2 class="text-3xl font-bold">Outflows</h2>
+      </div>
+      <ul class="space-y-4 text-lg">
+        {% for o in outflows %}
+        <li class="flex items-start"><span class="w-2 h-2 bg-white rounded-full mt-3 mr-3 flex-shrink-0"></span><span>{{o}}</span></li>
+        {% endfor %}
+      </ul>
+    </section>
+  </div>
+
+  <!-- Cash Flow Summary -->
+  <div class="text-center mt-12">
+    <div class="inline-flex items-center bg-white rounded-2xl shadow-xl px-8 py-6">
+      <div class="flex items-center">
+        <span class="text-2xl font-bold text-emerald-600">Inflows</span>
+        <span class="text-2xl font-bold text-gray-400 mx-4">-</span>
+        <span class="text-2xl font-bold text-red-500">Outflows</span>
+        <span class="text-2xl font-bold text-gray-400 mx-4">=</span>
+        <span class="text-2xl font-bold text-blue-600">Net Cash Flow</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <div class="flex flex-col items-center mb-10">
+    <div class="inline-flex items-center gap-3 rounded-full border border-gray-300 bg-gray-50 px-6 py-3">
+      <span class="text-sm uppercase tracking-wide text-gray-600">Metric</span>
+      <span class="text-2xl font-semibold text-gray-900">{{metric}}</span>
+    </div>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    {% for branch in drivers %}
+    <section class="rounded-2xl border border-gray-200 p-6 bg-white">
+      <h3 class="text-lg font-semibold text-gray-700 mb-3">Driver group {{loop.index}}</h3>
+      <ul class="list-disc ml-5 space-y-2 text-xl leading-relaxed">
+        {% for item in branch %}
+        <li>{{item}}</li>
+        {% endfor %}
+      </ul>
+    </section>
+    {% endfor %}
+  </div>
+</div>

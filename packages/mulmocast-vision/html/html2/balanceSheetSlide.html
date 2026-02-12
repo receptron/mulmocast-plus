@@ -1,0 +1,87 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header -->
+  <div class="mb-16">
+    <div class="w-20 h-1 bg-gradient-to-r from-emerald-600 to-green-600 mb-6"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">Balance Sheet</h1>
+    <div class="w-32 h-0.5 bg-gray-300"></div>
+  </div>
+
+  <!-- Balance Sheet Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+    <!-- Assets -->
+    <section
+      class="bg-gradient-to-br from-emerald-500 to-green-600 rounded-3xl p-8 text-white shadow-2xl transform hover:scale-105 transition-all duration-300"
+    >
+      <div class="flex items-center mb-6">
+        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mr-4">
+          <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <h2 class="text-3xl font-bold">Assets</h2>
+      </div>
+      <ul class="space-y-3 text-lg">
+        {% for a in assets %}
+        <li class="flex items-start"><span class="w-2 h-2 bg-white rounded-full mt-3 mr-3 flex-shrink-0"></span><span>{{a}}</span></li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <!-- Liabilities -->
+    <section class="bg-gradient-to-br from-red-500 to-rose-600 rounded-3xl p-8 text-white shadow-2xl transform hover:scale-105 transition-all duration-300">
+      <div class="flex items-center mb-6">
+        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mr-4">
+          <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <h2 class="text-3xl font-bold">Liabilities</h2>
+      </div>
+      <ul class="space-y-3 text-lg">
+        {% for l in liabilities %}
+        <li class="flex items-start"><span class="w-2 h-2 bg-white rounded-full mt-3 mr-3 flex-shrink-0"></span><span>{{l}}</span></li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <!-- Equity -->
+    <section class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-3xl p-8 text-white shadow-2xl transform hover:scale-105 transition-all duration-300">
+      <div class="flex items-center mb-6">
+        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mr-4">
+          <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <h2 class="text-3xl font-bold">Equity</h2>
+      </div>
+      <ul class="space-y-3 text-lg">
+        {% for e in equity %}
+        <li class="flex items-start"><span class="w-2 h-2 bg-white rounded-full mt-3 mr-3 flex-shrink-0"></span><span>{{e}}</span></li>
+        {% endfor %}
+      </ul>
+    </section>
+  </div>
+
+  <!-- Balance Equation -->
+  <div class="text-center mt-12">
+    <div class="inline-flex items-center bg-white rounded-2xl shadow-lg px-8 py-4">
+      <span class="text-2xl font-bold text-emerald-600">Assets</span>
+      <span class="text-2xl font-bold text-gray-400 mx-4">=</span>
+      <span class="text-2xl font-bold text-red-500">Liabilities</span>
+      <span class="text-2xl font-bold text-gray-400 mx-4">+</span>
+      <span class="text-2xl font-bold text-blue-600">Equity</span>
+    </div>
+  </div>
+</div>

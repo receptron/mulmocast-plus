@@ -1,0 +1,14 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <div class="grid grid-cols-3 gap-4">
+    {% for key, arr in blocks %}
+    <section class="rounded-xl border p-4 bg-gray-50">
+      <h2 class="text-lg font-semibold text-gray-700 mb-2">{{key}}</h2>
+      <ul class="list-disc ml-5 space-y-1 text-xl">
+        {% for v in arr %}
+        <li>{{v}}</li>
+        {% endfor %}
+      </ul>
+    </section>
+    {% endfor %}
+  </div>
+</div>

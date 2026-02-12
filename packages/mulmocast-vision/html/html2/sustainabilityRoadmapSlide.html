@@ -1,0 +1,54 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header Section -->
+  <div class="mb-16">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-6"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">Sustainability Roadmap</h1>
+    <div class="w-32 h-0.5 bg-gray-300"></div>
+  </div>
+
+  <!-- Timeline Layout -->
+  <div class="relative">
+    <!-- Timeline Line -->
+    <div class="absolute top-20 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 to-green-600 hidden md:block"></div>
+
+    <!-- Phase Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-{{phases|length}} gap-8 relative">
+      {% for ph in phases %}
+      <div class="relative">
+        <!-- Timeline Dot -->
+        <div
+          class="absolute -top-3 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-emerald-600 rounded-full border-4 border-white shadow-lg hidden md:block"
+        ></div>
+
+        <!-- Phase Card -->
+        <div class="bg-gradient-to-br from-emerald-600 to-green-700 rounded-3xl p-8 text-white shadow-2xl hover:scale-105 transition-all duration-300 mt-12">
+          <!-- Phase Icon -->
+          <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mb-6">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9m0 0a9 9 0 019 9"
+              ></path>
+            </svg>
+          </div>
+
+          <!-- Phase Title -->
+          <h2 class="text-2xl font-bold mb-6">{{ph}}</h2>
+
+          <!-- Actions List -->
+          <div class="space-y-3">
+            {% for a in actions %}
+            <div class="flex items-start space-x-3">
+              <div class="w-2 h-2 bg-white bg-opacity-60 rounded-full mt-2 flex-shrink-0"></div>
+              <span class="text-lg leading-relaxed">{{a}}</span>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

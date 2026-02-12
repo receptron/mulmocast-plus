@@ -1,0 +1,36 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header -->
+  <div class="mb-16">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-6"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">Stakeholder Map</h1>
+    <div class="w-32 h-0.5 bg-gray-300"></div>
+  </div>
+
+  <!-- Stakeholders Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto">
+    {% for s in stakeholders %}
+    <section class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-3xl p-8 text-white shadow-2xl hover:scale-105 transition-all duration-300">
+      <div class="flex items-center mb-6">
+        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mr-6">
+          <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <h2 class="text-3xl font-bold">{{s.name}}</h2>
+      </div>
+      <div class="bg-white bg-opacity-10 rounded-2xl p-4 mb-4">
+        <p class="text-xl font-semibold">
+          Influence: <span class="text-blue-100">{{s.influence}}</span> / Interest: <span class="text-blue-100">{{s.interest}}</span>
+        </p>
+      </div>
+      {% if s.notes %}
+      <p class="text-lg leading-relaxed">{{s.notes}}</p>
+      {% endif %}
+    </section>
+    {% endfor %}
+  </div>
+</div>

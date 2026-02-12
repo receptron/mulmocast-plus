@@ -1,0 +1,8 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <h1 class="text-5xl font-bold mb-8">Funnel</h1>
+  <ul class="list-decimal ml-6 space-y-3 text-2xl">
+    {% for st in stages %}
+    <li>{{st.label}} — {{st.value}}</li>
+    {% endfor %}
+  </ul>
+</div>

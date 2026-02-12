@@ -1,0 +1,66 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header -->
+  <div class="text-center mb-16">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-6 mx-auto"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">ESG Framework</h1>
+    <div class="w-32 h-0.5 bg-gray-300 mx-auto"></div>
+  </div>
+
+  <div class="grid grid-cols-3 gap-8 max-w-7xl mx-auto">
+    <section class="bg-gradient-to-br from-emerald-500 to-green-600 rounded-3xl p-10 text-white shadow-2xl hover:scale-105 transition-all duration-300">
+      <div class="flex items-center mb-6">
+        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mr-6">
+          <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <h2 class="text-3xl font-bold">Environmental</h2>
+      </div>
+      <ul class="space-y-3 text-lg">
+        {% for e in environmental %}
+        <li class="flex items-start"><span class="w-2 h-2 bg-white rounded-full mt-3 mr-3 flex-shrink-0"></span><span class="font-light">{{e}}</span></li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <section class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-3xl p-10 text-white shadow-2xl hover:scale-105 transition-all duration-300">
+      <div class="flex items-center mb-6">
+        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mr-6">
+          <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z" />
+          </svg>
+        </div>
+        <h2 class="text-3xl font-bold">Social</h2>
+      </div>
+      <ul class="space-y-3 text-lg">
+        {% for s in social %}
+        <li class="flex items-start"><span class="w-2 h-2 bg-white rounded-full mt-3 mr-3 flex-shrink-0"></span><span class="font-light">{{s}}</span></li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <section class="bg-gradient-to-br from-purple-500 to-violet-600 rounded-3xl p-10 text-white shadow-2xl hover:scale-105 transition-all duration-300">
+      <div class="flex items-center mb-6">
+        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mr-6">
+          <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944zM11 14a1 1 0 11-2 0 1 1 0 012 0zm0-7a1 1 0 10-2 0v3a1 1 0 102 0V7z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <h2 class="text-3xl font-bold">Governance</h2>
+      </div>
+      <ul class="space-y-3 text-lg">
+        {% for g in governance %}
+        <li class="flex items-start"><span class="w-2 h-2 bg-white rounded-full mt-3 mr-3 flex-shrink-0"></span><span class="font-light">{{g}}</span></li>
+        {% endfor %}
+      </ul>
+    </section>
+  </div>
+</div>

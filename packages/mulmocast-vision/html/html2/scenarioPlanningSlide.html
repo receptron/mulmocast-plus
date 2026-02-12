@@ -1,0 +1,63 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header Section -->
+  <div class="mb-16">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-6"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">Scenario Planning</h1>
+    <div class="w-32 h-0.5 bg-gray-300"></div>
+  </div>
+
+  <!-- Scenario Cards Layout -->
+  <div class="grid grid-cols-1 md:grid-cols-{{scenarios|length}} gap-8">
+    {% for s in scenarios %} {% set colors = [ 'from-blue-600 to-indigo-700', 'from-emerald-600 to-green-700', 'from-amber-600 to-orange-700', 'from-purple-600
+    to-violet-700', 'from-red-600 to-rose-700' ] %}
+    <div class="bg-gradient-to-br {{colors[loop.index0 % colors|length]}} rounded-3xl p-10 text-white shadow-2xl hover:scale-105 transition-all duration-300">
+      <!-- Scenario Icon -->
+      <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mb-8">
+        {% if loop.index0 == 0 %}
+        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+        </svg>
+        {% elif loop.index0 == 1 %}
+        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+          ></path>
+        </svg>
+        {% elif loop.index0 == 2 %}
+        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+          ></path>
+        </svg>
+        {% else %}
+        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          ></path>
+        </svg>
+        {% endif %}
+      </div>
+
+      <!-- Scenario Content -->
+      <div>
+        <h2 class="text-3xl font-bold mb-6">{{s}}</h2>
+        {% if impacts %}
+        <div class="bg-white bg-opacity-10 rounded-xl p-6">
+          <h3 class="text-xl font-semibold mb-3 text-white opacity-90">Impact Analysis</h3>
+          <p class="text-lg leading-relaxed text-white opacity-80">{{impacts[loop.index0]}}</p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>

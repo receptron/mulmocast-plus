@@ -1,0 +1,21 @@
+<div class="bg-white text-gray-900 px-16 py-16 space-y-8">
+  <section>
+    <h2 class="text-5xl font-bold mb-6">Customer Journey</h2>
+    <div class="flex flex-wrap gap-3">
+      {% for s in stages %}
+      <div class="rounded-full border px-4 py-2 bg-gray-50 text-2xl">{{s}}</div>
+      {% endfor %}
+    </div>
+  </section>
+  <section class="grid grid-cols-1 md:grid-cols-{{stages|length}} gap-6">
+    {% for tp in touchpoints %}
+    <div class="rounded-xl border p-4 bg-white">
+      <ul class="list-disc ml-5 space-y-2 text-xl">
+        {% for t in tp %}
+        <li>{{t}}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endfor %}
+  </section>
+</div>

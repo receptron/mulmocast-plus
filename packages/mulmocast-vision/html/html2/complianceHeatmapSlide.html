@@ -1,0 +1,42 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header -->
+  <div class="text-center mb-16">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-6 mx-auto"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">Compliance Heatmap</h1>
+    <div class="w-32 h-0.5 bg-gray-300 mx-auto"></div>
+  </div>
+
+  <div class="max-w-6xl mx-auto">
+    <section class="bg-gradient-to-br from-red-500 to-rose-600 rounded-3xl p-10 text-white shadow-2xl">
+      <div class="flex items-center mb-8">
+        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mr-6">
+          <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944zM11 14a1 1 0 11-2 0 1 1 0 012 0zm0-7a1 1 0 10-2 0v3a1 1 0 102 0V7z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <h2 class="text-4xl font-bold">Compliance Assessment</h2>
+      </div>
+      <div class="space-y-4">
+        {% for a in areas %}
+        <div class="flex items-center justify-between bg-white bg-opacity-10 rounded-2xl p-6">
+          <span class="text-xl font-light">{{a}}</span>
+          <div class="flex items-center">
+            <span class="text-lg font-semibold mr-3">{{levels[loop.index0]}}</span>
+            {% set level = levels[loop.index0] %} {% if "High" in level or "Good" in level %}
+            <div class="w-4 h-4 bg-green-400 rounded-full"></div>
+            {% elif "Medium" in level or "Fair" in level %}
+            <div class="w-4 h-4 bg-yellow-400 rounded-full"></div>
+            {% else %}
+            <div class="w-4 h-4 bg-red-300 rounded-full"></div>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+</div>

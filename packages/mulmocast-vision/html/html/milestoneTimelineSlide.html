@@ -1,0 +1,14 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <h1 class="text-5xl font-bold mb-8">{{title}}</h1>
+  <ol class="relative border-l-2 border-gray-200 ml-4">
+    {% for m in milestones %}
+    <li class="ml-6 mb-8">
+      <div class="absolute -left-1.5 w-3 h-3 bg-gray-400 rounded-full"></div>
+      <h3 class="text-2xl font-semibold">{{m.label}}</h3>
+      {% if m.date %}<time class="text-gray-600">{{m.date}}</time>{% endif %} {% if m.notes %}
+      <p class="text-gray-700 mt-2">{{m.notes}}</p>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+</div>

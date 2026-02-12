@@ -1,0 +1,15 @@
+<div class="bg-white text-gray-900 px-20 py-20">
+  <h1 class="text-5xl font-bold mb-10">{{title}}</h1>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    {% for g in groups %}
+    <section class="rounded-2xl border border-gray-200 p-6 bg-gray-50">
+      <h2 class="text-xl font-semibold text-gray-700 mb-3">{{g.label}}</h2>
+      <ul class="list-disc ml-5 space-y-2 text-2xl">
+        {% for it in g.items %}
+        <li>{{it}}</li>
+        {% endfor %}
+      </ul>
+    </section>
+    {% endfor %}
+  </div>
+</div>

@@ -1,0 +1,85 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header -->
+  <div class="mb-16">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-6"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">{{title}}</h1>
+    <div class="w-32 h-0.5 bg-gray-300"></div>
+  </div>
+
+  <!-- OKR/KPI Cards -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+    {% for m in metrics %}
+    <section class="bg-white rounded-3xl shadow-2xl border border-gray-100 p-8 transform hover:scale-105 transition-all duration-300 hover:shadow-3xl">
+      <div class="flex items-start justify-between mb-6">
+        <div class="flex-1">
+          <div class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">{{m.label}}</div>
+          <div class="text-5xl font-black text-gray-900 leading-none mb-4">{{m.value}}</div>
+          {% if m.target %}
+          <div class="text-lg text-gray-600 mb-2">Target: <span class="font-semibold">{{m.target}}</span></div>
+          {% endif %}
+        </div>
+        <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center ml-4">
+          <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"
+            />
+          </svg>
+        </div>
+      </div>
+
+      {% if m.status %}
+      <div class="flex items-center">
+        {% if m.status|lower == 'on track' %}
+        <div class="flex items-center text-emerald-600 bg-emerald-50 rounded-full px-3 py-1">
+          <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <span class="text-sm font-semibold uppercase tracking-wide">{{m.status}}</span>
+        </div>
+        {% elif m.status|lower == 'at risk' %}
+        <div class="flex items-center text-amber-600 bg-amber-50 rounded-full px-3 py-1">
+          <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <span class="text-sm font-semibold uppercase tracking-wide">{{m.status}}</span>
+        </div>
+        {% elif m.status|lower == 'behind' %}
+        <div class="flex items-center text-red-600 bg-red-50 rounded-full px-3 py-1">
+          <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <span class="text-sm font-semibold uppercase tracking-wide">{{m.status}}</span>
+        </div>
+        {% else %}
+        <div class="flex items-center text-blue-600 bg-blue-50 rounded-full px-3 py-1">
+          <span class="text-sm font-semibold uppercase tracking-wide">{{m.status}}</span>
+        </div>
+        {% endif %}
+      </div>
+      {% endif %}
+    </section>
+    {% endfor %}
+  </div>
+
+  <!-- Dashboard Summary -->
+  <div class="text-center mt-16">
+    <div class="inline-flex items-center bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl shadow-xl px-8 py-6">
+      <svg class="w-8 h-8 mr-3" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span class="text-2xl font-bold">OKR & KPI Performance Dashboard</span>
+    </div>
+  </div>
+</div>

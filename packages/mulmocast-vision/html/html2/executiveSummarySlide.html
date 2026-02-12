@@ -1,0 +1,27 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 overflow-hidden flex flex-col min-h-screen">
+  <!-- Header with accent line -->
+  <header class="px-16 pt-16 pb-8">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-8"></div>
+    <h1 class="text-6xl font-extrabold tracking-tight text-gray-900 mb-4 leading-tight">{{title}}</h1>
+    <div class="w-32 h-0.5 bg-gray-300"></div>
+  </header>
+
+  <!-- Executive summary content -->
+  <main class="flex-1 px-16 pb-16">
+    <div class="max-w-5xl">
+      <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-12">
+        <ol class="space-y-8 text-2xl leading-relaxed text-gray-700">
+          {% for bullet in bullets %}
+          <li class="flex items-start">
+            <span
+              class="inline-flex items-center justify-center w-8 h-8 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-lg font-bold rounded-full mr-6 mt-1 flex-shrink-0"
+              >{{ loop.index }}</span
+            >
+            <span class="break-words">{{ bullet }}</span>
+          </li>
+          {% endfor %}
+        </ol>
+      </div>
+    </div>
+  </main>
+</div>

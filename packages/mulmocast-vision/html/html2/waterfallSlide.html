@@ -1,0 +1,47 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header -->
+  <div class="mb-16">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-6"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">{{title}}</h1>
+    <div class="w-32 h-0.5 bg-gray-300"></div>
+  </div>
+
+  <!-- Waterfall Steps -->
+  <div class="max-w-6xl mx-auto">
+    <div class="space-y-6">
+      {% for s in steps %}
+      <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 transform hover:scale-[1.02] transition-all duration-300 hover:shadow-xl">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mr-4">
+              <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"
+                />
+              </svg>
+            </div>
+            <div class="text-xl font-semibold text-gray-800">{{s.label}}</div>
+          </div>
+          <div
+            class="text-2xl font-bold {% if s.value|string|first == '-' %}text-red-600{% elif s.value|string|first == '+' %}text-emerald-600{% else %}text-blue-600{% endif %}"
+          >
+            {{s.value}}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Waterfall Summary -->
+  <div class="text-center mt-12">
+    <div class="inline-flex items-center bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl shadow-xl px-8 py-6">
+      <svg class="w-8 h-8 mr-3" fill="currentColor" viewBox="0 0 20 20">
+        <path
+          d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"
+        />
+      </svg>
+      <span class="text-2xl font-bold">Waterfall Analysis Complete</span>
+    </div>
+  </div>
+</div>

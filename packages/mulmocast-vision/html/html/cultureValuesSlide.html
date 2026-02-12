@@ -1,0 +1,21 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <h1 class="text-5xl font-bold mb-6">Culture & Values</h1>
+  <section class="mb-6">
+    <h2 class="text-xl font-semibold mb-2">Values</h2>
+    <ul class="list-disc ml-5 text-2xl">
+      {% for v in values %}
+      <li>{{v}}</li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% if behaviors %}
+  <section>
+    <h2 class="text-xl font-semibold mb-2">Behaviors</h2>
+    <ul class="list-disc ml-5 text-2xl">
+      {% for b in behaviors %}
+      <li>{{b}}</li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+</div>

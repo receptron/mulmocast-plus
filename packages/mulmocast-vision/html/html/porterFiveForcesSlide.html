@@ -1,0 +1,44 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <div class="grid grid-cols-3 gap-6">
+    <section class="rounded-xl border p-6 bg-gray-50">
+      <h2 class="text-xl font-semibold mb-3">Threat of New Entrants</h2>
+      <ul class="list-disc ml-5 space-y-2 text-2xl">
+        {% for x in newEntrants %}
+        <li>{{x}}</li>
+        {% endfor %}
+      </ul>
+    </section>
+    <section class="rounded-xl border p-6 bg-white">
+      <h2 class="text-xl font-semibold mb-3">Supplier Power</h2>
+      <ul class="list-disc ml-5 space-y-2 text-2xl">
+        {% for x in suppliers %}
+        <li>{{x}}</li>
+        {% endfor %}
+      </ul>
+    </section>
+    <section class="rounded-xl border p-6 bg-gray-50">
+      <h2 class="text-xl font-semibold mb-3">Buyer Power</h2>
+      <ul class="list-disc ml-5 space-y-2 text-2xl">
+        {% for x in buyers %}
+        <li>{{x}}</li>
+        {% endfor %}
+      </ul>
+    </section>
+    <section class="rounded-xl border p-6 bg-white">
+      <h2 class="text-xl font-semibold mb-3">Threat of Substitutes</h2>
+      <ul class="list-disc ml-5 space-y-2 text-2xl">
+        {% for x in substitutes %}
+        <li>{{x}}</li>
+        {% endfor %}
+      </ul>
+    </section>
+    <section class="rounded-xl border p-6 bg-gray-50">
+      <h2 class="text-xl font-semibold mb-3">Rivalry</h2>
+      <ul class="list-disc ml-5 space-y-2 text-2xl">
+        {% for x in rivalry %}
+        <li>{{x}}</li>
+        {% endfor %}
+      </ul>
+    </section>
+  </div>
+</div>

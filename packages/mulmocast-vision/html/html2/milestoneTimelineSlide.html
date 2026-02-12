@@ -1,0 +1,59 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header Section -->
+  <div class="mb-16">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-6"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">{{title}}</h1>
+    <div class="w-32 h-0.5 bg-gray-300"></div>
+  </div>
+
+  <!-- Vertical Timeline -->
+  <div class="relative max-w-4xl mx-auto">
+    <!-- Timeline Line -->
+    <div class="absolute left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-600 to-indigo-600"></div>
+
+    <!-- Milestone Cards -->
+    <div class="space-y-12">
+      {% for m in milestones %}
+      <div class="relative">
+        <!-- Timeline Dot -->
+        <div class="absolute left-6 w-5 h-5 bg-blue-600 rounded-full border-4 border-white shadow-lg"></div>
+
+        <!-- Milestone Card -->
+        <div class="ml-20 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-10 text-white shadow-2xl hover:scale-105 transition-all duration-300">
+          <!-- Milestone Icon -->
+          <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mb-6">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+              ></path>
+            </svg>
+          </div>
+
+          <!-- Milestone Content -->
+          <div>
+            <h3 class="text-3xl font-bold mb-4">{{m.label}}</h3>
+            {% if m.date %}
+            <div class="flex items-center space-x-2 mb-4">
+              <svg class="w-5 h-5 text-white opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                ></path>
+              </svg>
+              <time class="text-xl font-semibold text-white opacity-90">{{m.date}}</time>
+            </div>
+            {% endif %} {% if m.notes %}
+            <p class="text-lg leading-relaxed text-white opacity-90">{{m.notes}}</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

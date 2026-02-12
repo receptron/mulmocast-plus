@@ -1,0 +1,36 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <div class="grid grid-cols-2 gap-6">
+    <section class="rounded-xl border p-6 bg-gray-50">
+      <h2 class="text-xl font-semibold text-gray-700 mb-3">Strengths</h2>
+      <ul class="list-disc ml-5 space-y-2 text-2xl">
+        {% for s in strengths %}
+        <li>{{s}}</li>
+        {% endfor %}
+      </ul>
+    </section>
+    <section class="rounded-xl border p-6 bg-gray-50">
+      <h2 class="text-xl font-semibold text-gray-700 mb-3">Weaknesses</h2>
+      <ul class="list-disc ml-5 space-y-2 text-2xl">
+        {% for w in weaknesses %}
+        <li>{{w}}</li>
+        {% endfor %}
+      </ul>
+    </section>
+    <section class="rounded-xl border p-6 bg-white">
+      <h2 class="text-xl font-semibold text-gray-700 mb-3">Opportunities</h2>
+      <ul class="list-disc ml-5 space-y-2 text-2xl">
+        {% for o in opportunities %}
+        <li>{{o}}</li>
+        {% endfor %}
+      </ul>
+    </section>
+    <section class="rounded-xl border p-6 bg-white">
+      <h2 class="text-xl font-semibold text-gray-700 mb-3">Threats</h2>
+      <ul class="list-disc ml-5 space-y-2 text-2xl">
+        {% for t in threats %}
+        <li>{{t}}</li>
+        {% endfor %}
+      </ul>
+    </section>
+  </div>
+</div>

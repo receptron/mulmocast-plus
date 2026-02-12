@@ -1,0 +1,73 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header -->
+  <div class="mb-16">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-6"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">P&L Breakdown</h1>
+    <div class="w-32 h-0.5 bg-gray-300"></div>
+  </div>
+
+  <!-- P&L Table -->
+  <div class="max-w-5xl mx-auto">
+    <div class="bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden">
+      <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+        <div class="grid grid-cols-2 gap-4 px-8 py-6">
+          <div class="text-xl font-bold">Category</div>
+          <div class="text-xl font-bold text-right">Value</div>
+        </div>
+      </div>
+      <div class="divide-y divide-gray-100">
+        {% for i in range(0, categories|length) %}
+        <div class="grid grid-cols-2 gap-4 px-8 py-6 hover:bg-gray-50 transition-colors duration-200">
+          <div class="text-lg font-medium text-gray-800">{{categories[i]}}</div>
+          <div class="text-lg font-bold text-right {% if values[i]|string|first == '-' %}text-red-600{% else %}text-gray-900{% endif %}">{{values[i]}}</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Financial Summary Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mt-12">
+    <div class="bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl p-6 text-white shadow-xl">
+      <div class="flex items-center mb-3">
+        <svg class="w-8 h-8 mr-3" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            fill-rule="evenodd"
+            d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 4.414 6.707 7.707a1 1 0 01-1.414 0z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        <span class="text-lg font-semibold">Revenue</span>
+      </div>
+      <div class="text-sm opacity-90">Total Income Generated</div>
+    </div>
+
+    <div class="bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl p-6 text-white shadow-xl">
+      <div class="flex items-center mb-3">
+        <svg class="w-8 h-8 mr-3" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            fill-rule="evenodd"
+            d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L10 15.586l3.293-3.293a1 1 0 011.414 0z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        <span class="text-lg font-semibold">Expenses</span>
+      </div>
+      <div class="text-sm opacity-90">Operating & Other Costs</div>
+    </div>
+
+    <div class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-6 text-white shadow-xl">
+      <div class="flex items-center mb-3">
+        <svg class="w-8 h-8 mr-3" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            fill-rule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        <span class="text-lg font-semibold">Net Profit</span>
+      </div>
+      <div class="text-sm opacity-90">Bottom Line Result</div>
+    </div>
+  </div>
+</div>

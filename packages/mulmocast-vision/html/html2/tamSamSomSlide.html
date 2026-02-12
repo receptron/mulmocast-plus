@@ -1,0 +1,62 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header -->
+  <div class="mb-16">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-6"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">TAM / SAM / SOM</h1>
+    <div class="w-32 h-0.5 bg-gray-300"></div>
+  </div>
+
+  <!-- Market Analysis -->
+  <div
+    class="bg-gradient-to-br from-emerald-500 to-green-600 rounded-3xl p-10 text-white shadow-2xl hover:scale-105 transition-all duration-300 max-w-4xl mx-auto"
+  >
+    <div class="flex items-center mb-8">
+      <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mr-6">
+        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" />
+          <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" />
+        </svg>
+      </div>
+      <h2 class="text-4xl font-bold">Market Opportunity</h2>
+    </div>
+
+    <div class="space-y-6">
+      <div class="bg-white bg-opacity-10 rounded-2xl p-6">
+        <div class="flex items-center mb-4">
+          <div class="w-8 h-8 bg-white bg-opacity-30 rounded-xl flex items-center justify-center mr-4">
+            <span class="text-lg font-bold text-green-100">T</span>
+          </div>
+          <h3 class="text-2xl font-bold">Total Addressable Market (TAM)</h3>
+        </div>
+        <p class="text-xl">{{tam}}</p>
+      </div>
+
+      <div class="bg-white bg-opacity-10 rounded-2xl p-6">
+        <div class="flex items-center mb-4">
+          <div class="w-8 h-8 bg-white bg-opacity-30 rounded-xl flex items-center justify-center mr-4">
+            <span class="text-lg font-bold text-green-100">S</span>
+          </div>
+          <h3 class="text-2xl font-bold">Serviceable Addressable Market (SAM)</h3>
+        </div>
+        <p class="text-xl">{{sam}}</p>
+      </div>
+
+      <div class="bg-white bg-opacity-10 rounded-2xl p-6">
+        <div class="flex items-center mb-4">
+          <div class="w-8 h-8 bg-white bg-opacity-30 rounded-xl flex items-center justify-center mr-4">
+            <span class="text-lg font-bold text-green-100">S</span>
+          </div>
+          <h3 class="text-2xl font-bold">Serviceable Obtainable Market (SOM)</h3>
+        </div>
+        <p class="text-xl">{{som}}</p>
+      </div>
+    </div>
+
+    {% if notes %}
+    <div class="mt-8 bg-white bg-opacity-10 rounded-2xl p-6">
+      <h3 class="text-xl font-semibold mb-3">Additional Notes</h3>
+      <p class="text-lg leading-relaxed">{{notes}}</p>
+    </div>
+    {% endif %}
+  </div>
+</div>

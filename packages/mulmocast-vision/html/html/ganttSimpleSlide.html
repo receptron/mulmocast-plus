@@ -1,0 +1,21 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <h1 class="text-5xl font-bold mb-8">Gantt (Simple)</h1>
+  <table class="w-full border-collapse">
+    <thead>
+      <tr>
+        <th class="border p-3 text-left">Task</th>
+        <th class="border p-3">Start</th>
+        <th class="border p-3">End</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in tasks %}
+      <tr>
+        <td class="border p-3">{{t.name}}</td>
+        <td class="border p-3">{{t.start}}</td>
+        <td class="border p-3">{{t.end}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

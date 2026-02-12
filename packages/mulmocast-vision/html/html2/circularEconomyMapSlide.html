@@ -1,0 +1,35 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header -->
+  <div class="text-center mb-16">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-6 mx-auto"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">Circular Economy Map</h1>
+    <div class="w-32 h-0.5 bg-gray-300 mx-auto"></div>
+  </div>
+
+  <div class="max-w-6xl mx-auto">
+    <section class="bg-gradient-to-br from-emerald-500 to-green-600 rounded-3xl p-10 text-white shadow-2xl">
+      <div class="flex items-center mb-8">
+        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mr-6">
+          <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <h2 class="text-4xl font-bold">Circular Economy Loops</h2>
+      </div>
+      <ol class="space-y-6">
+        {% for l in loops %}
+        <li class="flex items-start">
+          <div class="w-10 h-10 bg-white bg-opacity-30 rounded-xl flex items-center justify-center mr-6 flex-shrink-0 mt-1">
+            <span class="text-lg font-bold text-white">{{loop.index}}</span>
+          </div>
+          <p class="text-xl leading-relaxed font-light pt-2">{{l}}</p>
+        </li>
+        {% endfor %}
+      </ol>
+    </section>
+  </div>
+</div>

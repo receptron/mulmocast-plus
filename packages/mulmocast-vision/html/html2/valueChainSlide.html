@@ -1,0 +1,56 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header -->
+  <div class="text-center mb-16">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-6 mx-auto"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">Value Chain Analysis</h1>
+    <div class="w-32 h-0.5 bg-gray-300 mx-auto"></div>
+  </div>
+
+  <div class="max-w-7xl mx-auto space-y-12">
+    <section>
+      <div class="mb-8">
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">Primary Activities</h2>
+        <div class="w-24 h-0.5 bg-emerald-500 mb-6"></div>
+      </div>
+      <div class="grid grid-cols-5 gap-6">
+        {% for p in primary %}
+        <div
+          class="bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl p-8 text-white shadow-2xl hover:scale-105 transition-all duration-300 text-center"
+        >
+          <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
+          <p class="text-lg font-light">{{p}}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section>
+      <div class="mb-8">
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">Support Activities</h2>
+        <div class="w-24 h-0.5 bg-blue-500 mb-6"></div>
+      </div>
+      <div class="grid grid-cols-5 gap-6">
+        {% for s in support %}
+        <div
+          class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-8 text-white shadow-2xl hover:scale-105 transition-all duration-300 text-center"
+        >
+          <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <p class="text-lg font-light">{{s}}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+</div>
