@@ -1,14 +1,6 @@
 import { z } from "zod";
-import {
-  mulmoViewerBeatSchema,
-  mulmoViewerDataSchema,
-} from "@mulmocast/types";
-import {
-  beatVariantSchema,
-  beatMetaSchema,
-  outputProfileSchema,
-  scriptMetaSchema,
-} from "./mulmoBeat.js";
+import { mulmoViewerBeatSchema, mulmoViewerDataSchema } from "@mulmocast/types";
+import { beatVariantSchema, beatMetaSchema, outputProfileSchema, scriptMetaSchema } from "./mulmoBeat.js";
 
 /**
  * Extended Viewer Beat - viewer beat with variants and meta fields
@@ -18,9 +10,7 @@ export const extendedMulmoViewerBeatSchema = mulmoViewerBeatSchema.extend({
   meta: beatMetaSchema.optional(),
 });
 
-export type ExtendedMulmoViewerBeat = z.infer<
-  typeof extendedMulmoViewerBeatSchema
->;
+export type ExtendedMulmoViewerBeat = z.infer<typeof extendedMulmoViewerBeatSchema>;
 
 /**
  * Extended Viewer Data - viewer data with extended beats and metadata
@@ -31,6 +21,4 @@ export const extendedMulmoViewerDataSchema = mulmoViewerDataSchema.extend({
   scriptMeta: scriptMetaSchema.optional(),
 });
 
-export type ExtendedMulmoViewerData = z.infer<
-  typeof extendedMulmoViewerDataSchema
->;
+export type ExtendedMulmoViewerData = z.infer<typeof extendedMulmoViewerDataSchema>;
