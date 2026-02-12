@@ -1,7 +1,7 @@
 import { describe, it } from "node:test";
 import assert from "node:assert";
 import { applyProfile, listProfiles, processScript, filterBySection, filterByTags, stripExtendedFields } from "../src/index.js";
-import type { ExtendedMulmoScript } from "../src/index.js";
+import type { ExtendedMulmoScript } from "@mulmocast/extended-types";
 import { mulmoScriptSchema } from "@mulmocast/types";
 
 const createTestScript = (): ExtendedMulmoScript => ({
