@@ -21,31 +21,8 @@ export {
 } from "./core/ai/command/query/interactive.js";
 
 // Utilities
-export { fetchUrlContent } from "./core/ai/utils/fetcher.js";
+export { fetchUrlContent, stripHtml, extractTitle } from "./core/ai/utils/fetcher.js";
 export type { FetchedContent } from "./core/ai/utils/fetcher.js";
-
-// Types (from @mulmocast/extended-types)
-export type {
-  BeatVariant,
-  BeatMeta,
-  ExtendedMulmoBeat,
-  ExtendedMulmoScript,
-  OutputProfile,
-  Reference,
-  FAQ,
-  ScriptMeta,
-  MulmoImageAsset,
-} from "@mulmocast/extended-types";
-export {
-  beatVariantSchema,
-  beatMetaSchema,
-  extendedMulmoBeatSchema,
-  extendedMulmoScriptSchema,
-  outputProfileSchema,
-  referenceSchema,
-  faqSchema,
-  scriptMetaSchema,
-} from "@mulmocast/extended-types";
 
 // Types (local)
 export type { ProcessOptions, ProfileInfo } from "./types/index.js";
