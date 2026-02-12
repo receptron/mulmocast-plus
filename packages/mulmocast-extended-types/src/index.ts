@@ -32,12 +32,12 @@ export type BeatMeta = z.infer<typeof beatMetaSchema>;
 /**
  * Extended Beat - beat with variants and meta fields
  */
-export const extendedBeatSchema = mulmoBeatSchema.extend({
+export const extendedMulmoBeatSchema = mulmoBeatSchema.extend({
   variants: z.record(z.string(), beatVariantSchema).optional(),
   meta: beatMetaSchema.optional(),
 });
 
-export type ExtendedBeat = z.infer<typeof extendedBeatSchema>;
+export type ExtendedMulmoBeat = z.infer<typeof extendedMulmoBeatSchema>;
 
 /**
  * Output Profile - profile display information
@@ -101,10 +101,10 @@ export type ScriptMeta = z.infer<typeof scriptMetaSchema>;
 /**
  * Extended Script - script with variants, meta, and outputProfiles
  */
-export const extendedScriptSchema = mulmoScriptSchema.extend({
-  beats: z.array(extendedBeatSchema),
+export const extendedMulmoScriptSchema = mulmoScriptSchema.extend({
+  beats: z.array(extendedMulmoBeatSchema),
   outputProfiles: z.record(z.string(), outputProfileSchema).optional(),
   scriptMeta: scriptMetaSchema.optional(),
 });
 
-export type ExtendedScript = z.infer<typeof extendedScriptSchema>;
+export type ExtendedMulmoScript = z.infer<typeof extendedMulmoScriptSchema>;

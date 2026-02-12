@@ -1,10 +1,10 @@
 import { describe, it } from "node:test";
 import assert from "node:assert";
 import { applyProfile, listProfiles, processScript, filterBySection, filterByTags, stripExtendedFields } from "../src/index.js";
-import type { ExtendedScript } from "../src/index.js";
+import type { ExtendedMulmoScript } from "../src/index.js";
 import { mulmoScriptSchema } from "@mulmocast/types";
 
-const createTestScript = (): ExtendedScript => ({
+const createTestScript = (): ExtendedMulmoScript => ({
   $mulmocast: { version: "1.1" },
   title: "Test Script",
   lang: "ja",

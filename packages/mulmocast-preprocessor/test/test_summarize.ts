@@ -2,7 +2,7 @@ import { describe, it } from "node:test";
 import assert from "node:assert";
 import { buildUserPrompt, getSystemPrompt, DEFAULT_SYSTEM_PROMPT_TEXT, DEFAULT_SYSTEM_PROMPT_MARKDOWN } from "../src/core/ai/command/summarize/prompts.js";
 import { getProviderConfig } from "../src/core/ai/llm.js";
-import type { ExtendedScript } from "../src/index.js";
+import type { ExtendedMulmoScript } from "../src/index.js";
 import type { SummarizeOptions } from "../src/types/summarize.js";
 
 const createTestOptions = (overrides?: Partial<SummarizeOptions>): SummarizeOptions => ({
@@ -12,7 +12,7 @@ const createTestOptions = (overrides?: Partial<SummarizeOptions>): SummarizeOpti
   ...overrides,
 });
 
-const createTestScript = (): ExtendedScript => ({
+const createTestScript = (): ExtendedMulmoScript => ({
   $mulmocast: { version: "1.1" },
   title: "Test Script",
   lang: "en",
@@ -87,7 +87,7 @@ describe("buildUserPrompt", () => {
   });
 
   it("should include metadata (tags, context, keywords, expectedQuestions)", () => {
-    const script: ExtendedScript = {
+    const script: ExtendedMulmoScript = {
       $mulmocast: { version: "1.1" },
       title: "Metadata Test",
       lang: "en",

@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from "fs";
 import { GraphAILogger } from "graphai";
 import { processScript } from "../../core/preprocessing/process.js";
-import type { ExtendedScript } from "@mulmocast/extended-types";
+import type { ExtendedMulmoScript } from "@mulmocast/extended-types";
 
 interface ProcessOptions {
   profile?: string;
@@ -16,7 +16,7 @@ interface ProcessOptions {
 export const processCommand = (scriptPath: string, options: ProcessOptions): void => {
   try {
     const content = readFileSync(scriptPath, "utf-8");
-    const script: ExtendedScript = JSON.parse(content);
+    const script: ExtendedMulmoScript = JSON.parse(content);
 
     const result = processScript(script, {
       profile: options.profile,

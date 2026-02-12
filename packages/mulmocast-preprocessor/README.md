@@ -106,9 +106,9 @@ mulmocast-preprocessor query script.json  # Omit question for interactive mode
 
 ```typescript
 import { processScript, listProfiles, applyProfile } from "mulmocast-preprocessor";
-import type { ExtendedScript } from "mulmocast-preprocessor";
+import type { ExtendedMulmoScript } from "mulmocast-preprocessor";
 
-const script: ExtendedScript = {
+const script: ExtendedMulmoScript = {
   title: "My Presentation",
   beats: [
     {
@@ -148,7 +148,7 @@ const result = processScript(script, {
 Main processing function that applies profile and filters.
 
 **Parameters:**
-- `script: ExtendedScript` - Input script with variants/meta
+- `script: ExtendedMulmoScript` - Input script with variants/meta
 - `options: ProcessOptions` - Processing options
   - `profile?: string` - Profile name to apply
   - `section?: string` - Filter by section
@@ -161,7 +161,7 @@ Main processing function that applies profile and filters.
 Apply a profile to the script, replacing text/image and skipping marked beats.
 
 **Parameters:**
-- `script: ExtendedScript` - Input script
+- `script: ExtendedMulmoScript` - Input script
 - `profileName: string` - Profile name
 
 **Returns:** `MulmoScript` - Processed script
@@ -171,7 +171,7 @@ Apply a profile to the script, replacing text/image and skipping marked beats.
 Get list of available profiles from script.
 
 **Parameters:**
-- `script: ExtendedScript` - Input script
+- `script: ExtendedMulmoScript` - Input script
 
 **Returns:** `ProfileInfo[]` - Array of profile info with beat counts
 
@@ -188,7 +188,7 @@ Filter beats by tags (extracts beats that have any of the specified tags).
 Generate a summary of the script content using LLM.
 
 **Parameters:**
-- `script: ExtendedScript` - Input script
+- `script: ExtendedMulmoScript` - Input script
 - `options: SummarizeOptions` - Summarization options
   - `provider?: LLMProvider` - LLM provider (default: "openai")
   - `model?: string` - Model name
@@ -204,7 +204,7 @@ Generate a summary of the script content using LLM.
 Ask a question about the script content.
 
 **Parameters:**
-- `script: ExtendedScript` - Input script
+- `script: ExtendedMulmoScript` - Input script
 - `question: string` - Question to ask
 - `options: QueryOptions` - Query options (same as summarize)
 
@@ -215,7 +215,7 @@ Ask a question about the script content.
 Create an interactive query session for follow-up questions.
 
 **Parameters:**
-- `script: ExtendedScript` - Input script
+- `script: ExtendedMulmoScript` - Input script
 - `options: QueryOptions` - Query options
 
 **Returns:** Session object with `sendInteractiveQuery()` method
@@ -233,10 +233,10 @@ For AI features (summarize, query), set the API key for your LLM provider:
 
 ## Extended Schema
 
-### ExtendedBeat
+### ExtendedMulmoBeat
 
 ```typescript
-interface ExtendedBeat extends MulmoBeat {
+interface ExtendedMulmoBeat extends MulmoBeat {
   variants?: Record<string, BeatVariant>;
   meta?: BeatMeta;
 }

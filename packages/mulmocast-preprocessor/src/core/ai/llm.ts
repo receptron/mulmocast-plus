@@ -7,7 +7,7 @@ import { anthropicAgent } from "@graphai/anthropic_agent";
 import { groqAgent } from "@graphai/groq_agent";
 import { geminiAgent } from "@graphai/gemini_agent";
 
-import type { ExtendedScript } from "@mulmocast/extended-types";
+import type { ExtendedMulmoScript } from "@mulmocast/extended-types";
 import type { LLMProvider } from "../../types/summarize.js";
 import { filterBySection, filterByTags } from "../preprocessing/filter.js";
 
@@ -118,7 +118,7 @@ const createLLMGraph = (agentName: string): GraphData => ({
 /**
  * Filter script based on options (section, tags)
  */
-export const filterScript = (script: ExtendedScript, options: BaseLLMOptions): ExtendedScript => {
+export const filterScript = (script: ExtendedMulmoScript, options: BaseLLMOptions): ExtendedMulmoScript => {
   const afterSection = options.section ? filterBySection(script, options.section) : script;
   const afterTags = options.tags && options.tags.length > 0 ? filterByTags(afterSection, options.tags) : afterSection;
   return afterTags;
@@ -146,7 +146,7 @@ export const getLanguageName = (langCode: string): string => {
 /**
  * Build beat content including metadata
  */
-const buildBeatContent = (beat: ExtendedScript["beats"][number], index: number): string => {
+const buildBeatContent = (beat: ExtendedMulmoScript["beats"][number], index: number): string => {
   const lines: string[] = [];
 
   // Main text
@@ -182,7 +182,7 @@ const buildBeatContent = (beat: ExtendedScript["beats"][number], index: number):
 /**
  * Build script-level metadata section
  */
-const buildScriptMetaContent = (script: ExtendedScript): string => {
+const buildScriptMetaContent = (script: ExtendedMulmoScript): string => {
   const meta = script.scriptMeta;
   if (!meta) return "";
 
@@ -241,7 +241,7 @@ const buildScriptMetaContent = (script: ExtendedScript): string => {
 /**
  * Build script content for user prompt (common part)
  */
-export const buildScriptContent = (script: ExtendedScript): string => {
+export const buildScriptContent = (script: ExtendedMulmoScript): string => {
   const parts: string[] = [];
 
   // Add script title and language
@@ -294,10 +294,10 @@ export interface CommandResult {
  * Execute a command (summarize, query, etc.) with common logic
  */
 export const executeCommand = async <T extends BaseLLMOptions>(
-  script: ExtendedScript,
+  script: ExtendedMulmoScript,
   options: T,
   getSystemPrompt: (opts: T) => string,
-  buildUserPrompt: (script: ExtendedScript) => string,
+  buildUserPrompt: (script: ExtendedMulmoScript) => string,
   verboseMessage: string,
 ): Promise<CommandResult | null> => {
   const filteredScript = filterScript(script, options);

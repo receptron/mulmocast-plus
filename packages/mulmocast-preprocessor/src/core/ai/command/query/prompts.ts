@@ -1,5 +1,5 @@
 import type { QueryOptions, ConversationMessage } from "../../../../types/query.js";
-import type { ExtendedScript } from "@mulmocast/extended-types";
+import type { ExtendedMulmoScript } from "@mulmocast/extended-types";
 import { getLanguageName, buildScriptContent } from "../../llm.js";
 
 /**
@@ -33,7 +33,7 @@ export const getSystemPrompt = (options: QueryOptions): string => {
 /**
  * Build user prompt from script and question
  */
-export const buildUserPrompt = (script: ExtendedScript, question: string): string => {
+export const buildUserPrompt = (script: ExtendedMulmoScript, question: string): string => {
   const parts: string[] = [];
 
   // Add common script content (title, language, sections with beats)
@@ -92,7 +92,7 @@ export const getInteractiveSystemPrompt = (options: QueryOptions): string => {
 /**
  * Build user prompt with conversation history for interactive mode
  */
-export const buildInteractiveUserPrompt = (script: ExtendedScript, question: string, history: ConversationMessage[]): string => {
+export const buildInteractiveUserPrompt = (script: ExtendedMulmoScript, question: string, history: ConversationMessage[]): string => {
   const parts: string[] = [];
 
   // Add common script content (title, language, sections with beats)

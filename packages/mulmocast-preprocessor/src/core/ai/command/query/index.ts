@@ -1,4 +1,4 @@
-import type { ExtendedScript } from "@mulmocast/extended-types";
+import type { ExtendedMulmoScript } from "@mulmocast/extended-types";
 import type { QueryOptions, QueryResult } from "../../../../types/query.js";
 import { queryOptionsSchema } from "../../../../types/query.js";
 import { executeLLM, filterScript } from "../../llm.js";
@@ -7,7 +7,7 @@ import { buildUserPrompt, getSystemPrompt } from "./prompts.js";
 /**
  * Main query function - answers a question based on script content
  */
-export const queryScript = async (script: ExtendedScript, question: string, options: Partial<QueryOptions> = {}): Promise<QueryResult> => {
+export const queryScript = async (script: ExtendedMulmoScript, question: string, options: Partial<QueryOptions> = {}): Promise<QueryResult> => {
   // Validate and apply defaults
   const validatedOptions = queryOptionsSchema.parse(options);
 

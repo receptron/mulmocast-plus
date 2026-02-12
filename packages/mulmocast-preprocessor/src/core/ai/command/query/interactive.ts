@@ -1,4 +1,4 @@
-import type { ExtendedScript, Reference } from "@mulmocast/extended-types";
+import type { ExtendedMulmoScript, Reference } from "@mulmocast/extended-types";
 import type { QueryOptions, InteractiveQuerySession, ConversationMessage } from "../../../../types/query.js";
 import { queryOptionsSchema } from "../../../../types/query.js";
 import { executeLLM, filterScript, getLanguageName } from "../../llm.js";
@@ -9,9 +9,9 @@ import { fetchUrlContent, findMatchingReference, type FetchedContent } from "../
  * Create an interactive query session
  */
 export const createInteractiveSession = (
-  script: ExtendedScript,
+  script: ExtendedMulmoScript,
   options: Partial<QueryOptions> = {},
-): { session: InteractiveQuerySession; filteredScript: ExtendedScript; validatedOptions: QueryOptions } => {
+): { session: InteractiveQuerySession; filteredScript: ExtendedMulmoScript; validatedOptions: QueryOptions } => {
   const validatedOptions = queryOptionsSchema.parse(options);
   const filteredScript = filterScript(script, validatedOptions);
   const scriptTitle = script.title || "Untitled";
@@ -29,7 +29,7 @@ export const createInteractiveSession = (
  * Send a question in an interactive session
  */
 export const sendInteractiveQuery = async (
-  filteredScript: ExtendedScript,
+  filteredScript: ExtendedMulmoScript,
   question: string,
   session: InteractiveQuerySession,
   options: QueryOptions,
@@ -88,7 +88,7 @@ export const removeSuggestFetchMarkers = (response: string): string => {
 /**
  * Get available references from script
  */
-export const getReferences = (script: ExtendedScript): Reference[] => {
+export const getReferences = (script: ExtendedMulmoScript): Reference[] => {
   return script.scriptMeta?.references || [];
 };
 
@@ -102,7 +102,7 @@ export const fetchReference = async (url: string, verbose = false): Promise<Fetc
 /**
  * Find matching reference for a query
  */
-export const findReference = (script: ExtendedScript, query: string): Reference | null => {
+export const findReference = (script: ExtendedMulmoScript, query: string): Reference | null => {
   const references = getReferences(script);
   return findMatchingReference(references, query);
 };
@@ -111,7 +111,7 @@ export const findReference = (script: ExtendedScript, query: string): Reference 
  * Send a question with fetched reference content
  */
 export const sendInteractiveQueryWithFetch = async (
-  filteredScript: ExtendedScript,
+  filteredScript: ExtendedMulmoScript,
   question: string,
   fetchedContent: FetchedContent,
   session: InteractiveQuerySession,

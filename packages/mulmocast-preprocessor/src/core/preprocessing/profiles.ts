@@ -1,10 +1,10 @@
-import type { ExtendedScript } from "@mulmocast/extended-types";
+import type { ExtendedMulmoScript } from "@mulmocast/extended-types";
 import type { ProfileInfo } from "../../types/index.js";
 
 /**
  * Get list of available profiles from script
  */
-export const listProfiles = (script: ExtendedScript): ProfileInfo[] => {
+export const listProfiles = (script: ExtendedMulmoScript): ProfileInfo[] => {
   const profileNames = new Set<string>(["default"]);
 
   script.beats

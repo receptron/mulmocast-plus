@@ -3,12 +3,12 @@ import assert from "node:assert";
 import {
   beatVariantSchema,
   beatMetaSchema,
-  extendedBeatSchema,
+  extendedMulmoBeatSchema,
   outputProfileSchema,
   referenceSchema,
   faqSchema,
   scriptMetaSchema,
-  extendedScriptSchema,
+  extendedMulmoScriptSchema,
 } from "../src/index.js";
 
 const minimalMulmoScript = {
@@ -115,7 +115,7 @@ test("scriptMetaSchema: valid full meta", () => {
   const result = scriptMetaSchema.safeParse({
     audience: "developers",
     prerequisites: ["TypeScript basics"],
-    goals: ["Understand ExtendedScript"],
+    goals: ["Understand ExtendedMulmoScript"],
     background: "Background info",
     faq: [{ question: "Q?", answer: "A" }],
     keywords: ["mulmocast"],
@@ -131,8 +131,8 @@ test("scriptMetaSchema: empty object is valid", () => {
   assert.strictEqual(result.success, true);
 });
 
-test("extendedBeatSchema: valid beat with meta", () => {
-  const result = extendedBeatSchema.safeParse({
+test("extendedMulmoBeatSchema: valid beat with meta", () => {
+  const result = extendedMulmoBeatSchema.safeParse({
     text: "Hello world",
     meta: {
       tags: ["intro"],
@@ -143,8 +143,8 @@ test("extendedBeatSchema: valid beat with meta", () => {
   assert.strictEqual(result.success, true);
 });
 
-test("extendedBeatSchema: valid beat with variants", () => {
-  const result = extendedBeatSchema.safeParse({
+test("extendedMulmoBeatSchema: valid beat with variants", () => {
+  const result = extendedMulmoBeatSchema.safeParse({
     text: "Hello world",
     variants: {
       beginner: { text: "Simple hello" },
@@ -154,16 +154,16 @@ test("extendedBeatSchema: valid beat with variants", () => {
   assert.strictEqual(result.success, true);
 });
 
-test("extendedScriptSchema: valid minimal ExtendedScript", () => {
-  const result = extendedScriptSchema.safeParse({
+test("extendedMulmoScriptSchema: valid minimal ExtendedMulmoScript", () => {
+  const result = extendedMulmoScriptSchema.safeParse({
     ...minimalMulmoScript,
     beats: [{ text: "slide 1" }],
   });
   assert.strictEqual(result.success, true);
 });
 
-test("extendedScriptSchema: valid full ExtendedScript", () => {
-  const result = extendedScriptSchema.safeParse({
+test("extendedMulmoScriptSchema: valid full ExtendedMulmoScript", () => {
+  const result = extendedMulmoScriptSchema.safeParse({
     ...minimalMulmoScript,
     beats: [
       {
@@ -184,15 +184,15 @@ test("extendedScriptSchema: valid full ExtendedScript", () => {
   assert.strictEqual(result.success, true);
 });
 
-test("extendedScriptSchema: rejects missing $mulmocast", () => {
-  const result = extendedScriptSchema.safeParse({
+test("extendedMulmoScriptSchema: rejects missing $mulmocast", () => {
+  const result = extendedMulmoScriptSchema.safeParse({
     beats: [{ text: "slide 1" }],
   });
   assert.strictEqual(result.success, false);
 });
 
-test("extendedScriptSchema: rejects invalid scriptMeta", () => {
-  const result = extendedScriptSchema.safeParse({
+test("extendedMulmoScriptSchema: rejects invalid scriptMeta", () => {
+  const result = extendedMulmoScriptSchema.safeParse({
     ...minimalMulmoScript,
     beats: [{ text: "slide 1" }],
     scriptMeta: { audience: 123 },
