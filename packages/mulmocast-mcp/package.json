@@ -1,0 +1,45 @@
+{
+  "name": "mulmocast-mcp",
+  "version": "1.0.1",
+  "description": "MCP (Model Context Protocol) server for MulmoCast",
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    }
+  },
+  "bin": {
+    "mulmocast-mcp": "lib/index.js"
+  },
+  "files": [
+    "./lib"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src",
+    "test": "echo nothing",
+    "format": "prettier --write 'src/**/*.ts'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/receptron/mulmocast-plus.git"
+  },
+  "author": "receptron",
+  "license": "AGPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/receptron/mulmocast-plus/issues"
+  },
+  "homepage": "https://github.com/receptron/mulmocast-plus#readme",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "dotenv": "^17.2.4",
+    "mulmocast": "^2.1.35",
+    "zod": "^4.3.6"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

@@ -1,0 +1,237 @@
+#!/usr/bin/env node
+
+import dotenv from "dotenv";
+import { Server } from "@modelcontextprotocol/sdk/server/index.js";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { CallToolRequestSchema, CallToolRequest, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
+import fs from "fs";
+import path from "path";
+import os from "os";
+import { fileURLToPath } from "url";
+import { GraphAILogger } from "graphai";
+import {
+  audio,
+  images,
+  movie,
+  captions,
+  pdf,
+  html,
+  getFileObject,
+  initializeContextFromFiles,
+  runTranslateIfNeeded,
+  outDirName,
+  resolveDirPath,
+  mkdir,
+  generateTimestampedFileName,
+  MulmoScriptMethods,
+  type MulmoScript,
+  updateNpmRoot,
+} from "mulmocast";
+
+// Load MulmoScript JSON Schema from file
+import MULMO_SCRIPT_JSON_SCHEMA from "./html_prompt.json" with { type: "json" };
+
+dotenv.config({ quiet: true });
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+updateNpmRoot(path.resolve(__dirname, "../node_modules/mulmocast"));
+
+const server = new Server(
+  {
+    name: "mulmocast-mcp",
+    version: "0.1.0",
+  },
+  {
+    capabilities: {
+      tools: {},
+    },
+  },
+);
+
+export const formattedDate = () => {
+  const now = new Date();
+
+  const formatted = [
+    now.getFullYear(),
+    String(now.getMonth() + 1).padStart(2, "0"),
+    String(now.getDate()).padStart(2, "0"),
+    String(now.getHours()).padStart(2, "0"),
+    String(now.getMinutes()).padStart(2, "0"),
+    String(now.getSeconds()).padStart(2, "0"),
+  ].join("-");
+  return formatted;
+};
+
+export const getBaseDir = () => {
+  return path.join(os.homedir(), "Documents", "mulmocast");
+};
+export const getOutDir = () => {
+  return path.join(getBaseDir(), formattedDate());
+};
+
+// Helper function to save MulmoScript content to output directory
+const saveMulmoScriptToOutput = async (mulmoScript: MulmoScript): Promise<string> => {
+  const outputDirPath = path.resolve(getOutDir(), outDirName);
+
+  // Create timestamp-based filename similar to __clipboard handling
+  const fileName = generateTimestampedFileName("mcp_script");
+
+  // Ensure output directory exists
+
+  // GraphAILogger.error(outputDirPath);
+  mkdir(outputDirPath);
+
+  // Save MulmoScript to file
+  const filePath = resolveDirPath(outputDirPath, `${fileName}.json`);
+  fs.writeFileSync(filePath, JSON.stringify(mulmoScript, null, 2), "utf8");
+
+  return filePath;
+};
+
+// List available tools
+server.setRequestHandler(ListToolsRequestSchema, async () => {
+  return {
+    tools: [
+      {
+        name: "generate",
+        description: "Generate movie, image, audio, html from MulmoScript content",
+        inputSchema: {
+          type: "object",
+          properties: {
+            cmd: {
+              type: "string",
+              enum: ["audio", "image", "movie", "html"],
+              description: "Command to execute: 'movie' to generate video, 'image' to generate Image",
+            },
+            mulmoScript: MULMO_SCRIPT_JSON_SCHEMA,
+            options: {
+              type: "object",
+              description: "Optional generation parameters",
+              properties: {
+                pdfMode: { type: "string", enum: ["slide", "talk", "handout"], description: "PDF generation mode (for PDF only)" },
+                pdfSize: { type: "string", enum: ["A4", "Letter", "Legal"], description: "PDF page size (for PDF only)" },
+                lang: { type: "string", description: "Language for translation" },
+                caption: { type: "string", description: "Caption language" },
+                force: { type: "boolean", description: "Force regeneration" },
+                verbose: { type: "boolean", description: "Enable verbose logging" },
+              },
+              additionalProperties: false,
+            },
+          },
+          required: ["cmd", "mulmoScript"],
+          additionalProperties: false,
+        },
+      },
+    ],
+  };
+});
+
+// Handle tool calls
+server.setRequestHandler(CallToolRequestSchema, async (request: CallToolRequest) => {
+  const { name, arguments: args } = request.params;
+
+  try {
+    if (name !== "generate") {
+      throw new Error(`Unknown tool: ${name}`);
+    }
+
+    const {
+      cmd,
+      mulmoScript,
+      options = {},
+    } = args as {
+      cmd: "movie" | "pdf" | "html" | "audio" | "image";
+      mulmoScript: MulmoScript;
+      options?: {
+        pdfMode?: string;
+        pdfSize?: string;
+        lang?: string;
+        caption?: string;
+        force?: boolean;
+        verbose?: boolean;
+      };
+    };
+
+    // Validate MulmoScript schema
+    const validatedScript = MulmoScriptMethods.validate(mulmoScript);
+
+    // Save MulmoScript to output directory
+    const filePath = await saveMulmoScriptToOutput(validatedScript);
+
+    // Create argv-like object for CLI compatibility
+    const files = getFileObject({
+      basedir: getBaseDir(),
+      outdir: getOutDir(),
+      //imagedir?: string;
+      // audiodir?: string;
+      // presentationStyle?: string;
+      file: filePath,
+    });
+
+    // Initialize context using the saved file
+    // const context = await initializeContext(argv);
+    const context = await initializeContextFromFiles(files, false, options.force || false, false, options.caption, options.lang);
+
+    if (!context) {
+      throw new Error("Failed to initialize context from MulmoScript");
+    }
+
+    // Run translation if needed
+    await runTranslateIfNeeded(context);
+
+    // Execute the requested command
+    // enum: ["audio", "image", "movie", "pdf", "html"],
+    if (cmd === "audio") {
+      await audio(context);
+    } else if (cmd === "image") {
+      await images(context);
+    } else if (cmd === "movie") {
+      // Generate movie (audio + images + captions + movie)
+      await audio(context).then(images).then(captions).then(movie);
+    } else if (cmd === "pdf") {
+      // Generate images first, then PDF
+      await images(context).then((imageContext) => pdf(imageContext, options.pdfMode || "handout", options.pdfSize || "Letter"));
+    } else if (cmd === "html") {
+      await images(context).then((imageContext) => html(imageContext));
+    } else {
+      throw new Error(`Unknown command: ${cmd}. Supported commands: audio, image, movie, html `);
+    }
+
+    return {
+      content: [
+        {
+          type: "text",
+          text: `${cmd} generated successfully from MulmoScript. Output saved to: ${context?.fileDirs.outDirPath}`,
+        },
+      ],
+    };
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    return {
+      content: [
+        {
+          type: "text",
+          text: `Error: ${errorMessage}`,
+        },
+      ],
+      isError: true,
+    };
+  }
+});
+
+// Start the server
+async function main() {
+  // eslint-disable-next-line no-console
+  const logger = (level: string, ...args: unknown[]) => console.error(...args);
+  GraphAILogger.setLogger(logger);
+  const transport = new StdioServerTransport();
+  await server.connect(transport);
+  GraphAILogger.error("MulmoCast MCP Server running on stdio");
+}
+
+main().catch((error) => {
+  GraphAILogger.error("Failed to start MCP server:", error);
+  process.exit(1);
+});

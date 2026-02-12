@@ -8,7 +8,8 @@ Monorepo for MulmoCast extension packages.
 |---------|-------------|-----|
 | [mulmocast-easy](./packages/mulmocast-easy) | MulmoCast with zero configuration (ffmpeg/Chrome bundled) | [![npm](https://img.shields.io/npm/v/mulmocast-easy)](https://www.npmjs.com/package/mulmocast-easy) |
 | [mulmocast-preprocessor](./packages/mulmocast-preprocessor) | Profile variants, filtering, AI summarization & Q&A | [![npm](https://img.shields.io/npm/v/mulmocast-preprocessor)](https://www.npmjs.com/package/mulmocast-preprocessor) |
-| [@mulmocast/extended-types](./packages/mulmocast-extended-types) | Type definitions and Zod schemas for ExtendedScript | [![npm](https://img.shields.io/npm/v/@mulmocast/extended-types)](https://www.npmjs.com/package/@mulmocast/extended-types) |
+| [@mulmocast/extended-types](./packages/mulmocast-extended-types) | Type definitions and Zod schemas for ExtendedMulmoScript | [![npm](https://img.shields.io/npm/v/@mulmocast/extended-types)](https://www.npmjs.com/package/@mulmocast/extended-types) |
+| [mulmocast-mcp](./packages/mulmocast-mcp) | MCP (Model Context Protocol) server for MulmoCast | [![npm](https://img.shields.io/npm/v/mulmocast-mcp)](https://www.npmjs.com/package/mulmocast-mcp) |
 
 ## Development
 
@@ -41,4 +42,4 @@ yarn test     # Test all packages
 
 ## License
 
-MIT
+MIT (except `mulmocast-mcp`: AGPL-3.0-only)
