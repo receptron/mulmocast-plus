@@ -75,6 +75,54 @@ describe("stripHtml", () => {
     assert.ok(result.includes("Safe"));
     assert.ok(!result.includes("var x"));
   });
+
+  it("should handle uppercase SCRIPT tags", () => {
+    const result = stripHtml("<SCRIPT>evil()</SCRIPT><p>Good</p>");
+    assert.ok(result.includes("Good"));
+    assert.ok(!result.includes("evil"));
+  });
+
+  it("should handle uppercase STYLE tags", () => {
+    const result = stripHtml("<STYLE>.x{color:red}</STYLE><p>Visible</p>");
+    assert.ok(result.includes("Visible"));
+    assert.ok(!result.includes("color"));
+  });
+
+  it("should handle style with attributes", () => {
+    const result = stripHtml('<style media="print">.x{}</style><p>OK</p>');
+    assert.ok(result.includes("OK"));
+    assert.ok(!result.includes(".x"));
+  });
+
+  it("should handle multiline comment", () => {
+    const result = stripHtml("<!--\nmultiline\ncomment\n--><p>After</p>");
+    assert.ok(result.includes("After"));
+    assert.ok(!result.includes("multiline"));
+  });
+
+  it("should handle unclosed tag gracefully", () => {
+    const result = stripHtml("<p>Hello <b>world");
+    assert.ok(result.includes("Hello"));
+    assert.ok(result.includes("world"));
+  });
+
+  it("should handle multiple script blocks", () => {
+    const result = stripHtml("<script>a()</script><p>Mid</p><script>b()</script><p>End</p>");
+    assert.ok(result.includes("Mid"));
+    assert.ok(result.includes("End"));
+    assert.ok(!result.includes("a()"));
+    assert.ok(!result.includes("b()"));
+  });
+
+  it("should handle full HTML document", () => {
+    const html = `<!DOCTYPE html><html><head><title>Test</title><style>body{}</style></head>
+      <body><script>init()</script><h1>Title</h1><p>Content here.</p></body></html>`;
+    const result = stripHtml(html);
+    assert.ok(result.includes("Title"));
+    assert.ok(result.includes("Content here."));
+    assert.ok(!result.includes("init"));
+    assert.ok(!result.includes("body{}"));
+  });
 });
 
 describe("extractTitle", () => {
@@ -96,6 +144,21 @@ describe("extractTitle", () => {
   it("should handle title with attributes", () => {
     const result = extractTitle('<title lang="en">English Title</title>');
     assert.strictEqual(result, "English Title");
+  });
+
+  it("should handle uppercase TITLE tag", () => {
+    const result = extractTitle("<TITLE>Upper</TITLE>");
+    assert.strictEqual(result, "Upper");
+  });
+
+  it("should return null for empty title", () => {
+    const result = extractTitle("<title></title>");
+    assert.strictEqual(result, null);
+  });
+
+  it("should handle title with surrounding whitespace in HTML", () => {
+    const result = extractTitle("<html><head>\n  <title>Page Title</title>\n</head></html>");
+    assert.strictEqual(result, "Page Title");
   });
 });
 
