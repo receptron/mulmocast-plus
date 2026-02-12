@@ -38,6 +38,10 @@ Yarn workspaces monorepo (`packages/*`). Shared TypeScript config at `config/tsc
 | `mulmocast-mcp` | `mulmocast-mcp` | MCP (Model Context Protocol) server for MulmoCast |
 | `mulmocast-vision` | `mulmocast-vision` | Presentation slide generator via MCP (80+ templates) |
 
+### mulmocast-easy — Versioning
+
+`mulmocast-easy` MUST use the same version as the `mulmocast` (mulmocast-cli) package it depends on. When publishing, set `mulmocast-easy`'s version to match the `mulmocast` dependency version (e.g., if `mulmocast@2.1.37` then `mulmocast-easy@2.1.37`).
+
 ### mulmocast-extended-types — Type Structure
 
 Source files under `packages/mulmocast-extended-types/src/`:
