@@ -1,7 +1,7 @@
 import { readFileSync } from "fs";
 import { GraphAILogger } from "graphai";
 import { listProfiles } from "../../core/preprocessing/profiles.js";
-import type { ExtendedScript } from "@mulmocast/extended-types";
+import type { ExtendedMulmoScript } from "@mulmocast/extended-types";
 
 /**
  * List available profiles in script
@@ -9,7 +9,7 @@ import type { ExtendedScript } from "@mulmocast/extended-types";
 export const profilesCommand = (scriptPath: string): void => {
   try {
     const content = readFileSync(scriptPath, "utf-8");
-    const script: ExtendedScript = JSON.parse(content);
+    const script: ExtendedMulmoScript = JSON.parse(content);
 
     const profiles = listProfiles(script);
 

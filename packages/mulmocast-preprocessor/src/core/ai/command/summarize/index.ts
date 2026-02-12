@@ -1,4 +1,4 @@
-import type { ExtendedScript } from "@mulmocast/extended-types";
+import type { ExtendedMulmoScript } from "@mulmocast/extended-types";
 import type { SummarizeOptions, SummarizeResult } from "../../../../types/summarize.js";
 import { summarizeOptionsSchema } from "../../../../types/summarize.js";
 import { executeLLM, filterScript } from "../../llm.js";
@@ -7,7 +7,7 @@ import { buildUserPrompt, getSystemPrompt } from "./prompts.js";
 /**
  * Main summarize function - generates a summary of the entire script
  */
-export const summarizeScript = async (script: ExtendedScript, options: Partial<SummarizeOptions> = {}): Promise<SummarizeResult> => {
+export const summarizeScript = async (script: ExtendedMulmoScript, options: Partial<SummarizeOptions> = {}): Promise<SummarizeResult> => {
   // Validate and apply defaults
   const validatedOptions = summarizeOptionsSchema.parse(options);
 

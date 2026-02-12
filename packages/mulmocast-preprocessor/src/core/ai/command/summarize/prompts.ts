@@ -1,5 +1,5 @@
 import type { SummarizeOptions } from "../../../../types/summarize.js";
-import type { ExtendedScript } from "@mulmocast/extended-types";
+import type { ExtendedMulmoScript } from "@mulmocast/extended-types";
 import { getLanguageName, buildScriptContent } from "../../llm.js";
 
 /**
@@ -26,7 +26,7 @@ export const DEFAULT_SYSTEM_PROMPT_MARKDOWN = `You are creating a summary based 
 /**
  * Build user prompt from entire script
  */
-export const buildUserPrompt = (script: ExtendedScript, options: SummarizeOptions): string => {
+export const buildUserPrompt = (script: ExtendedMulmoScript, options: SummarizeOptions): string => {
   const parts: string[] = [];
 
   // Add common script content (title, language, sections with beats)

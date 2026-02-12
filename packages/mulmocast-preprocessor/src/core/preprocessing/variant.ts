@@ -1,11 +1,11 @@
 import type { MulmoScript, MulmoBeat } from "@mulmocast/types";
-import type { ExtendedScript, ExtendedBeat } from "@mulmocast/extended-types";
+import type { ExtendedMulmoScript, ExtendedMulmoBeat } from "@mulmocast/extended-types";
 
 /**
  * Apply profile variant to a single beat
  * @returns Processed beat, or null if skip is set
  */
-const applyVariantToBeat = (beat: ExtendedBeat, profileName: string): MulmoBeat | null => {
+const applyVariantToBeat = (beat: ExtendedMulmoBeat, profileName: string): MulmoBeat | null => {
   const variant = beat.variants?.[profileName];
 
   if (variant?.skip) {
@@ -25,7 +25,7 @@ const applyVariantToBeat = (beat: ExtendedBeat, profileName: string): MulmoBeat 
 /**
  * Apply profile to script and return standard MulmoScript
  */
-export const applyProfile = (script: ExtendedScript, profileName: string): MulmoScript => {
+export const applyProfile = (script: ExtendedMulmoScript, profileName: string): MulmoScript => {
   const { outputProfiles: __outputProfiles, scriptMeta: __scriptMeta, ...baseScript } = script;
 
   return {

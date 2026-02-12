@@ -100,10 +100,10 @@ The schema is fully documented and can be implemented by any tool:
 
 ```typescript
 // The schema is defined using Zod and exported from the package
-import { extendedScriptSchema, extendedBeatSchema, beatMetaSchema } from "mulmocast-preprocessor";
+import { extendedMulmoScriptSchema, extendedMulmoBeatSchema, beatMetaSchema } from "mulmocast-preprocessor";
 
 // Validate your own Extended MulmoScript
-const result = extendedScriptSchema.safeParse(yourScript);
+const result = extendedMulmoScriptSchema.safeParse(yourScript);
 ```
 
 ### General-Purpose AI (Claude Code, etc.)
@@ -170,8 +170,8 @@ The type definitions serve as the authoritative schema:
 
 | Type | Purpose |
 |------|---------|
-| `ExtendedScript` | Root document with beats, variants, and profiles |
-| `ExtendedBeat` | Beat with optional `variants` and `meta` |
+| `ExtendedMulmoScript` | Root document with beats, variants, and profiles |
+| `ExtendedMulmoBeat` | Beat with optional `variants` and `meta` |
 | `BeatVariant` | Profile-specific overrides (`text`, `skip`, `image`) |
 | `BeatMeta` | Metadata for filtering and AI features |
 | `OutputProfile` | Profile display information |

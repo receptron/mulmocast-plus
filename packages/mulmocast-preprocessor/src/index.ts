@@ -28,8 +28,8 @@ export type { FetchedContent } from "./core/ai/utils/fetcher.js";
 export type {
   BeatVariant,
   BeatMeta,
-  ExtendedBeat,
-  ExtendedScript,
+  ExtendedMulmoBeat,
+  ExtendedMulmoScript,
   OutputProfile,
   Reference,
   FAQ,
@@ -39,8 +39,8 @@ export type {
 export {
   beatVariantSchema,
   beatMetaSchema,
-  extendedBeatSchema,
-  extendedScriptSchema,
+  extendedMulmoBeatSchema,
+  extendedMulmoScriptSchema,
   outputProfileSchema,
   referenceSchema,
   faqSchema,
