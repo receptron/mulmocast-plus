@@ -1,0 +1,19 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <h1 class="text-5xl font-bold mb-6">Compliance Heatmap</h1>
+  <table class="border-collapse">
+    <thead>
+      <tr>
+        <th class="border p-2">Area</th>
+        <th class="border p-2">Level</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for a in areas %}
+      <tr>
+        <td class="border p-2">{{a}}</td>
+        <td class="border p-2">{{levels[loop.index0]}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

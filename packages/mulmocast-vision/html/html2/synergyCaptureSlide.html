@@ -1,0 +1,39 @@
+<div class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 px-16 py-16">
+  <!-- Header Section -->
+  <div class="mb-12">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-8"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">Synergy Capture</h1>
+    <div class="w-32 h-0.5 bg-gray-300"></div>
+  </div>
+
+  <!-- Synergy Sources Section -->
+  <div class="mb-8">
+    <div class="grid gap-6">
+      {% for i in range(0, sources|length) %}
+      <div class="bg-gradient-to-br from-emerald-500 to-green-600 rounded-3xl p-8 text-white shadow-2xl hover:scale-105 transition-all duration-300">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mr-6">
+              <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </div>
+            <div class="flex-1">
+              <p class="text-2xl font-semibold leading-relaxed">{{sources[i]}}</p>
+            </div>
+          </div>
+          {% if values %}
+          <div class="text-right ml-6">
+            <p class="text-3xl font-bold">{{values[i]}}</p>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

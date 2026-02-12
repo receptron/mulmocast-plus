@@ -1,0 +1,77 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header -->
+  <div class="mb-16">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-6"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">Pipeline Funnel</h1>
+    <div class="w-32 h-0.5 bg-gray-300"></div>
+  </div>
+
+  <!-- Pipeline Funnel -->
+  <div class="max-w-4xl mx-auto">
+    <div class="space-y-4">
+      {% for i in range(0, stages|length) %} {% set width_percent = 100 - (i * 12) %}
+      <div class="flex justify-center">
+        <div
+          class="bg-gradient-to-r from-purple-{{ 500 + (i * 50) }} to-indigo-{{ 600 + (i * 50) }} rounded-2xl shadow-xl text-white transform hover:scale-105 transition-all duration-300"
+          style="width: {{ width_percent }}%; min-width: 350px;"
+        >
+          <div class="p-6 text-center">
+            <div class="flex items-center justify-center mb-3">
+              <div class="w-10 h-10 bg-white bg-opacity-20 rounded-xl flex items-center justify-center mr-4">
+                <span class="text-lg font-bold">{{ i + 1 }}</span>
+              </div>
+              <h3 class="text-xl font-bold">{{stages[i]}}</h3>
+            </div>
+            {% if values %}
+            <div class="text-3xl font-black mb-2">{{values[i]}}</div>
+            {% endif %} {% if i < (stages|length - 1) %}
+            <div class="text-xs opacity-75">↓ Next Stage</div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Pipeline Metrics -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mt-16">
+    <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+      <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+        <svg class="w-6 h-6 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+      <div class="text-2xl font-bold text-purple-600 mb-2">{{stages|length}}</div>
+      <div class="text-gray-600 font-semibold">Total Stages</div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+      <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+        <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            fill-rule="evenodd"
+            d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 4.414 6.707 7.707a1 1 0 01-1.414 0z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </div>
+      <div class="text-2xl font-bold text-blue-600 mb-2">{% if values %}{{values[0]}}{% else %}--{% endif %}</div>
+      <div class="text-gray-600 font-semibold">Top of Pipeline</div>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+      <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+        <svg class="w-6 h-6 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            fill-rule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </div>
+      <div class="text-2xl font-bold text-indigo-600 mb-2">{% if values %}{{values[-1]}}{% else %}--{% endif %}</div>
+      <div class="text-gray-600 font-semibold">Conversion</div>
+    </div>
+  </div>
+</div>

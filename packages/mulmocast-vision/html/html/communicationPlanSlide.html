@@ -1,0 +1,22 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <h1 class="text-5xl font-bold mb-8">Communication Plan</h1>
+  <section class="mb-6">
+    <h2 class="text-xl font-semibold mb-2">Audiences</h2>
+    <ul class="list-disc ml-5 space-y-2 text-2xl">
+      {% for a in audiences %}
+      <li>{{a}}</li>
+      {% endfor %}
+    </ul>
+  </section>
+  <section class="mb-6">
+    <h2 class="text-xl font-semibold mb-2">Channels</h2>
+    <ul class="list-disc ml-5 space-y-2 text-2xl">
+      {% for c in channels %}
+      <li>{{c}}</li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% if cadence %}
+  <p class="text-xl text-gray-700">Cadence: {{cadence}}</p>
+  {% endif %}
+</div>

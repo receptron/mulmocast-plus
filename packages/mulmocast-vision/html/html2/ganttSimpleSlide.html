@@ -1,0 +1,56 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header Section -->
+  <div class="mb-16">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-6"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">Gantt Chart</h1>
+    <div class="w-32 h-0.5 bg-gray-300"></div>
+  </div>
+
+  <!-- Task Cards Layout -->
+  <div class="space-y-6">
+    {% for t in tasks %}
+    <div class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-8 text-white shadow-2xl hover:scale-105 transition-all duration-300">
+      <div class="flex items-center justify-between">
+        <!-- Task Info -->
+        <div class="flex items-center space-x-6">
+          <!-- Task Icon -->
+          <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center flex-shrink-0">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+              ></path>
+            </svg>
+          </div>
+
+          <!-- Task Details -->
+          <div>
+            <h3 class="text-2xl font-bold mb-2">{{t.name}}</h3>
+            <div class="flex items-center space-x-6 text-lg">
+              <div class="flex items-center space-x-2">
+                <svg class="w-5 h-5 text-white opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span class="text-white opacity-90">Start: {{t.start}}</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <svg class="w-5 h-5 text-white opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                  ></path>
+                </svg>
+                <span class="text-white opacity-90">End: {{t.end}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>

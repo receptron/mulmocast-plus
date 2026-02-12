@@ -1,0 +1,8 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <h1 class="text-5xl font-bold mb-8">Pricing Waterfall</h1>
+  <ul class="list-disc ml-5 text-2xl">
+    {% for s in steps %}
+    <li>{{s.label}} — {{s.value}}</li>
+    {% endfor %}
+  </ul>
+</div>

@@ -1,0 +1,11 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <h1 class="text-5xl font-bold mb-8">Ecosystem Map</h1>
+  <div class="grid grid-cols-2 gap-6">
+    {% for e in entities %}
+    <section class="rounded-xl border p-6 bg-gray-50">
+      <h2 class="text-xl font-semibold mb-2">{{e.category}}</h2>
+      <p class="text-2xl">{{e.name}}</p>
+    </section>
+    {% endfor %}
+  </div>
+</div>

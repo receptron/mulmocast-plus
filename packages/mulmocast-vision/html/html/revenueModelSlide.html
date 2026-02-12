@@ -1,0 +1,17 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <h1 class="text-5xl font-bold mb-8">Revenue Model</h1>
+  <section class="mb-6">
+    <h2 class="text-xl font-semibold mb-2">Streams</h2>
+    <ul class="list-disc ml-5 space-y-2 text-2xl">
+      {% for s in streams %}
+      <li>{{s}}</li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% if pricingNotes %}
+  <section>
+    <h2 class="text-xl font-semibold mb-2">Pricing Notes</h2>
+    <p class="text-xl text-gray-700 whitespace-pre-wrap">{{pricingNotes}}</p>
+  </section>
+  {% endif %}
+</div>

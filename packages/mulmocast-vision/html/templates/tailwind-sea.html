@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
+    <style type="text/tailwindcss">
+      @layer base {
+        body {
+          @apply text-gray-900 bg-cover bg-center;
+          font-family: "Quicksand", sans-serif;
+          background-image: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80");
+        }
+        h1,
+        h2,
+        h3 {
+          font-family: "Pacifico", cursive;
+          @apply text-white drop-shadow-lg;
+        }
+        a {
+          @apply text-yellow-200 hover:text-yellow-400 underline;
+        }
+      }
+    </style>
+    <title>${title}</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    ${headerStyle}
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <div class="bg-black/40 p-10 rounded-xl">${htmlBody}</div>
+  </body>
+</html>

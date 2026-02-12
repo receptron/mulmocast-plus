@@ -1,0 +1,16 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <h1 class="text-5xl font-bold mb-8">{{title}}</h1>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    {% for m in metrics %}
+    <section class="rounded-2xl border p-6 bg-gray-50">
+      <div class="text-xl text-gray-700">{{m.label}}</div>
+      <div class="text-5xl font-extrabold my-2">{{m.value}}</div>
+      {% if m.target %}
+      <div class="text-gray-600">Target: {{m.target}}</div>
+      {% endif %} {% if m.status %}
+      <div class="mt-2 text-sm uppercase tracking-wide">{{m.status}}</div>
+      {% endif %}
+    </section>
+    {% endfor %}
+  </div>
+</div>

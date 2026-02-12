@@ -57,5 +57,17 @@ export default [
       prettier: prettierPlugin,
     },
   },
+  // mulmocast-vision: relax rules inherited from the standalone repo
+  {
+    files: ["packages/mulmocast-vision/**/*.{js,ts}"],
+    rules: {
+      "no-console": "warn",
+      "no-undef": "warn",
+      "@typescript-eslint/no-explicit-any": "warn",
+      "sonarjs/pseudo-random": "off",
+      "sonarjs/class-name": "off",
+      "sonarjs/publicly-writable-directories": "off",
+    },
+  },
   eslintConfigPrettier,
 ];

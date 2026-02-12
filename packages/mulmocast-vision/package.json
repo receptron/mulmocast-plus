@@ -1,0 +1,50 @@
+{
+  "name": "mulmocast-vision",
+  "version": "1.0.8",
+  "description": "Easy and stylish presentation slide generator",
+  "mcpName": "io.github.isamu/mulmocast-vision",
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    }
+  },
+  "bin": {
+    "mulmocast-vision": "lib/mcp.js"
+  },
+  "files": [
+    "./lib",
+    "./html"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src tests",
+    "format": "prettier --write '{src,tests,html}/**/*.{ts,html}'",
+    "test": "echo nothing"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/receptron/mulmocast-plus.git"
+  },
+  "author": "Satoshi Nakajima, Isamu Arimoto",
+  "license": "AGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/receptron/mulmocast-plus/issues"
+  },
+  "homepage": "https://github.com/receptron/mulmocast-plus#readme",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "nunjucks": "^3.2.4",
+    "pdfkit": "^0.17.2",
+    "puppeteer": "^24.37.2",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/nunjucks": "^3.2.6",
+    "@types/pdfkit": "^0.17.4",
+    "cross-env": "^10.1.0"
+  }
+}

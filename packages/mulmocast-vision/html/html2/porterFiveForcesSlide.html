@@ -1,0 +1,140 @@
+<div class="bg-gradient-to-br from-slate-50 to-gray-100 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header -->
+  <div class="text-center mb-16">
+    <h1 class="text-5xl font-bold text-gray-900 mb-4">Porter's Five Forces</h1>
+    <div class="w-24 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mx-auto"></div>
+  </div>
+
+  <!-- Forces Layout -->
+  <div class="max-w-7xl mx-auto">
+    <!-- Top Force -->
+    <div class="flex justify-center mb-8">
+      <section
+        class="bg-gradient-to-br from-red-500 to-rose-600 rounded-2xl p-8 text-white shadow-2xl transform hover:scale-105 transition-all duration-300 w-80"
+      >
+        <div class="flex items-center mb-6">
+          <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center mr-4">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fill-rule="evenodd"
+                d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 4.414 6.707 7.707a1 1 0 01-1.414 0z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
+          <h2 class="text-xl font-bold">Threat of New Entrants</h2>
+        </div>
+        <ul class="space-y-2 text-sm">
+          {% for x in newEntrants %}
+          <li class="flex items-start"><span class="w-1.5 h-1.5 bg-white rounded-full mt-2 mr-2 flex-shrink-0"></span><span>{{x}}</span></li>
+          {% endfor %}
+        </ul>
+      </section>
+    </div>
+
+    <!-- Middle Row -->
+    <div class="grid grid-cols-3 gap-8 items-center mb-8">
+      <!-- Supplier Power -->
+      <section
+        class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-8 text-white shadow-2xl transform hover:scale-105 transition-all duration-300"
+      >
+        <div class="flex items-center mb-6">
+          <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center mr-4">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fill-rule="evenodd"
+                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
+          <h2 class="text-xl font-bold">Supplier Power</h2>
+        </div>
+        <ul class="space-y-2 text-sm">
+          {% for x in suppliers %}
+          <li class="flex items-start"><span class="w-1.5 h-1.5 bg-white rounded-full mt-2 mr-2 flex-shrink-0"></span><span>{{x}}</span></li>
+          {% endfor %}
+        </ul>
+      </section>
+
+      <!-- Central Competition Circle -->
+      <div class="flex justify-center">
+        <div class="w-32 h-32 bg-gradient-to-br from-gray-700 to-gray-900 rounded-full flex items-center justify-center shadow-2xl">
+          <span class="text-white font-bold text-lg text-center leading-tight">Industry<br />Rivalry</span>
+        </div>
+      </div>
+
+      <!-- Buyer Power -->
+      <section
+        class="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl p-8 text-white shadow-2xl transform hover:scale-105 transition-all duration-300"
+      >
+        <div class="flex items-center mb-6">
+          <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center mr-4">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fill-rule="evenodd"
+                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
+          <h2 class="text-xl font-bold">Buyer Power</h2>
+        </div>
+        <ul class="space-y-2 text-sm">
+          {% for x in buyers %}
+          <li class="flex items-start"><span class="w-1.5 h-1.5 bg-white rounded-full mt-2 mr-2 flex-shrink-0"></span><span>{{x}}</span></li>
+          {% endfor %}
+        </ul>
+      </section>
+    </div>
+
+    <!-- Bottom Row -->
+    <div class="grid grid-cols-2 gap-8">
+      <!-- Threat of Substitutes -->
+      <section
+        class="bg-gradient-to-br from-orange-500 to-amber-600 rounded-2xl p-8 text-white shadow-2xl transform hover:scale-105 transition-all duration-300"
+      >
+        <div class="flex items-center mb-6">
+          <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center mr-4">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fill-rule="evenodd"
+                d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L10 15.586l3.293-3.293a1 1 0 011.414 0z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
+          <h2 class="text-xl font-bold">Threat of Substitutes</h2>
+        </div>
+        <ul class="space-y-2 text-sm">
+          {% for x in substitutes %}
+          <li class="flex items-start"><span class="w-1.5 h-1.5 bg-white rounded-full mt-2 mr-2 flex-shrink-0"></span><span>{{x}}</span></li>
+          {% endfor %}
+        </ul>
+      </section>
+
+      <!-- Competitive Rivalry -->
+      <section
+        class="bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl p-8 text-white shadow-2xl transform hover:scale-105 transition-all duration-300"
+      >
+        <div class="flex items-center mb-6">
+          <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center mr-4">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </div>
+          <h2 class="text-xl font-bold">Competitive Rivalry</h2>
+        </div>
+        <ul class="space-y-2 text-sm">
+          {% for x in rivalry %}
+          <li class="flex items-start"><span class="w-1.5 h-1.5 bg-white rounded-full mt-2 mr-2 flex-shrink-0"></span><span>{{x}}</span></li>
+          {% endfor %}
+        </ul>
+      </section>
+    </div>
+  </div>
+</div>

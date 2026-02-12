@@ -1,0 +1,14 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <h1 class="text-5xl font-bold mb-8">Stakeholder Map</h1>
+  <div class="grid grid-cols-2 gap-6">
+    {% for s in stakeholders %}
+    <section class="rounded-xl border p-6 bg-gray-50">
+      <div class="text-2xl font-semibold mb-2">{{s.name}}</div>
+      <p class="text-xl text-gray-700">Influence: {{s.influence}} / Interest: {{s.interest}}</p>
+      {% if s.notes %}
+      <p class="mt-2 text-gray-600">{{s.notes}}</p>
+      {% endif %}
+    </section>
+    {% endfor %}
+  </div>
+</div>

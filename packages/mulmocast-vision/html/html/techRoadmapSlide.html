@@ -1,0 +1,15 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <h1 class="text-5xl font-bold mb-8">Technology Roadmap</h1>
+  <div class="grid grid-cols-{{phases|length}} gap-4">
+    {% for ph in phases %}
+    <section class="rounded-xl border p-4 bg-gray-50">
+      <h2 class="text-lg font-semibold mb-2">{{ph}}</h2>
+      <ul class="list-disc ml-5 space-y-1 text-xl">
+        {% for it in items %}{% if it.phase == ph %}
+        <li>{{it.label}}</li>
+        {% endif %}{% endfor %}
+      </ul>
+    </section>
+    {% endfor %}
+  </div>
+</div>

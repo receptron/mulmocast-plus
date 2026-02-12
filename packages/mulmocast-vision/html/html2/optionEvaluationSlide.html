@@ -1,0 +1,128 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header -->
+  <div class="mb-12">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-6"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">Option Evaluation</h1>
+    <div class="w-32 h-0.5 bg-gray-300"></div>
+  </div>
+
+  <div class="max-w-7xl mx-auto">
+    <!-- Options Overview -->
+    <div class="grid grid-cols-{{options|length}} gap-6 mb-12">
+      {% for o in options %}
+      <div class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-6 text-white shadow-xl">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center">
+            <span class="text-white font-bold text-lg">{{loop.index}}</span>
+          </div>
+          <h3 class="text-xl font-bold">{{o}}</h3>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Evaluation Matrix -->
+    <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+      <div class="bg-gradient-to-r from-gray-50 to-blue-50 p-8 border-b border-gray-200">
+        <div class="flex items-center gap-4">
+          <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-violet-600 rounded-2xl flex items-center justify-center">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+              />
+            </svg>
+          </div>
+          <h2 class="text-3xl font-bold text-gray-900">Evaluation Matrix</h2>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="bg-gray-50">
+              <th class="p-6 text-left text-lg font-semibold text-gray-900 border-b border-gray-200">
+                <div class="flex items-center gap-2">
+                  <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                    />
+                  </svg>
+                  Criteria
+                </div>
+              </th>
+              {% for o in options %}
+              <th class="p-6 text-center text-lg font-semibold text-gray-900 border-b border-gray-200">
+                <div class="flex flex-col items-center gap-2">
+                  <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+                    {{loop.index}}
+                  </div>
+                  <span>{{o}}</span>
+                </div>
+              </th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in range(0, criteria|length) %}
+            <tr class="hover:bg-gray-50 transition-colors duration-200">
+              <td class="p-6 font-medium text-gray-900 border-b border-gray-100">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 bg-gradient-to-br from-gray-400 to-gray-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+                    {{loop.index}}
+                  </div>
+                  {{criteria[i]}}
+                </div>
+              </td>
+              {% for j in range(0, options|length) %}
+              <td class="p-6 text-center border-b border-gray-100">
+                <div
+                  class="inline-flex items-center justify-center w-12 h-12 rounded-xl text-lg font-bold text-white {% if scores[j][i]|int >= 8 %}bg-gradient-to-br from-emerald-500 to-green-600 {% elif scores[j][i]|int >= 6 %}bg-gradient-to-br from-blue-500 to-indigo-600 {% elif scores[j][i]|int >= 4 %}bg-gradient-to-br from-amber-500 to-orange-600 {% else %}bg-gradient-to-br from-red-500 to-rose-600{% endif %}"
+                >
+                  {{scores[j][i]}}
+                </div>
+              </td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Evaluation Summary -->
+    <div class="mt-12 bg-white rounded-2xl p-10 shadow-2xl">
+      <div class="flex items-center gap-4 mb-6">
+        <div class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl flex items-center justify-center">
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h3 class="text-3xl font-bold text-gray-900">Evaluation Framework</h3>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+        <div class="bg-gradient-to-br from-emerald-500 to-green-600 rounded-xl p-4 text-white text-center">
+          <p class="text-sm text-green-100 mb-1">Excellent</p>
+          <p class="text-lg font-bold">8-10</p>
+        </div>
+        <div class="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl p-4 text-white text-center">
+          <p class="text-sm text-blue-100 mb-1">Good</p>
+          <p class="text-lg font-bold">6-7</p>
+        </div>
+        <div class="bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl p-4 text-white text-center">
+          <p class="text-sm text-amber-100 mb-1">Fair</p>
+          <p class="text-lg font-bold">4-5</p>
+        </div>
+        <div class="bg-gradient-to-br from-red-500 to-rose-600 rounded-xl p-4 text-white text-center">
+          <p class="text-sm text-red-100 mb-1">Poor</p>
+          <p class="text-lg font-bold">1-3</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

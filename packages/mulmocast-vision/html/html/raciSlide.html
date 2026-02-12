@@ -1,0 +1,23 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <h1 class="text-5xl font-bold mb-8">RACI</h1>
+  <table class="w-full border-collapse">
+    <thead>
+      <tr>
+        <th class="border p-3 text-left">Task</th>
+        {% for r in roles %}
+        <th class="border p-3 text-left">{{r}}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in assignments %}
+      <tr>
+        <td class="border p-3">{{tasks[loop.index0]}}</td>
+        {% for cell in row %}
+        <td class="border p-3">{{cell}}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

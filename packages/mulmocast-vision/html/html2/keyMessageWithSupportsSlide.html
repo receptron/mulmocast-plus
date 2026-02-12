@@ -1,0 +1,47 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header -->
+  <div class="text-center mb-16">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-6 mx-auto"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">Key Message</h1>
+    <div class="w-32 h-0.5 bg-gray-300 mx-auto"></div>
+  </div>
+
+  <div class="max-w-7xl mx-auto space-y-12">
+    <!-- Key Message -->
+    <section class="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-3xl p-12 text-white shadow-2xl">
+      <div class="text-center">
+        <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <h2 class="text-5xl font-bold mb-6">{{headline}}</h2>
+        <p class="text-xl font-light opacity-90">One key message with supporting points</p>
+      </div>
+    </section>
+
+    <!-- Supporting Points -->
+    <section>
+      <div class="mb-8">
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">Supporting Points</h2>
+        <div class="w-24 h-0.5 bg-emerald-500 mb-6"></div>
+      </div>
+      <ul class="space-y-6">
+        {% for s in supports %}
+        <li class="bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl p-8 text-white shadow-xl hover:scale-105 transition-all duration-300">
+          <div class="flex items-start">
+            <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center mr-6 flex-shrink-0 mt-1">
+              <span class="text-xl font-bold text-white">{{loop.index}}</span>
+            </div>
+            <p class="text-xl leading-relaxed font-light">{{s}}</p>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+  </div>
+</div>

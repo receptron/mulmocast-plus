@@ -1,0 +1,49 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header -->
+  <div class="mb-16">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-6"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">RACI Matrix</h1>
+    <div class="w-32 h-0.5 bg-gray-300"></div>
+  </div>
+
+  <!-- RACI Table -->
+  <div
+    class="bg-gradient-to-br from-amber-500 to-orange-600 rounded-3xl p-10 text-white shadow-2xl hover:scale-105 transition-all duration-300 max-w-7xl mx-auto"
+  >
+    <div class="flex items-center mb-8">
+      <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mr-6">
+        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            fill-rule="evenodd"
+            d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </div>
+      <h2 class="text-4xl font-bold">Responsibility Matrix</h2>
+    </div>
+
+    <div class="bg-white bg-opacity-10 rounded-2xl p-6 overflow-x-auto">
+      <table class="w-full border-collapse">
+        <thead>
+          <tr>
+            <th class="border border-white border-opacity-30 p-4 text-left text-xl font-bold bg-white bg-opacity-10">Task</th>
+            {% for r in roles %}
+            <th class="border border-white border-opacity-30 p-4 text-left text-xl font-bold bg-white bg-opacity-10">{{r}}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in assignments %}
+          <tr>
+            <td class="border border-white border-opacity-30 p-4 text-lg font-semibold bg-white bg-opacity-5">{{tasks[loop.index0]}}</td>
+            {% for cell in row %}
+            <td class="border border-white border-opacity-30 p-4 text-lg text-center font-bold">{{cell}}</td>
+            {% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

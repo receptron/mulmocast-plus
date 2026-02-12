@@ -36,6 +36,7 @@ Yarn workspaces monorepo (`packages/*`). Shared TypeScript config at `config/tsc
 | `mulmocast-extended-types` | `@mulmocast/extended-types` | Zod schemas and types extending `@mulmocast/types` |
 | `mulmocast-preprocessor` | `mulmocast-preprocessor` | Content preprocessor (filter, variant, profile, AI query/summarize) |
 | `mulmocast-mcp` | `mulmocast-mcp` | MCP (Model Context Protocol) server for MulmoCast |
+| `mulmocast-vision` | `mulmocast-vision` | Presentation slide generator via MCP (80+ templates) |
 
 ### mulmocast-extended-types — Type Structure
 
@@ -70,3 +71,13 @@ MCP server providing MulmoCast content generation tools. Migrated from standalon
 - Entry point: `src/index.ts` (also the bin target)
 - License: AGPL-3.0-only (different from other MIT-licensed packages)
 - Uses `@modelcontextprotocol/sdk` for MCP protocol, `mulmocast` for generation
+
+### mulmocast-vision
+
+Presentation slide generator using LLMs via MCP. Migrated from standalone repository `receptron/mulmocast-vision` (now archived).
+
+- Entry point: `src/index.ts` (library), `src/mcp.ts` (MCP server / bin target)
+- 80+ HTML slide templates in `html/` directory (published with package)
+- License: AGPL-3.0-or-later
+- Uses Puppeteer for HTML-to-image rendering, Nunjucks for template engine, PDFKit for PDF generation
+- ESLint rules relaxed in `eslint.config.mjs` (no-console, no-undef as warnings) to match original repo conventions

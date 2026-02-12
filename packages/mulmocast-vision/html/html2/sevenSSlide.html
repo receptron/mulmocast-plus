@@ -1,0 +1,31 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header -->
+  <div class="text-center mb-16">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-6 mx-auto"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">McKinsey 7S Model</h1>
+    <div class="w-32 h-0.5 bg-gray-300 mx-auto"></div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-8 max-w-7xl mx-auto">
+    {% set pairs = [ ["Strategy", strategy, "emerald", "from-emerald-500 to-green-600"], ["Structure", structure, "blue", "from-blue-500 to-indigo-600"],
+    ["Systems", systems, "purple", "from-purple-500 to-violet-600"], ["Shared Values", sharedValues, "rose", "from-rose-500 to-pink-600"], ["Skills", skills,
+    "amber", "from-amber-500 to-orange-600"], ["Style", style, "teal", "from-teal-500 to-cyan-600"], ["Staff", staff, "indigo", "from-indigo-500 to-blue-600"] ]
+    %} {% for p in pairs %}
+    <section class="bg-gradient-to-br {{p[3]}} rounded-3xl p-10 text-white shadow-2xl hover:scale-105 transition-all duration-300">
+      <div class="flex items-center mb-6">
+        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mr-6">
+          <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <h2 class="text-3xl font-bold">{{p[0]}}</h2>
+      </div>
+      <p class="text-xl leading-relaxed whitespace-pre-wrap font-light">{{p[1]}}</p>
+    </section>
+    {% endfor %}
+  </div>
+</div>

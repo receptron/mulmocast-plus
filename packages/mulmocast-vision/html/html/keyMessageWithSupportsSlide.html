@@ -1,0 +1,13 @@
+<div class="bg-white text-gray-900 px-20 py-20">
+  <header class="mb-10">
+    <h1 class="text-6xl font-extrabold tracking-tight mb-4">{{headline}}</h1>
+    <p class="text-gray-600 text-xl">One key message with supporting points.</p>
+  </header>
+  <section>
+    <ul class="list-disc ml-6 space-y-4 text-2xl leading-relaxed">
+      {% for s in supports %}
+      <li>{{s}}</li>
+      {% endfor %}
+    </ul>
+  </section>
+</div>

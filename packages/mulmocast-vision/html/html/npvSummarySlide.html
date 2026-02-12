@@ -1,0 +1,12 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <h1 class="text-5xl font-bold mb-6">NPV Summary</h1>
+  <p class="text-3xl mb-4">NPV: {{npv}}</p>
+  {% if assumptions %}
+  <h2 class="text-xl font-semibold mb-2">Assumptions</h2>
+  <ul class="list-disc ml-5 text-2xl">
+    {% for a in assumptions %}
+    <li>{{a}}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</div>

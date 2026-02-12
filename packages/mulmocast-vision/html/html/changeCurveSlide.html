@@ -1,0 +1,11 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <h1 class="text-5xl font-bold mb-8">Change Curve</h1>
+  <ol class="list-decimal ml-6 space-y-3 text-2xl">
+    {% for s in stages %}
+    <li>{{s}}</li>
+    {% endfor %}
+  </ol>
+  {% if notes %}
+  <p class="mt-6 text-gray-600">{{notes}}</p>
+  {% endif %}
+</div>

@@ -1,0 +1,23 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <h1 class="text-5xl font-bold mb-8">Option Evaluation</h1>
+  <table class="w-full border-collapse">
+    <thead>
+      <tr>
+        <th class="border p-3 text-left">Criteria \ Options</th>
+        {% for o in options %}
+        <th class="border p-3">{{o}}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in range(0, criteria|length) %}
+      <tr>
+        <td class="border p-3">{{criteria[i]}}</td>
+        {% for j in range(0, options|length) %}
+        <td class="border p-3">{{scores[j][i]}}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

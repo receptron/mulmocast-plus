@@ -1,0 +1,54 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header -->
+  <div class="mb-16">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-6"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">{{title}}</h1>
+    <div class="w-32 h-0.5 bg-gray-300"></div>
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+    {% for k in kpis %}
+    <section class="bg-white rounded-3xl shadow-2xl border border-gray-100 p-8 transform hover:scale-105 transition-all duration-300 hover:shadow-3xl">
+      <div class="flex items-start justify-between mb-6">
+        <div class="flex-1">
+          <div class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">{{k.label}}</div>
+          <div class="text-5xl font-black text-gray-900 leading-none mb-3">{{k.value}}</div>
+        </div>
+        <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center ml-4">
+          <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"
+            />
+          </svg>
+        </div>
+      </div>
+
+      {% if k.delta %}
+      <div class="flex items-center">
+        <div
+          class="flex items-center {{ 'text-emerald-600' if k.delta > 0 else 'text-red-500' }} bg-opacity-10 {{ 'bg-emerald-500' if k.delta > 0 else 'bg-red-500' }} rounded-full px-3 py-1"
+        >
+          <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+            {% if k.delta > 0 %}
+            <path
+              fill-rule="evenodd"
+              d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 4.414 6.707 7.707a1 1 0 01-1.414 0z"
+              clip-rule="evenodd"
+            />
+            {% else %}
+            <path
+              fill-rule="evenodd"
+              d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L10 15.586l3.293-3.293a1 1 0 011.414 0z"
+              clip-rule="evenodd"
+            />
+            {% endif %}
+          </svg>
+          <span class="text-sm font-semibold">{{k.delta}}</span>
+        </div>
+      </div>
+      {% endif %}
+    </section>
+    {% endfor %}
+  </div>
+</div>

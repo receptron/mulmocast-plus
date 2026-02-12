@@ -1,0 +1,23 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <h1 class="text-5xl font-bold mb-8">Benchmarking</h1>
+  <table class="w-full border-collapse">
+    <thead>
+      <tr>
+        <th class="border p-3 text-left">Metric \ Competitor</th>
+        {% for c in competitors %}
+        <th class="border p-3">{{c}}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for m in metrics %}
+      <tr>
+        <td class="border p-3">{{m}}</td>
+        {% for c in competitors %}
+        <td class="border p-3"></td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

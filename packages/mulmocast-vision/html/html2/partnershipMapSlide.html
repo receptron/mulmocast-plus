@@ -1,0 +1,26 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header -->
+  <div class="text-center mb-16">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-6 mx-auto"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">Partnership Map</h1>
+    <div class="w-32 h-0.5 bg-gray-300 mx-auto"></div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-8 max-w-7xl mx-auto">
+    {% for p in partners %}
+    <section class="bg-gradient-to-br from-purple-500 to-violet-600 rounded-3xl p-10 text-white shadow-2xl hover:scale-105 transition-all duration-300">
+      <div class="flex items-center mb-6">
+        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mr-6">
+          <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="text-2xl font-bold mb-2">{{p.category}}</h2>
+          <p class="text-xl font-light">{{p.name}}</p>
+        </div>
+      </div>
+    </section>
+    {% endfor %}
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<div class="bg-white text-gray-900 overflow-hidden flex flex-col">
+  <!-- Title -->
+  <header class="px-20 pt-20">
+    <h1 class="text-6xl font-bold tracking-tight mb-12">{{title}}</h1>
+  </header>
+
+  <!-- Executive summary bullets -->
+  <main class="flex-1 px-32 pb-20">
+    <ol class="list-decimal ml-6 space-y-8 text-3xl leading-relaxed text-gray-800 break-words whitespace-normal">
+      {% for bullet in bullets %}
+      <li>{{ bullets }}</li>
+      {% endfor %}
+    </ol>
+  </main>
+</div>

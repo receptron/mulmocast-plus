@@ -10,6 +10,7 @@ Monorepo for MulmoCast extension packages.
 | [mulmocast-preprocessor](./packages/mulmocast-preprocessor) | Profile variants, filtering, AI summarization & Q&A | [![npm](https://img.shields.io/npm/v/mulmocast-preprocessor)](https://www.npmjs.com/package/mulmocast-preprocessor) |
 | [@mulmocast/extended-types](./packages/mulmocast-extended-types) | Type definitions and Zod schemas for ExtendedMulmoScript | [![npm](https://img.shields.io/npm/v/@mulmocast/extended-types)](https://www.npmjs.com/package/@mulmocast/extended-types) |
 | [mulmocast-mcp](./packages/mulmocast-mcp) | MCP (Model Context Protocol) server for MulmoCast | [![npm](https://img.shields.io/npm/v/mulmocast-mcp)](https://www.npmjs.com/package/mulmocast-mcp) |
+| [mulmocast-vision](./packages/mulmocast-vision) | Presentation slide generator via MCP (80+ templates) | [![npm](https://img.shields.io/npm/v/mulmocast-vision)](https://www.npmjs.com/package/mulmocast-vision) |
 
 ## Development
 
@@ -42,4 +43,4 @@ yarn test     # Test all packages
 
 ## License
 
-MIT (except `mulmocast-mcp`: AGPL-3.0-only)
+MIT (except `mulmocast-mcp`: AGPL-3.0-only, `mulmocast-vision`: AGPL-3.0-or-later)

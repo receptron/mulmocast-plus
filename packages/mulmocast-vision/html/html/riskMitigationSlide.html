@@ -1,0 +1,17 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <h1 class="text-5xl font-bold mb-8">Risks & Mitigations</h1>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    {% for r in risks %}
+    <section class="rounded-xl border p-6 bg-gray-50">
+      <h2 class="text-xl font-semibold mb-3">{{r.risk}}</h2>
+      {% if r.impact %}
+      <p class="text-gray-700">Impact: {{r.impact}}</p>
+      {% endif %} {% if r.likelihood %}
+      <p class="text-gray-700">Likelihood: {{r.likelihood}}</p>
+      {% endif %} {% if r.mitigation %}
+      <p class="text-gray-700 mt-2">Mitigation: {{r.mitigation}}</p>
+      {% endif %}
+    </section>
+    {% endfor %}
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <h1 class="text-5xl font-bold mb-6">Marketing Mix</h1>
+  <ul class="list-disc ml-5 space-y-2 text-2xl">
+    {% for l in levers %}
+    <li>{{l}}</li>
+    {% endfor %}
+  </ul>
+  {% if notes %}
+  <p class="mt-6 text-gray-600">{{notes}}</p>
+  {% endif %}
+</div>

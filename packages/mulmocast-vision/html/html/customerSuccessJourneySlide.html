@@ -1,0 +1,15 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <h1 class="text-5xl font-bold mb-6">Customer Success Journey</h1>
+  <div class="flex flex-wrap gap-3 mb-6">
+    {% for s in stages %}
+    <div class="rounded-full border px-4 py-2 bg-gray-50 text-2xl">{{s}}</div>
+    {% endfor %}
+  </div>
+  {% if metrics %}
+  <ul class="list-disc ml-5 space-y-2 text-2xl">
+    {% for m in metrics %}
+    <li>{{m}}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</div>

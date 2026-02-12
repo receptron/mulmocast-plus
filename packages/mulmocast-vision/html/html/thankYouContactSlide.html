@@ -1,0 +1,24 @@
+<div class="bg-white text-gray-900 flex flex-col items-center justify-center px-16 py-24">
+  <h1 class="text-7xl font-extrabold tracking-tight text-center mb-8">{{message}}</h1>
+
+  <div class="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+    <div class="md:col-span-2 rounded-2xl border border-gray-200 p-8 bg-gray-50">
+      <ul class="space-y-3 text-2xl leading-relaxed">
+        {%- if name %}
+        <li><span class="font-semibold">Name:</span>{{name}}</li>
+        {%- endif %} {%- if email %}
+        <li><span class="font-semibold">Email:</span>{{email}}</li>
+        {%- endif %} {%- if url %}
+        <li><span class="font-semibold">URL:</span>{{url}}</li>
+        {%- endif %}
+      </ul>
+    </div>
+
+    {%- if qrImageUrl %}
+    <!-- Remove this block if you don't have a QR -->
+    <div class="rounded-2xl border border-gray-200 p-6 bg-white flex items-center justify-center">
+      <img src="${qrImageUrl}" alt="QR code" class="w-56 h-56 object-contain" />
+    </div>
+    {%- endif %}
+  </div>
+</div>

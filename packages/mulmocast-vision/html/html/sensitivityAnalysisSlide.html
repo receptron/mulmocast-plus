@@ -1,0 +1,22 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <h1 class="text-5xl font-bold mb-8">Sensitivity Analysis</h1>
+  <p class="text-xl text-gray-700 mb-4">Variables x Scenarios</p>
+  <div class="grid grid-cols-2 gap-6">
+    <section class="rounded-xl border p-6 bg-gray-50">
+      <h2 class="text-xl font-semibold mb-3">Variables</h2>
+      <ul class="list-disc ml-5 space-y-2 text-2xl">
+        {% for v in variables %}
+        <li>{{v}}</li>
+        {% endfor %}
+      </ul>
+    </section>
+    <section class="rounded-xl border p-6 bg-white">
+      <h2 class="text-xl font-semibold mb-3">Scenarios</h2>
+      <ul class="list-disc ml-5 space-y-2 text-2xl">
+        {% for s in scenarios %}
+        <li>{{s}}</li>
+        {% endfor %}
+      </ul>
+    </section>
+  </div>
+</div>

@@ -1,0 +1,72 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header -->
+  <div class="mb-16">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-6"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">2x2 Matrix</h1>
+    <div class="w-32 h-0.5 bg-gray-300"></div>
+  </div>
+
+  <!-- Matrix Layout -->
+  <div class="max-w-6xl mx-auto">
+    <!-- Axis Labels -->
+    <div class="relative mb-8">
+      <!-- Y-axis label -->
+      <div class="absolute -left-16 top-1/2 transform -translate-y-1/2 -rotate-90">
+        <span class="text-gray-600 font-semibold text-lg">{{yAxis}}</span>
+        <div class="flex items-center mt-2">
+          <span class="text-sm text-gray-500 mr-2">High</span>
+          <div class="w-12 h-0.5 bg-gray-400"></div>
+          <span class="text-sm text-gray-500 ml-2">Low</span>
+        </div>
+      </div>
+
+      <!-- X-axis label -->
+      <div class="text-center mb-4">
+        <span class="text-gray-600 font-semibold text-lg">{{xAxis}}</span>
+        <div class="flex items-center justify-center mt-2">
+          <span class="text-sm text-gray-500 mr-4">Low</span>
+          <div class="w-24 h-0.5 bg-gray-400"></div>
+          <span class="text-sm text-gray-500 ml-4">High</span>
+        </div>
+      </div>
+
+      <!-- Matrix Grid -->
+      <div class="grid grid-cols-2 gap-8">
+        {% set quadrant_colors = ['from-blue-500 to-indigo-600', 'from-emerald-500 to-green-600', 'from-red-500 to-rose-600', 'from-amber-500 to-orange-600'] %}
+        {% set quadrant_labels = ['High Y, Low X', 'High Y, High X', 'Low Y, Low X', 'Low Y, High X'] %} {% for q in quadrants %} {% set color =
+        quadrant_colors[loop.index0] %}
+        <section
+          class="bg-gradient-to-br {{ color }} rounded-3xl p-8 text-white shadow-2xl transform hover:scale-105 transition-all duration-300 min-h-[200px]"
+        >
+          <div class="flex items-center mb-6">
+            <div class="w-12 h-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center mr-4">
+              <span class="text-xl font-bold">{{ loop.index }}</span>
+            </div>
+            <h3 class="text-lg font-bold opacity-75">{{ quadrant_labels[loop.index0] }}</h3>
+          </div>
+
+          <ul class="space-y-3 text-lg">
+            {% for it in q %}
+            <li class="flex items-start"><span class="w-2 h-2 bg-white rounded-full mt-3 mr-3 flex-shrink-0"></span><span>{{it}}</span></li>
+            {% endfor %}
+          </ul>
+        </section>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Matrix Legend -->
+  <div class="text-center mt-12">
+    <div class="inline-flex items-center bg-white rounded-2xl shadow-lg px-6 py-4">
+      <svg class="w-6 h-6 text-gray-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
+        <path
+          fill-rule="evenodd"
+          d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+          clip-rule="evenodd"
+        />
+      </svg>
+      <span class="text-lg font-semibold text-gray-700">Matrix Analysis Framework</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <div class="grid grid-cols-3 gap-6">
+    <section class="rounded-xl border p-6 bg-gray-50">
+      <h2 class="text-xl font-semibold mb-3">Environmental</h2>
+      <ul class="list-disc ml-5 text-2xl">
+        {% for e in environmental %}
+        <li>{{e}}</li>
+        {% endfor %}
+      </ul>
+    </section>
+    <section class="rounded-xl border p-6 bg-white">
+      <h2 class="text-xl font-semibold mb-3">Social</h2>
+      <ul class="list-disc ml-5 text-2xl">
+        {% for s in social %}
+        <li>{{s}}</li>
+        {% endfor %}
+      </ul>
+    </section>
+    <section class="rounded-xl border p-6 bg-gray-50">
+      <h2 class="text-xl font-semibold mb-3">Governance</h2>
+      <ul class="list-disc ml-5 text-2xl">
+        {% for g in governance %}
+        <li>{{g}}</li>
+        {% endfor %}
+      </ul>
+    </section>
+  </div>
+</div>

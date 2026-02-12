@@ -1,0 +1,36 @@
+<div class="bg-gradient-to-br from-slate-50 to-blue-50 text-gray-900 px-16 py-16 min-h-screen">
+  <!-- Header -->
+  <div class="mb-16">
+    <div class="w-20 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mb-6"></div>
+    <h1 class="text-6xl font-bold text-gray-900 mb-4 leading-tight">Market Segmentation</h1>
+    <div class="w-32 h-0.5 bg-gray-300"></div>
+  </div>
+
+  <!-- Segments Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-{{segments|length}} gap-8 max-w-7xl mx-auto">
+    {% for s in segments %}
+    <section class="bg-gradient-to-br from-emerald-500 to-green-600 rounded-3xl p-8 text-white shadow-2xl hover:scale-105 transition-all duration-300">
+      <div class="flex items-center mb-6">
+        <div class="w-12 h-12 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mr-4">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v6a1 1 0 102 0V5zm0 8a1 1 0 10-2 0 1 1 0 002 0z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold">{{s}}</h2>
+      </div>
+      <ul class="space-y-3 text-lg">
+        {% for d in descriptors %}
+        <li class="flex items-start">
+          <span class="w-2 h-2 bg-white rounded-full mt-3 mr-3 flex-shrink-0"></span>
+          <span>{{d}}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+    {% endfor %}
+  </div>
+</div>

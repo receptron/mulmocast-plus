@@ -1,0 +1,24 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <h1 class="text-5xl font-bold mb-6">Heatmap</h1>
+  <p class="text-gray-600 mb-4">Placeholder table.</p>
+  <table class="border-collapse">
+    <thead>
+      <tr>
+        <th class="border p-2"></th>
+        {% for c in cols %}
+        <th class="border p-2">{{c}}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in rows %}
+      <tr>
+        <td class="border p-2 font-semibold">{{r}}</td>
+        {% for v in values[loop.index0] %}
+        <td class="border p-2 text-center">{{v}}</td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,29 @@
+<div class="bg-white text-gray-900 px-16 py-16">
+  <h1 class="text-5xl font-bold mb-8">Launch Plan</h1>
+  <div class="grid grid-cols-3 gap-6">
+    <section class="rounded-xl border p-6 bg-gray-50">
+      <h2 class="text-xl font-semibold mb-3">Workstreams</h2>
+      <ul class="list-disc ml-5 text-2xl">
+        {% for w in workstreams %}
+        <li>{{w}}</li>
+        {% endfor %}
+      </ul>
+    </section>
+    <section class="rounded-xl border p-6 bg-white">
+      <h2 class="text-xl font-semibold mb-3">Milestones</h2>
+      <ul class="list-disc ml-5 text-2xl">
+        {% for m in milestones %}
+        <li>{{m}}</li>
+        {% endfor %}
+      </ul>
+    </section>
+    <section class="rounded-xl border p-6 bg-gray-50">
+      <h2 class="text-xl font-semibold mb-3">Risks</h2>
+      <ul class="list-disc ml-5 text-2xl">
+        {% for r in risks %}
+        <li>{{r}}</li>
+        {% endfor %}
+      </ul>
+    </section>
+  </div>
+</div>
