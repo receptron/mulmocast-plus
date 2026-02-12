@@ -40,7 +40,7 @@
     "@graphai/openai_agent": "^2.0.9",
     "@graphai/vanilla": "^2.0.12",
     "@mulmocast/extended-types": "^0.3.0",
-    "@mulmocast/types": "2.1.37",
+    "@mulmocast/types": "^2.1.37",
     "dotenv": "^17.2.4",
     "graphai": "^2.0.16",
     "yargs": "^18.0.0",
