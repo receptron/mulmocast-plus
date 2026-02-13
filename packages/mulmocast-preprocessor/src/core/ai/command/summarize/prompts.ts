@@ -1,6 +1,6 @@
 import type { SummarizeOptions } from "../../../../types/summarize.js";
 import type { ExtendedMulmoScript } from "@mulmocast/extended-types";
-import { getLanguageName, buildScriptContent } from "../../llm.js";
+import { getLanguageName, buildScriptContent, scriptToViewerData } from "../../llm.js";
 
 /**
  * Default system prompt for text summary
@@ -30,7 +30,7 @@ export const buildUserPrompt = (script: ExtendedMulmoScript, options: SummarizeO
   const parts: string[] = [];
 
   // Add common script content (title, language, sections with beats)
-  parts.push(buildScriptContent(script));
+  parts.push(buildScriptContent(scriptToViewerData(script)));
 
   // Add target length if specified
   if (options.targetLengthChars) {
