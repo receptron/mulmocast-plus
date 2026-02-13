@@ -1,6 +1,7 @@
 import type { QueryOptions, ConversationMessage } from "../../../../types/query.js";
 import type { ExtendedMulmoScript } from "@mulmocast/extended-types";
-import { getLanguageName, buildScriptContent, scriptToViewerData } from "../../llm.js";
+import { getLanguageName } from "../../llm.js";
+import { buildScriptContent, scriptToViewerData, DEFAULT_INTERACTIVE_SYSTEM_PROMPT } from "@mulmocast/script-utils";
 
 /**
  * Default system prompt for query
@@ -47,9 +48,6 @@ export const buildUserPrompt = (script: ExtendedMulmoScript, question: string): 
 
   return parts.join("\n");
 };
-
-import { DEFAULT_INTERACTIVE_SYSTEM_PROMPT } from "../../context-builder.js";
-export { DEFAULT_INTERACTIVE_SYSTEM_PROMPT };
 
 /**
  * Default system prompt for interactive query with fetched content

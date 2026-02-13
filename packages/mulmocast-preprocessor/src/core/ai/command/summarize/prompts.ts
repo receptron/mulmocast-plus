@@ -1,6 +1,7 @@
 import type { SummarizeOptions } from "../../../../types/summarize.js";
 import type { ExtendedMulmoScript } from "@mulmocast/extended-types";
-import { getLanguageName, buildScriptContent, scriptToViewerData } from "../../llm.js";
+import { getLanguageName } from "../../llm.js";
+import { buildScriptContent, scriptToViewerData } from "@mulmocast/script-utils";
 
 /**
  * Default system prompt for text summary

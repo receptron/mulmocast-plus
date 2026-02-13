@@ -1,13 +1,10 @@
 {
-  "name": "mulmocast-preprocessor",
-  "version": "0.5.3",
-  "description": "Preprocessor for MulmoScript",
+  "name": "@mulmocast/script-utils",
+  "version": "0.1.0",
+  "description": "MulmoScript data transformation utilities (filter, variant, context builder)",
   "type": "module",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "bin": {
-    "mulmocast-preprocessor": "./lib/cli/index.js"
-  },
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
@@ -34,20 +31,7 @@
   },
   "homepage": "https://github.com/receptron/mulmocast-plus#readme",
   "dependencies": {
-    "@graphai/anthropic_agent": "^2.0.12",
-    "@graphai/gemini_agent": "^2.0.5",
-    "@graphai/groq_agent": "^2.0.2",
-    "@graphai/openai_agent": "^2.0.9",
-    "@graphai/vanilla": "^2.0.12",
     "@mulmocast/extended-types": "^0.3.0",
-    "@mulmocast/script-utils": "^0.1.0",
-    "@mulmocast/types": "^2.1.38",
-    "dotenv": "^17.3.1",
-    "graphai": "^2.0.16",
-    "yargs": "^18.0.0",
-    "zod": "^4.3.6"
-  },
-  "devDependencies": {
-    "@types/yargs": "^17.0.35"
+    "@mulmocast/types": "^2.1.38"
   }
 }

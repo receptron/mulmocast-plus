@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync } from "fs";
 import { GraphAILogger } from "graphai";
-import { processScript } from "../../core/preprocessing/process.js";
+import { processScript } from "@mulmocast/script-utils";
 import type { ExtendedMulmoScript } from "@mulmocast/extended-types";
 
 interface ProcessOptions {

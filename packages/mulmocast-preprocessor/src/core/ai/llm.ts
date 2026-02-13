@@ -9,10 +9,7 @@ import { geminiAgent } from "@graphai/gemini_agent";
 
 import type { ExtendedMulmoScript } from "@mulmocast/extended-types";
 import type { LLMProvider } from "../../types/summarize.js";
-import { filterBySection, filterByTags } from "../preprocessing/filter.js";
-
-// Re-export pure context-building functions (no GraphAI dependency)
-export { buildBeatContent, buildScriptMetaContent, buildScriptContent, scriptToViewerData } from "./context-builder.js";
+import { filterBySection, filterByTags } from "@mulmocast/script-utils";
 
 dotenv.config({ quiet: true });
 
