@@ -60,7 +60,7 @@ const createTestScript = (): ExtendedMulmoScript => ({
   ],
 });
 
-describe("buildUserPrompt", () => {
+describe("buildSummarizePrompt", () => {
   it("should include script title and language", () => {
     const script = createTestScript();
     const options = createTestOptions();
@@ -130,8 +130,7 @@ describe("buildUserPrompt", () => {
 describe("buildSystemPrompt", () => {
   it("should return text prompt for text format", () => {
     const options = createTestOptions({ format: "text" });
-    const basePrompt = options.format === "markdown" ? DEFAULT_SUMMARIZE_MARKDOWN_SYSTEM_PROMPT : DEFAULT_SUMMARIZE_TEXT_SYSTEM_PROMPT;
-    const prompt = buildSystemPrompt(basePrompt, options);
+    const prompt = buildSystemPrompt(DEFAULT_SUMMARIZE_TEXT_SYSTEM_PROMPT, options);
 
     assert.strictEqual(prompt, DEFAULT_SUMMARIZE_TEXT_SYSTEM_PROMPT);
     assert.ok(prompt.includes("plain text"));
@@ -139,8 +138,7 @@ describe("buildSystemPrompt", () => {
 
   it("should return markdown prompt for markdown format", () => {
     const options = createTestOptions({ format: "markdown" });
-    const basePrompt = options.format === "markdown" ? DEFAULT_SUMMARIZE_MARKDOWN_SYSTEM_PROMPT : DEFAULT_SUMMARIZE_TEXT_SYSTEM_PROMPT;
-    const prompt = buildSystemPrompt(basePrompt, options);
+    const prompt = buildSystemPrompt(DEFAULT_SUMMARIZE_MARKDOWN_SYSTEM_PROMPT, options);
 
     assert.strictEqual(prompt, DEFAULT_SUMMARIZE_MARKDOWN_SYSTEM_PROMPT);
     assert.ok(prompt.includes("markdown"));
