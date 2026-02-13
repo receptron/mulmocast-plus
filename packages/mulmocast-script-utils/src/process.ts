@@ -1,6 +1,6 @@
 import type { MulmoScript } from "@mulmocast/types";
 import type { ExtendedMulmoScript } from "@mulmocast/extended-types";
-import type { ProcessOptions } from "../../types/index.js";
+import type { ProcessOptions } from "./types.js";
 import { applyProfile } from "./variant.js";
 import { filterBySection, filterByTags, stripExtendedFields } from "./filter.js";
 

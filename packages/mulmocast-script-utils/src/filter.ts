@@ -1,5 +1,6 @@
 import type { MulmoScript, MulmoBeat } from "@mulmocast/types";
 import type { ExtendedMulmoScript, ExtendedMulmoBeat } from "@mulmocast/extended-types";
+import type { FilterOptions } from "./types.js";
 
 const stripBeatExtendedFields = (beat: ExtendedMulmoBeat): MulmoBeat => {
   const { variants: __variants, meta: __meta, ...baseBeat } = beat;
@@ -37,3 +38,11 @@ export const filterByTags = (script: ExtendedMulmoScript, tags: string[]): Exten
  * Strip variants and meta fields, converting to standard MulmoScript
  */
 export const stripExtendedFields = (script: ExtendedMulmoScript): MulmoScript => filterBeatsToMulmoScript(script, () => true);
+
+/**
+ * Filter script by section and/or tags (preserves metadata)
+ */
+export const filterScript = (script: ExtendedMulmoScript, options: FilterOptions): ExtendedMulmoScript => {
+  const afterSection = options.section ? filterBySection(script, options.section) : script;
+  return options.tags && options.tags.length > 0 ? filterByTags(afterSection, options.tags) : afterSection;
+};

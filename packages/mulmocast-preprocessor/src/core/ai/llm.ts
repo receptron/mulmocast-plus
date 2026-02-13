@@ -7,12 +7,7 @@ import { anthropicAgent } from "@graphai/anthropic_agent";
 import { groqAgent } from "@graphai/groq_agent";
 import { geminiAgent } from "@graphai/gemini_agent";
 
-import type { ExtendedMulmoScript } from "@mulmocast/extended-types";
 import type { LLMProvider } from "../../types/summarize.js";
-import { filterBySection, filterByTags } from "../preprocessing/filter.js";
-
-// Re-export pure context-building functions (no GraphAI dependency)
-export { buildBeatContent, buildScriptMetaContent, buildScriptContent, scriptToViewerData } from "./context-builder.js";
 
 dotenv.config({ quiet: true });
 
@@ -117,72 +112,6 @@ const createLLMGraph = (agentName: string): GraphData => ({
     },
   },
 });
-
-/**
- * Filter script based on options (section, tags)
- */
-export const filterScript = (script: ExtendedMulmoScript, options: BaseLLMOptions): ExtendedMulmoScript => {
-  const afterSection = options.section ? filterBySection(script, options.section) : script;
-  const afterTags = options.tags && options.tags.length > 0 ? filterByTags(afterSection, options.tags) : afterSection;
-  return afterTags;
-};
-
-/**
- * Get language name from code
- */
-export const getLanguageName = (langCode: string): string => {
-  const langMap: Record<string, string> = {
-    ja: "Japanese",
-    en: "English",
-    zh: "Chinese",
-    ko: "Korean",
-    fr: "French",
-    de: "German",
-    es: "Spanish",
-    it: "Italian",
-    pt: "Portuguese",
-    ru: "Russian",
-  };
-  return langMap[langCode] || langCode;
-};
-
-/**
- * Command execution result
- */
-export interface CommandResult {
-  text: string;
-  scriptTitle: string;
-  beatCount: number;
-}
-
-/**
- * Execute a command (summarize, query, etc.) with common logic
- */
-export const executeCommand = async <T extends BaseLLMOptions>(
-  script: ExtendedMulmoScript,
-  options: T,
-  getSystemPrompt: (opts: T) => string,
-  buildUserPrompt: (script: ExtendedMulmoScript) => string,
-  verboseMessage: string,
-): Promise<CommandResult | null> => {
-  const filteredScript = filterScript(script, options);
-  const scriptTitle = script.title || "Untitled";
-
-  if (filteredScript.beats.length === 0) {
-    return null;
-  }
-
-  const systemPrompt = getSystemPrompt(options);
-  const userPrompt = buildUserPrompt(filteredScript);
-
-  const text = await executeLLM(systemPrompt, userPrompt, options, verboseMessage);
-
-  return {
-    text,
-    scriptTitle,
-    beatCount: filteredScript.beats.length,
-  };
-};
 
 /**
  * Execute LLM call with GraphAI

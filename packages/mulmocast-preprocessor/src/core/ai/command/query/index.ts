@@ -1,8 +1,8 @@
 import type { ExtendedMulmoScript } from "@mulmocast/extended-types";
 import type { QueryOptions, QueryResult } from "../../../../types/query.js";
 import { queryOptionsSchema } from "../../../../types/query.js";
-import { executeLLM, filterScript } from "../../llm.js";
-import { buildUserPrompt, getSystemPrompt } from "./prompts.js";
+import { executeLLM } from "../../llm.js";
+import { filterScript, buildQueryPrompt, buildSystemPrompt, DEFAULT_QUERY_SYSTEM_PROMPT } from "@mulmocast/script-utils";
 
 /**
  * Main query function - answers a question based on script content
@@ -25,8 +25,8 @@ export const queryScript = async (script: ExtendedMulmoScript, question: string,
   }
 
   // Build prompts
-  const systemPrompt = getSystemPrompt(validatedOptions);
-  const userPrompt = buildUserPrompt(filteredScript, question);
+  const systemPrompt = buildSystemPrompt(DEFAULT_QUERY_SYSTEM_PROMPT, validatedOptions);
+  const userPrompt = buildQueryPrompt(filteredScript, question);
 
   // Execute LLM
   const answer = await executeLLM(
@@ -43,7 +43,3 @@ export const queryScript = async (script: ExtendedMulmoScript, question: string,
     beatCount: filteredScript.beats.length,
   };
 };
-
-// Re-export types
-export type { QueryOptions, QueryResult } from "../../../../types/query.js";
-export { queryOptionsSchema } from "../../../../types/query.js";
