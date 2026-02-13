@@ -1,6 +1,6 @@
 {
   "name": "mulmocast-preprocessor",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Preprocessor for MulmoScript",
   "type": "module",
   "main": "lib/index.js",
@@ -40,8 +40,8 @@
     "@graphai/openai_agent": "^2.0.9",
     "@graphai/vanilla": "^2.0.12",
     "@mulmocast/extended-types": "^0.3.0",
-    "@mulmocast/types": "^2.1.37",
-    "dotenv": "^17.2.4",
+    "@mulmocast/types": "^2.1.38",
+    "dotenv": "^17.3.1",
     "graphai": "^2.0.16",
     "yargs": "^18.0.0",
     "zod": "^4.3.6"

@@ -1,6 +1,6 @@
 {
   "name": "@mulmocast/extended-types",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Type definitions and Zod schemas for MulmoScript ExtendedMulmoScript format",
   "type": "module",
   "main": "lib/index.js",
@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/receptron/mulmocast-plus#readme",
   "dependencies": {
-    "@mulmocast/types": "^2.1.35",
+    "@mulmocast/types": "^2.1.38",
     "zod": "^4.3.6"
   }
 }
