@@ -1,6 +1,6 @@
 import type { QueryOptions, ConversationMessage } from "../../../../types/query.js";
 import type { ExtendedMulmoScript } from "@mulmocast/extended-types";
-import { getLanguageName, buildScriptContent } from "../../llm.js";
+import { getLanguageName, buildScriptContent, scriptToViewerData } from "../../llm.js";
 
 /**
  * Default system prompt for query
@@ -37,7 +37,7 @@ export const buildUserPrompt = (script: ExtendedMulmoScript, question: string): 
   const parts: string[] = [];
 
   // Add common script content (title, language, sections with beats)
-  parts.push(buildScriptContent(script));
+  parts.push(buildScriptContent(scriptToViewerData(script)));
 
   parts.push("---");
   parts.push("");
@@ -96,7 +96,7 @@ export const buildInteractiveUserPrompt = (script: ExtendedMulmoScript, question
   const parts: string[] = [];
 
   // Add common script content (title, language, sections with beats)
-  parts.push(buildScriptContent(script));
+  parts.push(buildScriptContent(scriptToViewerData(script)));
 
   parts.push("---");
   parts.push("");

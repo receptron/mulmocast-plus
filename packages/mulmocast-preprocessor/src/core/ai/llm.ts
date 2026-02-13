@@ -7,7 +7,7 @@ import { anthropicAgent } from "@graphai/anthropic_agent";
 import { groqAgent } from "@graphai/groq_agent";
 import { geminiAgent } from "@graphai/gemini_agent";
 
-import type { ExtendedMulmoScript } from "@mulmocast/extended-types";
+import type { ExtendedMulmoScript, ExtendedMulmoViewerData, ExtendedMulmoViewerBeat } from "@mulmocast/extended-types";
 import type { LLMProvider } from "../../types/summarize.js";
 import { filterBySection, filterByTags } from "../preprocessing/filter.js";
 
@@ -146,7 +146,7 @@ export const getLanguageName = (langCode: string): string => {
 /**
  * Build beat content including metadata
  */
-const buildBeatContent = (beat: ExtendedMulmoScript["beats"][number], index: number): string => {
+export const buildBeatContent = (beat: ExtendedMulmoViewerBeat, index: number): string => {
   const lines: string[] = [];
 
   // Main text
@@ -182,8 +182,8 @@ const buildBeatContent = (beat: ExtendedMulmoScript["beats"][number], index: num
 /**
  * Build script-level metadata section
  */
-const buildScriptMetaContent = (script: ExtendedMulmoScript): string => {
-  const meta = script.scriptMeta;
+export const buildScriptMetaContent = (data: ExtendedMulmoViewerData): string => {
+  const meta = data.scriptMeta;
   if (!meta) return "";
 
   const lines: string[] = [];
@@ -239,18 +239,36 @@ const buildScriptMetaContent = (script: ExtendedMulmoScript): string => {
 };
 
 /**
+ * Convert ExtendedMulmoScript to ExtendedMulmoViewerData (extract only needed fields)
+ */
+export const scriptToViewerData = (script: ExtendedMulmoScript): ExtendedMulmoViewerData => {
+  return {
+    beats: script.beats.map((b) => ({
+      text: b.text,
+      meta: b.meta,
+      variants: b.variants,
+      id: b.id,
+    })),
+    title: script.title,
+    lang: script.lang,
+    scriptMeta: script.scriptMeta,
+    outputProfiles: script.outputProfiles,
+  };
+};
+
+/**
  * Build script content for user prompt (common part)
  */
-export const buildScriptContent = (script: ExtendedMulmoScript): string => {
+export const buildScriptContent = (data: ExtendedMulmoViewerData): string => {
   const parts: string[] = [];
 
   // Add script title and language
-  parts.push(`# Script: ${script.title}`);
-  parts.push(`Language: ${script.lang}`);
+  parts.push(`# Script: ${data.title}`);
+  parts.push(`Language: ${data.lang}`);
   parts.push("");
 
   // Add script-level metadata
-  const scriptMetaContent = buildScriptMetaContent(script);
+  const scriptMetaContent = buildScriptMetaContent(data);
   if (scriptMetaContent) {
     parts.push("## About this content");
     parts.push(scriptMetaContent);
@@ -260,7 +278,7 @@ export const buildScriptContent = (script: ExtendedMulmoScript): string => {
   // Collect all content from beats grouped by section
   const sections = new Map<string, string[]>();
 
-  script.beats.forEach((beat, index) => {
+  data.beats.forEach((beat, index) => {
     const content = buildBeatContent(beat, index);
     if (!content) return;
 
