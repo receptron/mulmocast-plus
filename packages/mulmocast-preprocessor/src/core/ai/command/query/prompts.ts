@@ -48,17 +48,8 @@ export const buildUserPrompt = (script: ExtendedMulmoScript, question: string): 
   return parts.join("\n");
 };
 
-/**
- * Default system prompt for interactive query
- */
-export const DEFAULT_INTERACTIVE_SYSTEM_PROMPT = `You are answering questions based on the content provided.
-- Answer based ONLY on the information in the provided content
-- If the answer cannot be found in the content, say so clearly
-- Be concise and direct in your answers
-- Do not make up information that is not in the content
-- You may reference previous conversation when answering follow-up questions
-- If references are available and the user asks for more details, mention which reference could provide more information
-- When you suggest fetching a reference for more details, include [SUGGEST_FETCH: <url>] in your response`;
+import { DEFAULT_INTERACTIVE_SYSTEM_PROMPT } from "../../context-builder.js";
+export { DEFAULT_INTERACTIVE_SYSTEM_PROMPT };
 
 /**
  * Default system prompt for interactive query with fetched content
