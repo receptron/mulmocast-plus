@@ -43,7 +43,3 @@ export const queryScript = async (script: ExtendedMulmoScript, question: string,
     beatCount: filteredScript.beats.length,
   };
 };
-
-// Re-export types
-export type { QueryOptions, QueryResult } from "../../../../types/query.js";
-export { queryOptionsSchema } from "../../../../types/query.js";

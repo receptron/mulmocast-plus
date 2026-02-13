@@ -50,7 +50,3 @@ export const summarizeScript = async (script: ExtendedMulmoScript, options: Part
     beatCount: filteredScript.beats.length,
   };
 };
-
-// Re-export types
-export type { SummarizeOptions, SummarizeResult, LLMProvider, SummarizeFormat } from "../../../../types/summarize.js";
-export { summarizeOptionsSchema, llmProviderSchema, summarizeFormatSchema } from "../../../../types/summarize.js";
