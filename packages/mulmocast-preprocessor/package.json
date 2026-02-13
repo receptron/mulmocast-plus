@@ -1,6 +1,6 @@
 {
   "name": "mulmocast-preprocessor",
-  "version": "0.5.3",
+  "version": "0.6.0",
   "description": "Preprocessor for MulmoScript",
   "type": "module",
   "main": "lib/index.js",
