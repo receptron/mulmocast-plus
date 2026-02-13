@@ -1,8 +1,14 @@
 import type { ExtendedMulmoScript, Reference } from "@mulmocast/extended-types";
 import type { QueryOptions, InteractiveQuerySession, ConversationMessage } from "../../../../types/query.js";
 import { queryOptionsSchema } from "../../../../types/query.js";
-import { executeLLM, filterScript, getLanguageName } from "../../llm.js";
-import { buildInteractiveUserPrompt, getInteractiveSystemPrompt, DEFAULT_INTERACTIVE_SYSTEM_PROMPT_WITH_FETCH } from "./prompts.js";
+import { executeLLM } from "../../llm.js";
+import {
+  filterScript,
+  buildInteractiveQueryPrompt,
+  buildSystemPrompt,
+  DEFAULT_INTERACTIVE_SYSTEM_PROMPT,
+  DEFAULT_INTERACTIVE_SYSTEM_PROMPT_WITH_FETCH,
+} from "@mulmocast/script-utils";
 import { fetchUrlContent, findMatchingReference, type FetchedContent } from "../../utils/fetcher.js";
 
 /**
@@ -38,8 +44,8 @@ export const sendInteractiveQuery = async (
     return "No content available to answer the question.";
   }
 
-  const systemPrompt = getInteractiveSystemPrompt(options);
-  const userPrompt = buildInteractiveUserPrompt(filteredScript, question, session.history);
+  const systemPrompt = buildSystemPrompt(DEFAULT_INTERACTIVE_SYSTEM_PROMPT, options);
+  const userPrompt = buildInteractiveQueryPrompt(filteredScript, question, session.history);
 
   const answer = await executeLLM(systemPrompt, userPrompt, options, options.verbose ? `Interactive query: ${question}` : undefined);
 
@@ -122,14 +128,10 @@ export const sendInteractiveQueryWithFetch = async (
   }
 
   // Build system prompt for fetched content mode
-  let systemPrompt = DEFAULT_INTERACTIVE_SYSTEM_PROMPT_WITH_FETCH;
-  if (options.lang) {
-    const langName = getLanguageName(options.lang);
-    systemPrompt = `${systemPrompt}\n- IMPORTANT: Write the answer in ${langName}`;
-  }
+  const systemPrompt = buildSystemPrompt(DEFAULT_INTERACTIVE_SYSTEM_PROMPT_WITH_FETCH, options);
 
   // Build user prompt with fetched content
-  const baseUserPrompt = buildInteractiveUserPrompt(filteredScript, question, session.history);
+  const baseUserPrompt = buildInteractiveQueryPrompt(filteredScript, question, session.history);
 
   // Insert fetched content before the question
   const fetchedSection = [

@@ -1,6 +1,11 @@
 import { describe, it } from "node:test";
 import assert from "node:assert";
-import { buildUserPrompt, getSystemPrompt, DEFAULT_SYSTEM_PROMPT_TEXT, DEFAULT_SYSTEM_PROMPT_MARKDOWN } from "../src/core/ai/command/summarize/prompts.js";
+import {
+  buildSummarizePrompt,
+  buildSystemPrompt,
+  DEFAULT_SUMMARIZE_TEXT_SYSTEM_PROMPT,
+  DEFAULT_SUMMARIZE_MARKDOWN_SYSTEM_PROMPT,
+} from "@mulmocast/script-utils";
 import { getProviderConfig } from "../src/core/ai/llm.js";
 import type { ExtendedMulmoScript } from "@mulmocast/extended-types";
 import type { SummarizeOptions } from "../src/types/summarize.js";
@@ -59,7 +64,7 @@ describe("buildUserPrompt", () => {
   it("should include script title and language", () => {
     const script = createTestScript();
     const options = createTestOptions();
-    const prompt = buildUserPrompt(script, options);
+    const prompt = buildSummarizePrompt(script, options);
 
     assert.ok(prompt.includes("# Script: Test Script"));
     assert.ok(prompt.includes("Language: en"));
@@ -68,7 +73,7 @@ describe("buildUserPrompt", () => {
   it("should include all beat texts grouped by section", () => {
     const script = createTestScript();
     const options = createTestOptions();
-    const prompt = buildUserPrompt(script, options);
+    const prompt = buildSummarizePrompt(script, options);
 
     assert.ok(prompt.includes("## Section: opening"));
     assert.ok(prompt.includes("## Section: chapter1"));
@@ -81,7 +86,7 @@ describe("buildUserPrompt", () => {
   it("should include target length when specified", () => {
     const script = createTestScript();
     const options = createTestOptions({ targetLengthChars: 200 });
-    const prompt = buildUserPrompt(script, options);
+    const prompt = buildSummarizePrompt(script, options);
 
     assert.ok(prompt.includes("Target summary length: approximately 200 characters"));
   });
@@ -112,7 +117,7 @@ describe("buildUserPrompt", () => {
       ],
     };
     const options = createTestOptions();
-    const prompt = buildUserPrompt(script, options);
+    const prompt = buildSummarizePrompt(script, options);
 
     // Check all metadata fields are included
     assert.ok(prompt.includes("Tags: intro, overview"), "Tags should be included");
@@ -122,27 +127,29 @@ describe("buildUserPrompt", () => {
   });
 });
 
-describe("getSystemPrompt", () => {
+describe("buildSystemPrompt", () => {
   it("should return text prompt for text format", () => {
     const options = createTestOptions({ format: "text" });
-    const prompt = getSystemPrompt(options);
+    const basePrompt = options.format === "markdown" ? DEFAULT_SUMMARIZE_MARKDOWN_SYSTEM_PROMPT : DEFAULT_SUMMARIZE_TEXT_SYSTEM_PROMPT;
+    const prompt = buildSystemPrompt(basePrompt, options);
 
-    assert.strictEqual(prompt, DEFAULT_SYSTEM_PROMPT_TEXT);
+    assert.strictEqual(prompt, DEFAULT_SUMMARIZE_TEXT_SYSTEM_PROMPT);
     assert.ok(prompt.includes("plain text"));
   });
 
   it("should return markdown prompt for markdown format", () => {
     const options = createTestOptions({ format: "markdown" });
-    const prompt = getSystemPrompt(options);
+    const basePrompt = options.format === "markdown" ? DEFAULT_SUMMARIZE_MARKDOWN_SYSTEM_PROMPT : DEFAULT_SUMMARIZE_TEXT_SYSTEM_PROMPT;
+    const prompt = buildSystemPrompt(basePrompt, options);
 
-    assert.strictEqual(prompt, DEFAULT_SYSTEM_PROMPT_MARKDOWN);
+    assert.strictEqual(prompt, DEFAULT_SUMMARIZE_MARKDOWN_SYSTEM_PROMPT);
     assert.ok(prompt.includes("markdown"));
   });
 
   it("should use custom system prompt when provided", () => {
     const customPrompt = "Custom summarization instruction";
     const options = createTestOptions({ systemPrompt: customPrompt });
-    const prompt = getSystemPrompt(options);
+    const prompt = buildSystemPrompt(DEFAULT_SUMMARIZE_TEXT_SYSTEM_PROMPT, options);
 
     assert.strictEqual(prompt, customPrompt);
   });
