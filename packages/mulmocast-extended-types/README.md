@@ -155,6 +155,61 @@ graph TD
     SL --> ET
 ```
 
+## Data Lifecycle
+
+```mermaid
+flowchart TD
+    SRC["Source File\n(PDF / PPTX / Markdown / Keynote)"]
+
+    SRC -->|"mulmo-slide convert\nmulmo-slide marp / pdf / pptx ..."| MS
+    MS -->|"mulmo-slide extend scaffold"| ES
+    MS -->|"mulmo-slide narrate (LLM)"| ES
+    MS -->|"mulmo-slide bundle\n(via mulmocast)"| MVD
+
+    ES -->|"mulmo-slide extend merge"| EMVD
+    MVD -->|"mulmo-slide extend merge"| EMVD
+
+    ES -->|"mulmocast-preprocessor\nprocess / profiles"| MS2
+    ES -->|"mulmocast-preprocessor\nsummarize / query"| LLM["LLM Response\n(summary / answer)"]
+
+    MS["MulmoScript\nscripts/{bn}/{bn}.json"]
+    ES["ExtendedMulmoScript\nscripts/{bn}/extended_script.json"]
+    MVD["MulmoViewerData\noutput/{bn}/.../mulmo_view.json"]
+    EMVD["ExtendedMulmoViewerData\noutput/{bn}/.../mulmo_view.json"]
+    MS2["MulmoScript\n(profiled output)"]
+
+    MS2 -->|"mulmo movie / pdf"| OUT["Movie / PDF"]
+    EMVD -->|"MulmoViewer"| VIEWER["Browser Playback\n+ Q&A Chat"]
+```
+
+### Type Usage by Package
+
+| Type | Produced by | Consumed by |
+|---|---|---|
+| **MulmoScript** | `mulmo-slide` converters (marp, pptx, pdf, keynote, markdown, transcribe) | `mulmocast` (movie, pdf, bundle), `mulmocast-preprocessor`, scaffold |
+| **ExtendedMulmoScript** | `mulmo-slide extend scaffold`, `mulmo-slide narrate`, `mulmo-slide assemble-extended` | `mulmocast-preprocessor` (process, summarize, query), `extend merge` |
+| **MulmoViewerData** | `mulmocast` bundle generation | `extend merge` (base for merging metadata) |
+| **ExtendedMulmoViewerData** | `mulmo-slide extend merge` | MulmoViewer (browser playback, Q&A chat) |
+
+### Type Usage by Function (`@mulmocast/script-utils`)
+
+| Function | Input | Output | Used by |
+|---|---|---|---|
+| `processScript` | ExtendedMulmoScript | MulmoScript | preprocessor CLI |
+| `applyProfile` | ExtendedMulmoScript | MulmoScript | processScript |
+| `filterBySection` / `filterByTags` | ExtendedMulmoScript | ExtendedMulmoScript | processScript, preprocessor query/summarize |
+| `stripExtendedFields` | ExtendedMulmoScript | MulmoScript | processScript (default profile) |
+| `scriptToViewerData` | ExtendedMulmoScript | ExtendedMulmoViewerData | preprocessor interactive query |
+| `buildScriptContent` | ExtendedMulmoViewerData | string | mulmo-slide Q&A chat (browser) |
+
+### File Conventions
+
+| Type | File Path |
+|---|---|
+| MulmoScript | `scripts/{basename}/{basename}.json` |
+| ExtendedMulmoScript | `scripts/{basename}/extended_script.json` |
+| MulmoViewerData / ExtendedMulmoViewerData | `output/{basename}/{basename}/mulmo_view.json` |
+
 ## Installation
 
 ```bash
