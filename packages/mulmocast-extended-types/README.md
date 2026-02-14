@@ -6,86 +6,7 @@ Extended type definitions for MulmoScript / MulmoViewerData, adding variant supp
 
 ```mermaid
 classDiagram
-    class MulmoScript {
-        +$mulmocast: version
-        +title?: string
-        +lang?: string
-        +speechParams?: SpeechParams
-        +imageParams?: ImageParams
-        +movieParams?: MovieParams
-        +beats: MulmoBeat[]
-    }
-
-    class MulmoBeat {
-        +id?: string
-        +speaker?: string
-        +text?: string
-        +description?: string
-        +image?: ImageAsset
-    }
-
-    class MulmoViewerData {
-        +title?: string
-        +lang?: string
-        +beats: MulmoViewerBeat[]
-    }
-
-    class MulmoViewerBeat {
-        +id?: string
-        +text?: string
-        +duration?: number
-        +imageSource?: string
-        +audioSources?: Record
-    }
-
-    class ExtendedMulmoScript {
-        +outputProfiles?: Record~string, OutputProfile~
-        +scriptMeta?: ScriptMeta
-        +beats: ExtendedMulmoBeat[]
-    }
-
-    class ExtendedMulmoBeat {
-        +variants?: Record~string, BeatVariant~
-        +meta?: BeatMeta
-    }
-
-    class ExtendedMulmoViewerData {
-        +outputProfiles?: Record~string, OutputProfile~
-        +scriptMeta?: ScriptMeta
-        +beats: ExtendedMulmoViewerBeat[]
-    }
-
-    class ExtendedMulmoViewerBeat {
-        +variants?: Record~string, BeatVariant~
-        +meta?: BeatMeta
-    }
-
-    class BeatVariant {
-        +text?: string
-        +skip?: boolean
-        +image?: MulmoImageAsset
-        +imagePrompt?: string
-    }
-
-    class BeatMeta {
-        +tags?: string[]
-        +section?: string
-        +context?: string
-        +notes?: string
-        +keywords?: string[]
-        +expectedQuestions?: string[]
-    }
-
-    class ScriptMeta {
-        +audience?: string
-        +prerequisites?: string[]
-        +goals?: string[]
-        +background?: string
-        +keywords?: string[]
-        +references?: Reference[]
-        +faq?: FAQ[]
-        +author?: string
-    }
+    direction LR
 
     MulmoScript *-- MulmoBeat
     MulmoViewerData *-- MulmoViewerBeat
@@ -93,7 +14,6 @@ classDiagram
     ExtendedMulmoScript --|> MulmoScript : extends
     ExtendedMulmoScript *-- ExtendedMulmoBeat
     ExtendedMulmoScript *-- ScriptMeta
-
     ExtendedMulmoBeat --|> MulmoBeat : extends
     ExtendedMulmoBeat *-- BeatVariant
     ExtendedMulmoBeat *-- BeatMeta
@@ -101,50 +21,93 @@ classDiagram
     ExtendedMulmoViewerData --|> MulmoViewerData : extends
     ExtendedMulmoViewerData *-- ExtendedMulmoViewerBeat
     ExtendedMulmoViewerData *-- ScriptMeta
-
     ExtendedMulmoViewerBeat --|> MulmoViewerBeat : extends
     ExtendedMulmoViewerBeat *-- BeatVariant
     ExtendedMulmoViewerBeat *-- BeatMeta
+
+    class MulmoScript { beats: MulmoBeat[] }
+    class MulmoBeat { text, image, speaker }
+    class MulmoViewerData { beats: MulmoViewerBeat[] }
+    class MulmoViewerBeat { text, imageSource, audioSources }
+
+    class ExtendedMulmoScript { beats: ExtendedMulmoBeat[]; outputProfiles; scriptMeta }
+    class ExtendedMulmoBeat { variants; meta }
+    class ExtendedMulmoViewerData { beats: ExtendedMulmoViewerBeat[]; outputProfiles; scriptMeta }
+    class ExtendedMulmoViewerBeat { variants; meta }
+
+    class BeatVariant { text; skip; image }
+    class BeatMeta { tags; section; context; keywords }
+    class ScriptMeta { audience; goals; keywords; faq; references }
 ```
 
-## Conversion Flow
+### Defined in
+
+| Package | Types |
+|---|---|
+| `@mulmocast/types` | MulmoScript, MulmoBeat, MulmoViewerData, MulmoViewerBeat |
+| `@mulmocast/extended-types` | Extended\* types, BeatVariant, BeatMeta, ScriptMeta, OutputProfile |
+
+## Data Lifecycle
 
 ```mermaid
-flowchart LR
-    ES[ExtendedMulmoScript]
-    MS[MulmoScript]
-    EVD[ExtendedMulmoViewerData]
+flowchart TD
+    SRC["Source File\n(PDF / PPTX / MD / Keynote)"]
 
-    ES -->|filterBySection\nfilterByTags| ES
-    ES -->|applyProfile| MS
-    ES -->|stripExtendedFields| MS
-    ES -->|scriptToViewerData| EVD
+    SRC -->|"mulmo-slide convert"| MS
+    MS -->|"mulmo-slide extend scaffold\nmulmo-slide narrate"| ES
+    MS -->|"mulmocast bundle"| MVD
 
-    subgraph "@mulmocast/script-utils"
-        direction TB
-        filter[filter]
-        variant[variant]
-        context[context-builder]
-    end
+    ES -->|"mulmo-slide extend merge"| EMVD
+    MVD -->|"mulmo-slide extend merge"| EMVD
+
+    ES -->|"processScript\napplyProfile"| MS2["MulmoScript\n(profiled)"]
+    ES -->|"preprocessor\nsummarize / query"| LLM["LLM Response"]
+
+    MS2 -->|"mulmocast movie / pdf"| OUT["Movie / PDF"]
+    EMVD -->|"MulmoViewer"| VIEWER["Browser Playback\n+ Q&A Chat"]
+
+    MS["MulmoScript"]
+    ES["ExtendedMulmoScript"]
+    MVD["MulmoViewerData"]
+    EMVD["ExtendedMulmoViewerData"]
 ```
 
-| Operation | Input | Output | Description |
-|---|---|---|---|
-| `filterBySection` / `filterByTags` | ExtendedMulmoScript | ExtendedMulmoScript | Filter beats while preserving metadata |
-| `applyProfile` | ExtendedMulmoScript | MulmoScript | Apply variant overrides, remove extended fields |
-| `stripExtendedFields` | ExtendedMulmoScript | MulmoScript | Remove all extended fields |
-| `scriptToViewerData` | ExtendedMulmoScript | ExtendedMulmoViewerData | Extract viewer-relevant fields for playback/Q&A |
-| `processScript` | ExtendedMulmoScript | MulmoScript | Filter + applyProfile (full pipeline) |
+### Type Usage by Package
 
-## Package Relationships
+| Type | Produced by | Consumed by |
+|---|---|---|
+| **MulmoScript** | `mulmo-slide` converters (marp, pptx, pdf, keynote, markdown, transcribe) | `mulmocast` (movie, pdf, bundle), preprocessor, scaffold |
+| **ExtendedMulmoScript** | `mulmo-slide extend scaffold`, `narrate`, `assemble-extended` | `mulmocast-preprocessor` (process, summarize, query), `extend merge` |
+| **MulmoViewerData** | `mulmocast` bundle generation | `extend merge` (base for merging metadata) |
+| **ExtendedMulmoViewerData** | `mulmo-slide extend merge` | MulmoViewer (browser playback, Q&A chat) |
+
+### Key Transformations (`@mulmocast/script-utils`)
+
+| Function | Input | Output |
+|---|---|---|
+| `processScript` | ExtendedMulmoScript | MulmoScript |
+| `applyProfile` | ExtendedMulmoScript | MulmoScript |
+| `stripExtendedFields` | ExtendedMulmoScript | MulmoScript |
+| `scriptToViewerData` | ExtendedMulmoScript | ExtendedMulmoViewerData |
+| `buildScriptContent` | ExtendedMulmoViewerData | string (for LLM prompt) |
+
+### File Conventions
+
+| Type | File Path |
+|---|---|
+| MulmoScript | `scripts/{basename}/{basename}.json` |
+| ExtendedMulmoScript | `scripts/{basename}/extended_script.json` |
+| MulmoViewerData / ExtendedMulmoViewerData | `output/{basename}/{basename}/mulmo_view.json` |
+
+## Package Dependencies
 
 ```mermaid
 graph TD
-    T["@mulmocast/types<br/>(MulmoScript, MulmoViewerData)"]
-    ET["@mulmocast/extended-types<br/>(Extended* types)"]
-    SU["@mulmocast/script-utils<br/>(filter, variant, prompts)"]
-    PP["mulmocast-preprocessor<br/>(LLM: summarize, query)"]
-    SL["mulmo-slide<br/>(CLI: convert, bundle, movie)"]
+    T["@mulmocast/types\n(MulmoScript, MulmoViewerData)"]
+    ET["@mulmocast/extended-types\n(Extended* types)"]
+    SU["@mulmocast/script-utils\n(transform, prompts)"]
+    PP["mulmocast-preprocessor\n(LLM: summarize, query)"]
+    SL["mulmo-slide\n(CLI: convert, bundle, movie)"]
 
     ET --> T
     SU --> T
@@ -154,61 +117,6 @@ graph TD
     SL --> SU
     SL --> ET
 ```
-
-## Data Lifecycle
-
-```mermaid
-flowchart TD
-    SRC["Source File\n(PDF / PPTX / Markdown / Keynote)"]
-
-    SRC -->|"mulmo-slide convert\nmulmo-slide marp / pdf / pptx ..."| MS
-    MS -->|"mulmo-slide extend scaffold"| ES
-    MS -->|"mulmo-slide narrate (LLM)"| ES
-    MS -->|"mulmo-slide bundle\n(via mulmocast)"| MVD
-
-    ES -->|"mulmo-slide extend merge"| EMVD
-    MVD -->|"mulmo-slide extend merge"| EMVD
-
-    ES -->|"mulmocast-preprocessor\nprocess / profiles"| MS2
-    ES -->|"mulmocast-preprocessor\nsummarize / query"| LLM["LLM Response\n(summary / answer)"]
-
-    MS["MulmoScript\nscripts/{bn}/{bn}.json"]
-    ES["ExtendedMulmoScript\nscripts/{bn}/extended_script.json"]
-    MVD["MulmoViewerData\noutput/{bn}/.../mulmo_view.json"]
-    EMVD["ExtendedMulmoViewerData\noutput/{bn}/.../mulmo_view.json"]
-    MS2["MulmoScript\n(profiled output)"]
-
-    MS2 -->|"mulmo movie / pdf"| OUT["Movie / PDF"]
-    EMVD -->|"MulmoViewer"| VIEWER["Browser Playback\n+ Q&A Chat"]
-```
-
-### Type Usage by Package
-
-| Type | Produced by | Consumed by |
-|---|---|---|
-| **MulmoScript** | `mulmo-slide` converters (marp, pptx, pdf, keynote, markdown, transcribe) | `mulmocast` (movie, pdf, bundle), `mulmocast-preprocessor`, scaffold |
-| **ExtendedMulmoScript** | `mulmo-slide extend scaffold`, `mulmo-slide narrate`, `mulmo-slide assemble-extended` | `mulmocast-preprocessor` (process, summarize, query), `extend merge` |
-| **MulmoViewerData** | `mulmocast` bundle generation | `extend merge` (base for merging metadata) |
-| **ExtendedMulmoViewerData** | `mulmo-slide extend merge` | MulmoViewer (browser playback, Q&A chat) |
-
-### Type Usage by Function (`@mulmocast/script-utils`)
-
-| Function | Input | Output | Used by |
-|---|---|---|---|
-| `processScript` | ExtendedMulmoScript | MulmoScript | preprocessor CLI |
-| `applyProfile` | ExtendedMulmoScript | MulmoScript | processScript |
-| `filterBySection` / `filterByTags` | ExtendedMulmoScript | ExtendedMulmoScript | processScript, preprocessor query/summarize |
-| `stripExtendedFields` | ExtendedMulmoScript | MulmoScript | processScript (default profile) |
-| `scriptToViewerData` | ExtendedMulmoScript | ExtendedMulmoViewerData | preprocessor interactive query |
-| `buildScriptContent` | ExtendedMulmoViewerData | string | mulmo-slide Q&A chat (browser) |
-
-### File Conventions
-
-| Type | File Path |
-|---|---|
-| MulmoScript | `scripts/{basename}/{basename}.json` |
-| ExtendedMulmoScript | `scripts/{basename}/extended_script.json` |
-| MulmoViewerData / ExtendedMulmoViewerData | `output/{basename}/{basename}/mulmo_view.json` |
 
 ## Installation
 
