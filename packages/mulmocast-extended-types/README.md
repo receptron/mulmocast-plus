@@ -51,20 +51,20 @@ classDiagram
 
 ```mermaid
 flowchart TD
-    SRC["Source File\n(PDF / PPTX / MD / Keynote)"]
+    SRC["Source File<br/>(PDF / PPTX / MD / Keynote)"]
 
     SRC -->|"mulmo-slide convert"| MS
-    MS -->|"mulmo-slide extend scaffold\nmulmo-slide narrate"| ES
+    MS -->|"mulmo-slide extend scaffold<br/>mulmo-slide narrate"| ES
     MS -->|"mulmocast bundle"| MVD
 
     ES -->|"mulmo-slide extend merge"| EMVD
     MVD -->|"mulmo-slide extend merge"| EMVD
 
-    ES -->|"processScript\napplyProfile"| MS2["MulmoScript\n(profiled)"]
-    ES -->|"preprocessor\nsummarize / query"| LLM["LLM Response"]
+    ES -->|"processScript<br/>applyProfile"| MS2["MulmoScript<br/>(profiled)"]
+    ES -->|"preprocessor<br/>summarize / query"| LLM["LLM Response"]
 
     MS2 -->|"mulmocast movie / pdf"| OUT["Movie / PDF"]
-    EMVD -->|"MulmoViewer"| VIEWER["Browser Playback\n+ Q&A Chat"]
+    EMVD -->|"MulmoViewer"| VIEWER["Browser Playback<br/>+ Q&A Chat"]
 
     MS["MulmoScript"]
     ES["ExtendedMulmoScript"]
@@ -103,11 +103,11 @@ flowchart TD
 
 ```mermaid
 graph TD
-    T["@mulmocast/types\n(MulmoScript, MulmoViewerData)"]
-    ET["@mulmocast/extended-types\n(Extended* types)"]
-    SU["@mulmocast/script-utils\n(transform, prompts)"]
-    PP["mulmocast-preprocessor\n(LLM: summarize, query)"]
-    SL["mulmo-slide\n(CLI: convert, bundle, movie)"]
+    T["@mulmocast/types<br/>(MulmoScript, MulmoViewerData)"]
+    ET["@mulmocast/extended-types<br/>(Extended* types)"]
+    SU["@mulmocast/script-utils<br/>(transform, prompts)"]
+    PP["mulmocast-preprocessor<br/>(LLM: summarize, query)"]
+    SL["mulmo-slide<br/>(CLI: convert, bundle, movie)"]
 
     ET --> T
     SU --> T
