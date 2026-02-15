@@ -66,6 +66,8 @@ flowchart TD
     MS2 -->|mulmocast movie / pdf| OUT["Movie / PDF"]
     EMVD -->|MulmoViewer| VIEWER["Browser Playback<br/>+ Q&A Chat"]
 
+    SRC -->|"mulmo-slide movie -g<br/>mulmo-slide bundle -g"| OUT
+
     MS["MulmoScript"]
     ES["ExtendedMulmoScript"]
     MVD["MulmoViewerData"]
