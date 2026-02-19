@@ -36,7 +36,7 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.26.0",
     "dotenv": "^17.3.1",
-    "mulmocast": "^2.1.39",
+    "mulmocast": "^2.2.0",
     "zod": "^4.3.6"
   },
   "engines": {
