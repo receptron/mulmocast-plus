@@ -1,6 +1,6 @@
 {
   "name": "mulmocast-easy",
-  "version": "2.1.38",
+  "version": "2.2.4",
   "description": "MulmoCast with bundled ffmpeg for easy installation",
   "type": "module",
   "main": "lib/index.js",
