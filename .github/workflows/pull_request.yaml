@@ -106,7 +106,7 @@ jobs:
       working-directory: packages/mulmocast-easy
       run: npx tsx src/cli/bin.ts movie test/test_ffmpeg.json
     - name: Upload generated media
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: generatedmedia-${{ matrix.os }}-${{ matrix.node-version }}
         path: packages/mulmocast-easy/output/
