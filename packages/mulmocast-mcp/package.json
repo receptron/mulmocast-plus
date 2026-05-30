@@ -1,6 +1,6 @@
 {
   "name": "mulmocast-mcp",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "MCP (Model Context Protocol) server for MulmoCast",
   "type": "module",
   "main": "lib/index.js",
