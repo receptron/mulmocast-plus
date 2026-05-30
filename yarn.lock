@@ -311,7 +311,7 @@
     protobufjs "^7.5.4"
     ws "^8.18.0"
 
-"@google/genai@^2.4.0":
+"@google/genai@^2.7.0":
   version "2.7.0"
   resolved "https://npm.flatt.tech/@google/genai/-/genai-2.7.0.tgz#8259b66b83d3576cb1d604fa44a0a267558c3f84"
   integrity sha512-tv0DRtcndt2oEhBYy+5mA0TaXH98+L1Gt0AP9unBfH7DP20KhB7+O3QqAN1Lz+laMARGTHS7BFQSNpLbl4gm1g==
@@ -573,12 +573,20 @@
   resolved "https://registry.yarnpkg.com/@mozilla/readability/-/readability-0.6.0.tgz#134e3ce3ff1676716e550de0b8de957bcc59208b"
   integrity sha512-juG5VWh4qAivzTAeMzvY9xs9HY5rAcr2E4I7tiSSCokRFi7XIZCAu92ZkSTsIj1OPceCifL3cpfteP3pDT9/QQ==
 
-"@mulmocast/types@^2.6.16":
-  version "2.6.16"
-  resolved "https://npm.flatt.tech/@mulmocast/types/-/types-2.6.16.tgz#24bafe2747e6933608bdbc5de315ef5c67066935"
-  integrity sha512-M1Y0roUsAGNyVUCjZUk6yXCMthMgH3Gw2P6IGX1InKYHeokKNaSWnIJLJKuaiACwYSZ1tr4TdlTdm6o7NkrBcQ==
+"@mulmocast/deck@^0.1.2":
+  version "0.1.2"
+  resolved "https://npm.flatt.tech/@mulmocast/deck/-/deck-0.1.2.tgz#832f3f8a04e4f06f798a3e75a4e79cb06bdbea5c"
+  integrity sha512-WcXPkplXle4ZsrZP3NdiPF+6NMWRdhx2YC2hEyqa6obBcAJ3Gnamjd4JHepldCw0OxV8W2m9DjgIH0/F2EX9Cg==
   dependencies:
-    zod "^4.3.5"
+    zod "^4.4.3"
+
+"@mulmocast/types@^2.6.17":
+  version "2.6.17"
+  resolved "https://npm.flatt.tech/@mulmocast/types/-/types-2.6.17.tgz#fcc46b70f657df92a7d07a0e0062e6cc42574395"
+  integrity sha512-4IuK7Cz+C/CfMMPDIPhNXg4vc6MlwOdv+uBBN7riqfzX4TUhcQXxPlVOMj5P9G6jXhsiVNtqZBZK886jwEqhcg==
+  dependencies:
+    "@mulmocast/deck" "^0.1.2"
+    zod "^4.4.3"
 
 "@noble/ciphers@^1.0.0":
   version "1.3.0"
@@ -2741,13 +2749,13 @@ mulmocast-vision@^1.0.10:
     puppeteer "^25.0.2"
     yauzl "^3.2.1"
 
-mulmocast@^2.6.16:
-  version "2.6.16"
-  resolved "https://npm.flatt.tech/mulmocast/-/mulmocast-2.6.16.tgz#0096ca4e1d961e4fc49ac690598cf0e1c3dbfd0d"
-  integrity sha512-fspNxaznVQ+mBo8YXp3LbqWwSo4/YEwn/48PmCj63QhuPJV8Bds6J48qwgntu8DQBwT7hBs5XmcLof4lPGHXpw==
+mulmocast@^2.6.17:
+  version "2.6.17"
+  resolved "https://npm.flatt.tech/mulmocast/-/mulmocast-2.6.17.tgz#03a3e459ed2b48e21753512b8ae8abb56cb1ffa8"
+  integrity sha512-WfS0pisCxceYv1NYhsgBKl7l+vIKqZbYl3v5BeMfU+dsh1xsW+IfeLuFFQfWqCORq/kfnoc51qXG49yEKjG4eA==
   dependencies:
     "@google-cloud/text-to-speech" "^6.4.1"
-    "@google/genai" "^2.4.0"
+    "@google/genai" "^2.7.0"
     "@graphai/anthropic_agent" "^2.0.12"
     "@graphai/browserless_agent" "^2.0.2"
     "@graphai/gemini_agent" "^2.0.5"
@@ -2762,6 +2770,7 @@ mulmocast@^2.6.16:
     "@modelcontextprotocol/sdk" "^1.29.0"
     "@modernized/fluent-ffmpeg" "^1.0.0"
     "@mozilla/readability" "^0.6.0"
+    "@mulmocast/deck" "^0.1.2"
     "@tavily/core" "^0.7.3"
     archiver "^7.0.1"
     clipboardy "^5.3.1"
@@ -2771,7 +2780,7 @@ mulmocast@^2.6.16:
     marked "^18.0.4"
     mulmocast-vision "^1.0.10"
     ora "^9.4.0"
-    puppeteer "^25.0.4"
+    puppeteer "^25.1.0"
     replicate "^1.4.0"
     yaml "^2.9.0"
     yargs "^18.0.0"
@@ -3145,7 +3154,7 @@ puppeteer-core@25.1.0:
     webdriver-bidi-protocol "0.4.2"
     ws "^8.21.0"
 
-puppeteer@^25.0.2, puppeteer@^25.0.4, puppeteer@^25.1.0:
+puppeteer@^25.0.2, puppeteer@^25.1.0:
   version "25.1.0"
   resolved "https://npm.flatt.tech/puppeteer/-/puppeteer-25.1.0.tgz#7660e4d3373821f48debc774c0c84c9e13a72dbf"
   integrity sha512-7L6/0JM7XStK99lIL4xQySyNEXNfII6pk0BxkI5kKBTOhR7AsoQiv067YTsE/rIXxQiq9ajlO4WcqBjS/FWK1A==
@@ -4053,7 +4062,7 @@ zod@^3.24.1:
   resolved "https://registry.yarnpkg.com/zod/-/zod-3.25.76.tgz#26841c3f6fd22a6a2760e7ccb719179768471e34"
   integrity sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==
 
-"zod@^3.25 || ^4.0", zod@^4.3.5:
+"zod@^3.25 || ^4.0":
   version "4.3.6"
   resolved "https://registry.yarnpkg.com/zod/-/zod-4.3.6.tgz#89c56e0aa7d2b05107d894412227087885ab112a"
   integrity sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg==
