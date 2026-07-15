@@ -41,9 +41,9 @@
     "@graphai/vanilla": "^2.0.12",
     "@mulmocast/extended-types": "^0.3.0",
     "@mulmocast/script-utils": "^0.1.0",
-    "@mulmocast/types": "^2.6.17",
+    "@mulmocast/types": "^2.8.0",
     "dotenv": "^17.3.1",
-    "graphai": "^2.0.17",
+    "graphai": "^2.0.18",
     "yargs": "^18.0.0",
     "zod": "^4.4.3"
   },
