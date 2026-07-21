@@ -39,7 +39,7 @@
     "@modelcontextprotocol/sdk": "^1.27.1",
     "nunjucks": "^3.2.4",
     "pdfkit": "^0.17.2",
-    "puppeteer": "^25.1.0",
+    "puppeteer": "^25.3.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {

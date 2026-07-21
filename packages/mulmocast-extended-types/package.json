@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/receptron/mulmocast-plus#readme",
   "dependencies": {
-    "@mulmocast/types": "^2.6.17",
+    "@mulmocast/types": "^2.9.0",
     "zod": "^4.4.3"
   }
 }

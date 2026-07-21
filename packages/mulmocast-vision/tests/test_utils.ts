@@ -16,14 +16,21 @@ test("test temp name", async () => {
   assert.equal(funcName, "createThisIsAPen");
 });
 
-test("test temp name", async () => {
+test("test toolsToTemplateNames", async () => {
   const res = toolsToTemplateNames(tools);
-  console.log(res);
+  assert.equal(res.length, tools.length);
+  res.forEach((templateName, index) => {
+    assert.equal(templateNameTofunctionName(templateName).toLowerCase(), tools[index].function.name.toLowerCase());
+  });
 });
 
-test("test temp name", async () => {
+test("test convertTools", async () => {
   const res = convertTools(tools);
-  console.log(res);
+  assert.equal(res.length, tools.length);
+  res.forEach((tool, index) => {
+    assert.equal(tool.function.name, "mulmoVisionAgent--" + tools[index].function.name);
+    assert.ok(tool.function.parameters.properties.talkTrack);
+  });
 });
 
 test("test html", async () => {
@@ -38,5 +45,6 @@ test("test html", async () => {
       "Roadmap & recommendations",
     ],
   });
-  console.log(html);
+  assert.ok(html.includes("Agenda"));
+  assert.ok(html.includes("Executive summary"));
 });
