@@ -19,6 +19,7 @@
   ],
   "scripts": {
     "build": "tsc",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint src",
     "format": "prettier --write 'src/**/*.ts'",
     "test": "node --import tsx --test test/*.ts"
@@ -42,9 +43,9 @@
     "@mulmocast/extended-types": "^0.3.0",
     "@mulmocast/script-utils": "^0.1.0",
     "@mulmocast/types": "^2.9.0",
-    "dotenv": "^17.3.1",
+    "dotenv": "^17.4.2",
     "graphai": "^2.0.18",
-    "yargs": "^18.0.0",
+    "yargs": "^18.1.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {

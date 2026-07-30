@@ -20,6 +20,7 @@
   "scripts": {
     "cli": "npx tsx src/cli/bin.ts",
     "build": "tsc",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint src",
     "format": "prettier --write 'src/**/*.ts'",
     "test": "echo 'no tests yet'"
@@ -36,6 +37,6 @@
   "homepage": "https://github.com/receptron/mulmocast-plus#readme",
   "dependencies": {
     "ffmpeg-ffprobe-static": "^6.1.2-rc.1",
-    "mulmocast": "^2.9.0"
+    "mulmocast": "^2.9.2"
   }
 }
