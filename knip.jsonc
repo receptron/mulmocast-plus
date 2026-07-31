@@ -1,0 +1,26 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  // Yarn workspaces monorepo: knip auto-detects every package under `workspaces`
+  // (root package.json) and, per package, auto-detects entry points from its
+  // main/bin/exports (which point at the built lib/ output; knip maps them back to
+  // src/). So no explicit entry/project globs are needed here.
+  "ignoreExportsUsedInFile": true,
+  // Protects each published package's public API: re-exports from a package's index
+  // are not flagged as unused just because nothing else in the repo imports them.
+  "includeEntryExports": false,
+  "rules": {
+    // Warn mode: every rule is "warn" (reported, exit 0) or "off". Nothing gates CI here.
+    "files": "warn",
+    "dependencies": "warn",
+    "devDependencies": "warn",
+    "unlisted": "warn",
+    "exports": "warn",
+    "types": "warn",
+    "unresolved": "off",
+    "binaries": "off",
+    "nsExports": "off",
+    "nsTypes": "off",
+    "enumMembers": "off",
+    "duplicates": "off",
+  },
+}
