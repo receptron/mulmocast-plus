@@ -35,18 +35,18 @@
   },
   "homepage": "https://github.com/receptron/mulmocast-plus#readme",
   "dependencies": {
-    "@graphai/anthropic_agent": "^2.0.12",
-    "@graphai/gemini_agent": "^2.0.5",
-    "@graphai/groq_agent": "^2.0.2",
-    "@graphai/openai_agent": "^2.0.9",
+    "@graphai/anthropic_agent": "^2.1.0",
+    "@graphai/gemini_agent": "^2.1.0",
+    "@graphai/groq_agent": "^2.1.0",
+    "@graphai/openai_agent": "^2.1.0",
     "@graphai/vanilla": "^2.0.12",
     "@mulmocast/extended-types": "^0.3.0",
     "@mulmocast/script-utils": "^0.1.0",
-    "@mulmocast/types": "^2.9.0",
-    "dotenv": "^17.4.2",
+    "@mulmocast/types": "^2.21.0",
+    "dotenv": "^18.0.8",
     "graphai": "^2.0.18",
-    "yargs": "^18.1.0",
-    "zod": "^4.4.3"
+    "yargs": "^18.2.0",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/yargs": "^17.0.35"
