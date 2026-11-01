@@ -29,7 +29,7 @@
     "typescript-eslint": "^8.71.2"
   },
   "resolutions": {
-    "minimatch": "^10.2.6"
+    "minimatch": "^11.0.1"
   },
   "author": "receptron",
   "license": "MIT",
@@ -37,6 +37,6 @@
     "node": ">=22.0.0"
   },
   "dependencies": {
-    "minimatch": "^10.2.6"
+    "minimatch": "^11.0.1"
   }
 }
